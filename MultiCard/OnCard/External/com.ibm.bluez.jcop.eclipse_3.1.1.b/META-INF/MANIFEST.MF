@@ -1,0 +1,297 @@
+Manifest-Version: 1.0
+Created-By: 1.4.2_08 (Sun Microsystems Inc.)
+
+Name: icons/cview16/explorer.gif
+SHA1-Digest: ufa6zHkjGTMfwd1Uc45phzna4M4=
+
+Name: icons/wizban/cardconfig.gif
+SHA1-Digest: J63KE+CgGNAiX829TfIEXDq6PCs=
+
+Name: icons/cview16/memory.gif
+SHA1-Digest: gTymoYbC/xmZEvigZ+WjQMFcdOY=
+
+Name: apis/jc221/jc221-src.jar
+SHA1-Digest: SBvR2+pBuSsezox9AK6Sr9E2pYs=
+
+Name: icons/dlcl16/prep_card.gif
+SHA1-Digest: BgN+brsMV2cFc4TmYp6/Xh0s8Mc=
+
+Name: icons/cicon48/lic_jctools22.gif
+SHA1-Digest: s6am824WuQpxEEkDigPMzcaxtLo=
+
+Name: icons/cview16/shell.gif
+SHA1-Digest: ViiVW8unkqIOZZ6VqBHCWQTOugY=
+
+Name: about.properties
+SHA1-Digest: y2MmpyTSUOK92c4sDGnaSUWJr1E=
+
+Name: about.ini
+SHA1-Digest: ZQziXg9VCb6OZau/hmvrHPNSQp8=
+
+Name: apis/bio10/bio10.jar
+SHA1-Digest: DoTlH7vaSQ+kjvb8iimatEDiQuA=
+
+Name: simuls/nJCOP/macosx/ppc/jcop
+SHA1-Digest: LSd6g/Nhx1j+qL2dCyEzlDIwUCU=
+
+Name: icons/dlcl16/clear_co.gif
+SHA1-Digest: bXxJZjOaMDUrOmW90FpZEwmNsEM=
+
+Name: apis/jz20-mifare/jz20-mifare-src.jar
+SHA1-Digest: ZB3C9KWX5gm/VbkjLFte+GehRsw=
+
+Name: os/win32/x86/tcl.dll
+SHA1-Digest: 2Kx4Reuo9wVDHzBRZWM1wnh0Ojs=
+
+Name: icons/elcl16/connect_co.gif
+SHA1-Digest: Oyu/fhKiRYaLK1ImuG04gJvslFY=
+
+Name: icons/etool16/newrmiapp_wiz.gif
+SHA1-Digest: wUA4Fi3MUr2bgaJpDyVqIkagjWw=
+
+Name: plugin.xml
+SHA1-Digest: MuTihifUiCGEcdyM4VZ+HRoBFok=
+
+Name: icons/obj16/scriptfolder.gif
+SHA1-Digest: m7TDN2lA1J2tFpmxlFzDuy3ekIU=
+
+Name: apis/gp211/gp211.jar
+SHA1-Digest: HPoE0xoOnuo5jCxRvlyq5RKrpq4=
+
+Name: icons/ovr16/error.gif
+SHA1-Digest: 837WZOYq5P1nCsjer7IptxeeAX0=
+
+Name: os/win32/x86/jct.dll
+SHA1-Digest: rqm0Wkw6+j89qxCseooy5DWZ8nw=
+
+Name: apis/gp211/gp211-src.jar
+SHA1-Digest: MrYB+RpGbhDfDopnZzHHkqVTpDA=
+
+Name: icons/ovr16/info.gif
+SHA1-Digest: IymPYiGOjMwGMR6GNXxKOf5YWgo=
+
+Name: icons/elcl16/loadkeys_co.gif
+SHA1-Digest: 50jsf4kXyA4NauLI1rwoQVII4x8=
+
+Name: icons/obj16/application.gif
+SHA1-Digest: xYt64Jjw5CRkrUE2QjbBImQsDy4=
+
+Name: icons/dlcl16/terminal.gif
+SHA1-Digest: d+SpxQLSjweUhMC+elhU6rxE3NE=
+
+Name: icons/dlcl16/home.gif
+SHA1-Digest: SqCumogOwpkEB1/GlzF1XaSMuaY=
+
+Name: icons/dlcl16/appinstall_co.gif
+SHA1-Digest: mPKx/2Z/LKELSk4wRZXLfkCwGz4=
+
+Name: icons/elcl16/auth_co.gif
+SHA1-Digest: 9bP1A9kjcnpqFx2FID/piCbfBss=
+
+Name: icons/elcl16/pkgupload_co.gif
+SHA1-Digest: ncyRIMTVg/wXJAbTw5x2WSkQuWU=
+
+Name: icons/obj16/shell_settings.gif
+SHA1-Digest: XGXZcX4LuhPBiztLGXtgntKu8us=
+
+Name: apis/jc211/jc211-src.jar
+SHA1-Digest: xLBoJrqfghv1cgWbj0NYlW1EHM0=
+
+Name: icons/dlcl16/pkgdelete_co.gif
+SHA1-Digest: YvYvnLG9Toy/DbQoy/gh9JT+KHk=
+
+Name: icons/dlcl16/appdelete_co.gif
+SHA1-Digest: q8Srfg1l3ygtVwGRnHG9CBgxL5E=
+
+Name: apis/jc221/jc221.jar
+SHA1-Digest: K4AWw5M4mEJJL9zW9WgCsu1gLLs=
+
+Name: apis/jz20-mifare/jz20-mifare.jar
+SHA1-Digest: 2DnNAqQSPsd2MqXusGOE2VkJgRk=
+
+Name: icons/dlcl16/connect_co.gif
+SHA1-Digest: ojMcQM9oLxJVVNC/j3R3FVelkdM=
+
+Name: icons/elcl16/apdutrace_mode.gif
+SHA1-Digest: wqr6XS8LlFw4T/UOJVK6iHWumUU=
+
+Name: icons/cview16/capfile.gif
+SHA1-Digest: Ldy4g0v5qxdJu2hpUBxZIJCAFjA=
+
+Name: icons/cicon48/lic_card.gif
+SHA1-Digest: +ooFcOWKThHqcB6L6SMcN4DF79Y=
+
+Name: plugin.properties
+SHA1-Digest: E2oxBWpV4PHfcgIl29Afudo+vo8=
+
+Name: BlueZ.gif
+SHA1-Digest: fjxynLyE3UmWHtCPqHyB23EQTck=
+
+Name: icons/dtool16/newapp_wiz.gif
+SHA1-Digest: EfA1bluKQQ5jcSaJaN0GIL4nBVw=
+
+Name: icons/elcl16/terminal.gif
+SHA1-Digest: Df+43MULJGnYMV3cRNi3st8RUK8=
+
+Name: os/win32/x86/jpcsc.dll
+SHA1-Digest: CbFFpGvieQg4mGihvscRea9n2fg=
+
+Name: about.html
+SHA1-Digest: s/TaQ/B+5K0PW8+2CVegERoaXU0=
+
+Name: os/macosx/ppc/libjpcsc.jnilib
+SHA1-Digest: 02eSs/b/zHlee+GrzXU+3xbg6eQ=
+
+Name: apis/op201/op201.jar
+SHA1-Digest: GHsK9QgYs+4mV82NCH9lCCqQ+WI=
+
+Name: icons/etool16/newapp_wiz.gif
+SHA1-Digest: 3XKEbl/DD16173H/h3RvSv6oPBw=
+
+Name: icons/obj16/applet.gif
+SHA1-Digest: E/KsS1At3/sFIp5Cmo9s6pQwUbE=
+
+Name: simuls/nJCOP/linux/x86/jcop
+SHA1-Digest: vWiC4RxZysll9UuuFPQax8c4lRA=
+
+Name: icons/obj16/aid.gif
+SHA1-Digest: lxXKDCY8f5M/R0SQZloIdyK/WFk=
+
+Name: simuls/nJCOP/win32/x86/jcop.exe
+SHA1-Digest: 1r1vuqEEpI0VwvRnjyAoGoIy/qg=
+
+Name: icons/ovr16/warning.gif
+SHA1-Digest: HpcrBySHlljGxD3XUFOgrJyHgr8=
+
+Name: resources/perflet.cap
+SHA1-Digest: EMDj7/PRbnZJy6AljpWWdfX+KNY=
+
+Name: icons/dlcl16/apdutrace_mode.gif
+SHA1-Digest: RM8VEjkCB9AVjppugLIu/SBHC5Y=
+
+Name: apis/jz3-mifare/jz3-mifare-src.jar
+SHA1-Digest: 3aQFICTTj66wv9VDg3HxdmyPyUw=
+
+Name: icons/cview16/persp_devel.gif
+SHA1-Digest: 6XHDwggxUbBVhB6jbgMk7WQZq7s=
+
+Name: icons/elcl16/pkgdelete_co.gif
+SHA1-Digest: mXUuLSAa4llmFjMzax+kSYFp+2Q=
+
+Name: icons/cicon48/lic_cd.gif
+SHA1-Digest: MORi9umFJEY68B2pzeuH3r0a1+g=
+
+Name: lib/rmioffcard.jar
+SHA1-Digest: kUVeLPMIi/1LPvrfV3q5F2MOJbc=
+
+Name: icons/obj16/bluez.gif
+SHA1-Digest: xKGNSMSHpXM1O5umA+hbau7pl9s=
+
+Name: apis/jc211/jc211.jar
+SHA1-Digest: NS/xPHfkj0Grz61NCkpiQDlaSvY=
+
+Name: icons/etool16/newjprj_wiz.gif
+SHA1-Digest: Hh63tecYMXri6yVWOKMImFl25wA=
+
+Name: resources/bg.jpg
+SHA1-Digest: ACameghjjUBnuFYpx+gamdp/S3k=
+
+Name: icons/obj16/bio_api.gif
+SHA1-Digest: +BZeG3DkHc+T5i+AFrR6/L0XhOI=
+
+Name: icons/dlcl16/pkgupload_co.gif
+SHA1-Digest: dMKK5loZjmU57/Q1v4LWNk2TIB4=
+
+Name: icons/elcl16/clear_co.gif
+SHA1-Digest: +t8/f2vNMeMGz3NcpdPCXlgSjzQ=
+
+Name: icons/elcl16/appdelete_co.gif
+SHA1-Digest: xar566V2mQZnF9ZZPl+HGNeznOM=
+
+Name: icons/cview16/persp_debug.gif
+SHA1-Digest: +qeI1QRA66u2Z/I47o9Rj0f82K0=
+
+Name: icons/cview16/demo.gif
+SHA1-Digest: xOugo3GoIkitudPDUWj3+QBMZw0=
+
+Name: icons/dtool16/newjprj_wiz.gif
+SHA1-Digest: ACBPniNI4/oLpKnWkN2roJ7ciAY=
+
+Name: apis/op201/op201-src.jar
+SHA1-Digest: Gk9qn/zTM4Wl2/sGiYPIjeaRQ1w=
+
+Name: icons/obj16/shell_init.gif
+SHA1-Digest: CKSF78vKmaDc4hHLL9Yo0arcFd0=
+
+Name: icons/obj16/capfile.gif
+SHA1-Digest: FI0jgZzsUyUEE2bGkHGmvDmiwb0=
+
+Name: lib/jpcsc.jar
+SHA1-Digest: ZTBm3Sw5W5lqrN7Uaace7AeDNRA=
+
+Name: icons/obj16/openplatform_api.gif
+SHA1-Digest: O89UqOXlYZ1OUom88oEQZYhR5Ag=
+
+Name: lib/offcard.jar
+SHA1-Digest: L57m62zRWMMvgzSzMGRh4dDdXfg=
+
+Name: icons/dlcl16/loadkeys_co.gif
+SHA1-Digest: rN2WlGRzZMlc04xIKeZA8wFkkkQ=
+
+Name: apis/bio10/bio10-src.jar
+SHA1-Digest: bp3ATYl7VatvbUtFWaUc0CcQN7Y=
+
+Name: os/linux/x86/libjpcsc.so
+SHA1-Digest: WxLpz3RqEOtmyZMJrLzzB6rl+20=
+
+Name: icons/cicon48/lic_eclipse.gif
+SHA1-Digest: ex+JEevAwqOaxDpDG0j/lkZsfPk=
+
+Name: icons/elcl16/prep_card.gif
+SHA1-Digest: M0tpVE7NZEzjnBkl5E4WJ08pZlM=
+
+Name: icons/elcl16/appinstall_co.gif
+SHA1-Digest: l16/JQEPyGRMKEpnhg/MbS4XfyM=
+
+Name: resources/bluez.jpg
+SHA1-Digest: dO4laxXzFQXq/3yzZvtNMqMjli0=
+
+Name: icons/cicon48/lic_code.gif
+SHA1-Digest: pQD1NYbALU9yZ+8L22q7HXJz2Ew=
+
+Name: icons/elcl16/home.gif
+SHA1-Digest: Etpj5fYCK/q8AG8d9DbMXs4AW/I=
+
+Name: doc.zip
+SHA1-Digest: Je9ghFZcus1X2RwiisaUq4PkZEs=
+
+Name: apis/jz3-mifare/jz3-mifare.jar
+SHA1-Digest: YWJOQmWCdEYKVCpfOowC8ecBHFs=
+
+Name: icons/obj16/javacard_api.gif
+SHA1-Digest: eCSDjN4CdMs4gTFw6Bk+Z+l6cP8=
+
+Name: icons/obj16/javacard_target.gif
+SHA1-Digest: gqhZWr77xfxX9ncGBtEJBESqTGk=
+
+Name: icons/dlcl16/auth_co.gif
+SHA1-Digest: APQKw/hccU7o9ZoouIX09cz+hqk=
+
+Name: icons/cview16/bytecode.gif
+SHA1-Digest: h93so4dXAowSJ6MhqCORxokb/M0=
+
+Name: tric.jar
+SHA1-Digest: hcEvDDIBLWzUGN1SZ/gfesx+2ZQ=
+
+Name: jceclipse.jar
+SHA1-Digest: DP9IIv2Bfu9VZilyj/OmIk0p7Qo=
+
+Name: icons/wizban/newproject.gif
+SHA1-Digest: ymMDcUuDUqs/cT79OPqMAkVbd8c=
+
+Name: icons/dtool16/newrmiapp.gif
+SHA1-Digest: i3iJ+0kdNfD+qpsoqdxejahD1e4=
+
+Name: toc.xml
+SHA1-Digest: WMIvCmWEx2nsmpK5TEF0L+sjPSU=
+

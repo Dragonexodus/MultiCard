@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<toc label="JCOP Tools User Guide">
+	<topic label="Welcome" href="guide/welcome.html" />
+
+	<topic label="Getting started" href="guide/gettingstarted/index.html">
+		<topic label="Development process" href="guide/gettingstarted/process.html" />
+		<topic label="Creating a Java Card project" href="guide/gettingstarted/createproject.html" />
+		<topic label="Creating a Java Card applet" href="guide/gettingstarted/createapplet.html" />
+		<topic label="Starting a Java Card simulation" href="guide/gettingstarted/startsimul.html" />
+		<topic label="Communicating using the JCOP Shell" href="guide/gettingstarted/shellcomm.html" />
+		<topic label="Debugging a Java Card application" href="guide/gettingstarted/debugging.html" />
+	</topic>
+		
+	<topic label="Concepts" href="guide/concepts/index.html">
+		<topic label="Perspectives" href="guide/concepts/perspectives.html" />
+		<topic label="Views" href="guide/concepts/views.html" />
+	</topic>
+		
+	<topic label="JCOP Shell" href="guide/shell/index.html">
+		<topic label="Tutorial" href="guide/shell/tutorial.html" />
+		<topic label="Details" href="guide/shell/details.html" />
+	</topic>
+
+	<topic label="Reference">
+		<topic label="APIs" href="guide/reference/apis.html" />
+	</topic>
+
+	<topic label="Release Notes" href="guide/release.html" />
+
+	<topic label="License Agreement" href="guide/license.html" />
+</toc>
