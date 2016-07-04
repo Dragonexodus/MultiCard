@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="External/base-core.jar"/>
+	<classpathentry kind="lib" path="External/base-opt.jar"/>
+	<classpathentry kind="lib" path="External/gemplus-terminals.jar"/>
+	<classpathentry kind="lib" path="External/jcop_offcard.jar"/>
+	<classpathentry kind="lib" path="External/jpcsc.jar"/>
+	<classpathentry kind="lib" path="External/migterminals.jar"/>
+	<classpathentry kind="lib" path="External/offcard.jar"/>
+	<classpathentry kind="lib" path="External/pcsc-wrapper-2.0.jar"/>
+	<classpathentry kind="lib" path="External/reference-services.jar"/>
+	<classpathentry kind="lib" path="External/reference-terminals-windows.jar"/>
+	<classpathentry kind="lib" path="External/rejar-tool.jar"/>
+	<classpathentry kind="lib" path="External/rmioffcard.jar"/>
+	<classpathentry kind="lib" path="External/sb-demo-ext.jar"/>
+	<classpathentry kind="lib" path="External/sb-demo.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

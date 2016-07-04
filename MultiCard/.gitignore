@@ -1,5 +1,4 @@
 .metadata
 OnCard/bin/*
 OffCard/bin/*
-OnCard/.classpath
-OffCard/.classpath
+
