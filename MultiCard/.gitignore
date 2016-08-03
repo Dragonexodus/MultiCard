@@ -1,4 +1,5 @@
-.metadata
+../.metadata/
 OnCard/bin/*
 OffCard/bin/*
-
+.metadata/
+OffCard/.idea/
