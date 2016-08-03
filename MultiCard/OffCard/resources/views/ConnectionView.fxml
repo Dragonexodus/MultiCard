@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+       <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectionController">
+          <children>
+              <GridPane prefWidth="400.0">
+                  <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="-Infinity" prefWidth="124.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="255.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints prefHeight="30.0" />
+                      <RowConstraints prefHeight="30.0" />
+                      <RowConstraints prefHeight="30.0" />
+                  </rowConstraints>
+                  <children>
+                      <Label styleClass="fieldLabel" text="Status" />
+                      <Label fx:id="lblStatus" text="status" GridPane.columnIndex="1" />
+                      <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                          <children>
+                              <Button fx:id="connectButton" mnemonicParsing="false" text="Connect" />
+                              <Button fx:id="initializeCardButton" mnemonicParsing="false" text="Initialize Card" />
+                          </children>
+                      </HBox>
+   
+                  </children>
+                  <padding>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+              </GridPane>
+            <Separator prefWidth="200.0" />
+              <GridPane prefWidth="400.0">
+                  <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="-Infinity" prefWidth="124.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="255.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints prefHeight="30.0" />
+                      <RowConstraints prefHeight="30.0" />
+                      <RowConstraints prefHeight="30.0" />
+                  </rowConstraints>
+                  <children>
+                      
+                      <Label styleClass="fieldLabel" text="Terminal Key" />
+                      <Label styleClass="fieldLabel" text="Card Key" GridPane.rowIndex="1" />
+                      <Label fx:id="lblTerminalKeyStatus" text="label" GridPane.columnIndex="1" />
+                      <Label fx:id="lblCardKeyStatus" text="label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <Button fx:id="butGenerateKeys" mnemonicParsing="false" text="Generate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <Label styleClass="fieldLabel" text="Generate Keys" GridPane.rowIndex="2" />
+                  </children>
+                  <padding>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+              </GridPane>
+          </children>
+       </VBox>

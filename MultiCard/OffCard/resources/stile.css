@@ -1,0 +1,13 @@
+.h1 {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-font-color: #000;
+}
+
+.fieldLabel {
+    -fx-font-weight: bold;
+}
+
+.splitpane {
+    -fx-border-width: 0;
+}
