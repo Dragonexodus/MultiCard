@@ -1,9 +1,11 @@
 package multiCard;
 
+import javacard.framework.AID;
 import javacard.framework.APDU;
 import javacard.framework.Applet;
 import javacard.framework.ISO7816;
 import javacard.framework.ISOException;
+import javacard.framework.JCSystem;
 
 public class Disco extends Applet{
 	 // Java Card
@@ -63,4 +65,49 @@ public class Disco extends Applet{
                 ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
         }
     }
+    
+    /**
+     * Sendet den verschlüsselten Inhalt an die APDU
+     * @param apdu   
+     * @param content Zu verschlüsselender Inhalt
+     * @param offset Startpos des zu verschlüsselenden Inhalts
+     * @param length Länge des Inhalts 
+     */
+    private void send(APDU apdu, byte[] content, byte offset, byte length)
+    {
+        byte[] buffer = apdu.getBuffer();
+        short len = encryptMessage(buffer, content, offset, length);
+
+        apdu.setOutgoingAndSend((short) 0, len);
+    }
+
+    /**
+     * Verschlüsselt die Nachricht, in dem es das Cryptography-Applet via applet-firewall nutzt.
+     * @param buffer  Ziel Speicher. Resultat wird ab Offset 0 gespeichert.
+     * @param message Nachricht.
+     * @param offset  Offset wo Nachricht beginnt.
+     * @param length  Länge der Nachricht.
+     * @return length Länge der verschlüsselten Nachricht.
+     */
+    private short encryptMessage(byte[] buffer, byte[] message, byte offset, byte length)
+    {
+        AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0, (byte) CRYPTOGRAPHY_AID.length);
+        ICryptography cryptoApp = (ICryptography) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
+
+        return cryptoApp.encrypt(buffer, message, offset, length);
+    }
+
+    /**
+     * Entschlüsselt die Nachricht an der Stelle 0 via dem Cryptographie-Applet von der Applet Firewall.
+     * @param buffer Quell-und Zielspeicher, Nachricht startet bei ISO7816.OFFSET_CDATA und das Ergebnis beginnt ab Offset 0.
+     * @return length der verschlüsselten Nachricht
+     */
+    private short decryptMessage(byte[] buffer)
+    {
+        AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0, (byte) CRYPTOGRAPHY_AID.length);
+        ICryptography cryptoApp = (ICryptography) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
+
+        return cryptoApp.decrypt(buffer, ISO7816.OFFSET_CDATA);
+    }
+    
 }
