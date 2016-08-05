@@ -4,6 +4,8 @@ import application.applet.AccessApplet;
 import application.applet.AccessRestrictedRoom;
 import application.applet.BonusApplet;
 import application.applet.IdentificationApplet;
+import application.log.LogHelper;
+import application.log.LogLevel;
 import helper.Result;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,42 +50,49 @@ public class ConfigurationController {
         Result<Boolean> result = IdentificationApplet.setName(this.model.getName());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setBirthDay(this.model.getBirthDate());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setCarId(this.model.getCarId());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setSafePin(this.model.getSafePin());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");
-        MainController.setStatusStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
+        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
     private void addPoints() {
         Result<Boolean> result = BonusApplet.registerBonus((short) this.model.getPoints());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");
-        MainController.setStatusStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
+        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
     /**
@@ -93,7 +102,8 @@ public class ConfigurationController {
         Result<Boolean> result = IdentificationApplet.reset();
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
         }
     }
 
@@ -104,7 +114,8 @@ public class ConfigurationController {
         Result<Boolean> result = AccessApplet.reset();
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
         }
     }
 
@@ -115,7 +126,8 @@ public class ConfigurationController {
         Result<Boolean> result = BonusApplet.reset();
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
         }
     }
 
@@ -133,11 +145,13 @@ public class ConfigurationController {
         Result<Boolean> result = AccessApplet.setAccess(accessRestriction);
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");
-        MainController.setStatusStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
+        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
     private void initializeBindings() {

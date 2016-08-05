@@ -20,23 +20,39 @@ import java.nio.file.Files;
 
 public class ConnectionController {
     public Button connectButton, generateKeyButton, initializeCardButton;
-    public Label statusLabel, terminalKeyStatus, cardKeyStatus;
+    public Label terminalKeyStatus, cardKeyStatus;
 
-    public ConnectionModel model;
+    public static ConnectionModel model;
 
     public ConnectionController() {
-        this.model = new ConnectionModel();
+        model = new ConnectionModel();
+    }
+
+    public static void setConnectionStatus(boolean b){
+        model.setIsConnectionEstablished(b);
     }
 
     @FXML
     public void initialize() {
-        initializeBindings();
+        connectButton.addEventHandler(ActionEvent.ACTION, e -> connectToCardAsync(true));
+        connectButton.disableProperty().bind(model.isConnectionEstablishedProperty());
+
+        generateKeyButton.addEventHandler(ActionEvent.ACTION, e -> generateRsaKeys());
+        generateKeyButton.disableProperty().bind(model.isTerminalKeyFileAvailableProperty().and(model.isTerminalKeyFileAvailableProperty()));
+
+        initializeCardButton.addEventHandler(ActionEvent.ACTION, e -> setupCardKeys());
+        initializeCardButton.disableProperty().bind(model.isConnectionEstablishedProperty());
+
+        terminalKeyStatus.textProperty().bind(model.terminalKeyStatusProperty());
+        terminalKeyStatus.textFillProperty().bind(model.terminalKeyStatusColorProperty());
+        cardKeyStatus.textProperty().bind(model.cardKeyStatusProperty());
+        cardKeyStatus.textFillProperty().bind(model.cardKeyStatusColorProperty());
 
         // prüft, ob die keys da sind
         Result<Boolean> checkRsaKeyFilesResult = checkRsaKeyFiles();
         if (!checkRsaKeyFilesResult.isSuccess() || !checkRsaKeyFilesResult.get()) {
             LogHelper.log(LogLevel.INFO, "Schlüsseldateien nicht vorhanden");
-            MainController.setStatusStatus("Schlüsseldateien nicht vorhanden", Color.ORANGE);
+            MainController.setStatus("Schlüsseldateien nicht vorhanden", Color.ORANGE);
             return;
         }
 
@@ -66,24 +82,23 @@ public class ConnectionController {
      * PublicKeys werden mit der SC ausgetauscht
      */
     private void connectToSmartCard() {                      //TODO: showMassage
-//        setConnectionStatus(false, "connecting...", Color.ORANGE);
-        MainController.setStatusConnection("verbinden", Color.ORANGE);
+        MainController.setConnectionStatus(false, "verbinden", Color.ORANGE);
 
         Result<Boolean> connectResult = JavaCard.current().connect();
         if (!connectResult.isSuccess()) {
-            MainController.setStatusConnection("nicht verbunden", Color.RED);
-            MainController.setStatusStatus(connectResult.getErrorMessage(), Color.ORANGE);
+            MainController.setConnectionStatus(false, "nicht verbunden", Color.RED);
+            LogHelper.log(LogLevel.WARNING, connectResult.getErrorMessage());
+            MainController.setStatus(connectResult.getErrorMessage(), Color.ORANGE);
             return;
         }
 
         Result<Boolean> importCardPublicKeyResult = CryptoApplet.getPublicKeyFromCard();
         if (!importCardPublicKeyResult.isSuccess()) {
-            MainController.setStatusStatus("publicCardKey-Fehler -> SC initialisieren", Color.ORANGE);
-//            MainController.setStatus(importCardPublicKeyResult.getErrorMessage(), Color.ORANGE);
+            LogHelper.log(LogLevel.WARNING, "publicCardKey-Fehler -> SC initialisieren" + importCardPublicKeyResult.getErrorMessage());
+            MainController.setStatus("publicCardKey-Fehler -> SC initialisieren", Color.ORANGE);
             return;
         }
-//        setConnectionStatus(true, "Connected", Color.GREEN);
-        MainController.setStatusConnection("verbunden", Color.GREEN);
+        MainController.setConnectionStatus(true, "verbunden", Color.GREEN);
     }
 
     /**
@@ -115,8 +130,8 @@ public class ConnectionController {
     private Result<Boolean> initTerminalCrypto() {
         Result<Boolean> setupTerminalKey = RSACryptoHelper.current().importTerminalKeyFromFile();
         if (!setupTerminalKey.isSuccess()) {
-//            AlertHelper.showErrorAlert(setupTerminalKey.getErrorMessage());
-            MainController.setStatusStatus(setupTerminalKey.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, setupTerminalKey.getErrorMessage());
+            MainController.setStatus(setupTerminalKey.getErrorMessage(), Color.RED);
         }
         return setupTerminalKey;
     }
@@ -141,68 +156,46 @@ public class ConnectionController {
         Result<Boolean> result;
         result = CryptoApplet.loadAndSetCardKeys();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 
         result = CryptoApplet.setTerminalPublicKeyToCard();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
 
         result = CryptoApplet.getPublicKeyFromCard();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
-//        setConnectionStatus(true, "Connected", Color.GREEN);
-        MainController.setStatusConnection("verbunden", Color.GREEN);
+        MainController.setConnectionStatus(true, "verbunden", Color.GREEN);
     }
 
-//    private void setConnectionStatus(boolean isConnectionEstablished, String statusText, Color color) {
+//    private void setConnectionStatusString(boolean isConnectionEstablished, String statusText, Color color) {
 //        Platform.runLater(() -> {
 //            this.model.setIsConnectionEstablished(isConnectionEstablished);
-//            this.model.setConnectionStatus(statusText);
-//            this.model.setConnectionStatusColor(color);
+//            this.model.setConnectionStatusString(statusText);
+//            this.model.setConnectionStatusStringColor(color);
 //        });
 //    }
 
-    private void initializeBindings() {
-        connectButton.addEventHandler(ActionEvent.ACTION, e -> connectToCardAsync(true));
-        connectButton.disableProperty().bind(this.model.isConnectionEstablishedProperty());
-
-        generateKeyButton.addEventHandler(ActionEvent.ACTION, e -> generateRsaKeys());
-        generateKeyButton.disableProperty().bind(this.model.isTerminalKeyFileAvailableProperty().and(this.model.isTerminalKeyFileAvailableProperty()));
-
-        initializeCardButton.addEventHandler(ActionEvent.ACTION, e -> setupCardKeys());
-        initializeCardButton.disableProperty().bind(this.model.isConnectionEstablishedProperty());
-
-//        statusLabel.textProperty().bind(this.model.connectionStatusProperty());
-//        statusLabel.textFillProperty().bind(this.model.connectionStatusColorProperty());
-        terminalKeyStatus.textProperty().bind(this.model.terminalKeyStatusProperty());
-        terminalKeyStatus.textFillProperty().bind(this.model.terminalKeyStatusColorProperty());
-        cardKeyStatus.textProperty().bind(this.model.cardKeyStatusProperty());
-        cardKeyStatus.textFillProperty().bind(this.model.cardKeyStatusColorProperty());
-    }
-
     private void onCardInserted() {
-
         Result<Boolean> result = CryptoApplet.getPublicKeyFromCard();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            MainController.setStatusStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
+            MainController.setStatus(result.getErrorMessage(), Color.RED);
             return;
         }
-//        setConnectionStatus(true, "Connected", Color.GREEN);
-        MainController.setStatusConnection("verbunden", Color.GREEN);
+        MainController.setConnectionStatus(true, "verbunden", Color.GREEN);
     }
 
     private void onCardRemoved() {
-//        setConnectionStatus(false, "Disconnected", Color.ORANGERED);
-        MainController.setStatusConnection("nicht verbunden", Color.RED);
+        MainController.setConnectionStatus(false, "nicht verbunden", Color.RED);
     }
 }

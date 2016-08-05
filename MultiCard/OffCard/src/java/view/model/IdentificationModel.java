@@ -13,7 +13,7 @@ import javafx.scene.paint.Paint;
 public class IdentificationModel {
     private StringProperty name = new SimpleStringProperty("");
     private StringProperty birthDate = new SimpleStringProperty("");
-    private StringProperty carId = new SimpleStringProperty("");
+    private StringProperty matrikel = new SimpleStringProperty("");
 
     private StringProperty safePin = new SimpleStringProperty("");
     private StringProperty checkStatus = new SimpleStringProperty("Unchecked");
@@ -43,16 +43,16 @@ public class IdentificationModel {
         this.birthDate.set(birthDate);
     }
 
-    public String getCarId() {
-        return carId.get();
+    public String getMatrikel() {
+        return matrikel.get();
     }
 
-    public StringProperty carIdProperty() {
-        return carId;
+    public StringProperty matrikelProperty() {
+        return matrikel;
     }
 
-    public void setCarId(String carId) {
-        this.carId.set(carId);
+    public void setMatrikel(String matrikel) {
+        this.matrikel.set(matrikel);
     }
 
 

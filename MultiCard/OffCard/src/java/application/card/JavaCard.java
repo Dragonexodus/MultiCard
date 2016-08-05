@@ -92,10 +92,11 @@ public class JavaCard implements IJavaCard, CTListener {
                 LogHelper.log(LogLevel.FAILURE, "Data already set or not available");
                 return new ErrorResult<>("The data is already set. If you want to set new data, please reset the applet.");
             } else if (status.equals("6984")) {
-                LogHelper.log(LogLevel.FAILURE, "Data invalid. Signature verification failed.");
-                return new ErrorResult<>("Data invalid. Signature verification failed.");
+                LogHelper.log(LogLevel.FAILURE, "Ungültige Daten. Signature verification failed.");
+                return new ErrorResult<>("Ungültige Daten. Signature verification failed.");
             } else if (status.startsWith("61")) {
-                //new ISOCommandAPDU((byte) 0x00, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01)  ;
+                //new ISOCommandAPDU((byte) 0x00, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01);
+                System.out.println("################################################################");
 
                 McCmd c = new McCmd((byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x00, (byte) 0x80);
                 LogHelper.log(LogLevel.INFO, "Sending %s", c.toString());

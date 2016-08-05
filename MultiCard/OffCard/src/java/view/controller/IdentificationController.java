@@ -48,7 +48,7 @@ public class IdentificationController {
 
         Result<String> carIdResult = IdentificationApplet.getCarId();
         if (carIdResult.isSuccess()) {
-            this.model.setCarId(carIdResult.get());
+            this.model.setMatrikel(carIdResult.get());
         }
     }
 
@@ -73,7 +73,7 @@ public class IdentificationController {
 
         nameLabel.textProperty().bind(this.model.nameProperty());
         birthDateLabel.textProperty().bind(this.model.birthDateProperty());
-        carIdLabel.textProperty().bind(this.model.carIdProperty());
+        carIdLabel.textProperty().bind(this.model.matrikelProperty());
 
         safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);
         safePinTextField.textProperty().bindBidirectional(this.model.safePinProperty());

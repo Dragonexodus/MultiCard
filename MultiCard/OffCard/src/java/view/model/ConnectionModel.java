@@ -29,15 +29,15 @@ public class ConnectionModel {
         this.isConnectionEstablished.set(isConnectionEstablished);
     }
 
-//    public String getConnectionStatus() {
+//    public String getConnectionStatusString() {
 //        return connectionStatus.get();
 //    }
 //
-//    public StringProperty connectionStatusProperty() {
+//    public StringProperty connectionStatusStringProperty() {
 //        return connectionStatus;
 //    }
 //
-//    public void setConnectionStatus(String connectionStatus) {
+//    public void setConnectionStatusString(String connectionStatus) {
 //        this.connectionStatus.set(connectionStatus);
 //    }
 

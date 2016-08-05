@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import view.controller.MainController;
 
 /**
  * Created by Patrick on 19.06.2015.
@@ -26,6 +27,7 @@ public class Main extends Application {
     }
 
     private void close() {
+        MainController.cancelTimer();
         JavaCard.current().shutdown();
     }
 }

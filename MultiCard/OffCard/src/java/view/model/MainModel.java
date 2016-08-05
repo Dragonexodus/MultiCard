@@ -1,29 +1,26 @@
 package view.model;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class MainModel {
-    private StringProperty connectionStatus = new SimpleStringProperty();       // StatusBar: connection
-    private ObjectProperty<Paint> connectionStatusColor = new SimpleObjectProperty<>(Color.RED);
+    private StringProperty connectionStatusString = new SimpleStringProperty();       // StatusBar: connection
+    private ObjectProperty<Paint> connectionStatusStringColor = new SimpleObjectProperty<>(Color.RED);
 
     private StringProperty status = new SimpleStringProperty();           // StatusBar: last status
     private ObjectProperty<Paint> statusColor = new SimpleObjectProperty<>(Color.RED);
 
-    public String getConnectionStatus() {
-        return connectionStatus.get();
+    public String getConnectionStatusString() {
+        return connectionStatusString.get();
     }
 
-    public void setConnectionStatus(String connectionStatus) {
-        this.connectionStatus.set(connectionStatus);
+    public void setConnectionStatusString(String connectionStatusString) {
+        this.connectionStatusString.set(connectionStatusString);
     }
 
-    public StringProperty connectionStatusProperty() {
-        return connectionStatus;
+    public StringProperty connectionStatusStringProperty() {
+        return connectionStatusString;
     }
 
     public String getStatus() {
@@ -38,16 +35,16 @@ public class MainModel {
         return status;
     }
 
-    public Paint getConnectionStatusColor() {
-        return connectionStatusColor.get();
+    public Paint getConnectionStatusStringColor() {
+        return connectionStatusStringColor.get();
     }
 
-    public void setConnectionStatusColor(Paint connectionStatusColor) {
-        this.connectionStatusColor.set(connectionStatusColor);
+    public void setConnectionStatusStringColor(Paint connectionStatusStringColor) {
+        this.connectionStatusStringColor.set(connectionStatusStringColor);
     }
 
-    public ObjectProperty<Paint> connectionStatusColorProperty() {
-        return connectionStatusColor;
+    public ObjectProperty<Paint> connectionStatusStringColorProperty() {
+        return connectionStatusStringColor;
     }
 
     public Paint getStatusColor() {

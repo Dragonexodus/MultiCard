@@ -13,7 +13,7 @@ public class JavaCardHelper {
         Result<byte[]> selectResult = JavaCard.current().sendCommand(command);
 
         if (!selectResult.isSuccess()) {
-            LogHelper.log(LogLevel.FAILURE, "Could not select applet: %s", appletId);
+            LogHelper.log(LogLevel.FAILURE, "Applet: %s kann nicht ausgewählt werden", appletId);
             return new ErrorResult<>(selectResult.getErrorMessage());
         }
 
@@ -23,7 +23,7 @@ public class JavaCardHelper {
     public static Result<byte[]> sendCommand(byte cla, byte ins, byte[] content, byte answerLength) {
         Result<byte[]> encryptedMessage = RSACryptoHelper.current().encrypt(content);
         if (!encryptedMessage.isSuccess()) {
-            LogHelper.log(LogLevel.FAILURE, "Encryption failed");
+            LogHelper.log(LogLevel.FAILURE, "Verschlüsseln fehlgeschlagen");
             return new ErrorResult<>(encryptedMessage.getErrorMessage());
         }
 
@@ -35,7 +35,7 @@ public class JavaCardHelper {
 
         Result<byte[]> decryptedMessage = RSACryptoHelper.current().decrypt(commandResult.get());
         if (!decryptedMessage.isSuccess()) {
-            LogHelper.log(LogLevel.FAILURE, "Decryption failed");
+            LogHelper.log(LogLevel.FAILURE, "Entschlüsseln fehlgeschlagen");
             return new ErrorResult<>(decryptedMessage.getErrorMessage());
         }
 

@@ -29,10 +29,9 @@ public final class CommonApplet {
 
         Result<byte[]> result = JavaCardHelper.sendCommandWithoutEncryption(cla, insReset);
         if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.INFO, "Reset failed");
+            LogHelper.log(LogLevel.INFO, "Zurücksetzen fehlgeschlagen");
             return new ErrorResult<>(result.getErrorMessage());
         }
-
         return new SuccessResult<>(true);
     }
 
