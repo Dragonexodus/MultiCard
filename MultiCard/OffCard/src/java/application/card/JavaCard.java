@@ -2,9 +2,9 @@ package application.card;
 
 import application.log.LogHelper;
 import application.log.LogLevel;
-import common.ErrorResult;
-import common.Result;
-import common.SuccessResult;
+import helper.ErrorResult;
+import helper.Result;
+import helper.SuccessResult;
 import opencard.core.event.CTListener;
 import opencard.core.event.CardTerminalEvent;
 import opencard.core.event.EventGenerator;

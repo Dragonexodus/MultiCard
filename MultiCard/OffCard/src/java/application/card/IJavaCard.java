@@ -1,6 +1,6 @@
 package application.card;
 
-import common.Result;
+import helper.Result;
 
 public interface IJavaCard {
     Result<Boolean> connect();

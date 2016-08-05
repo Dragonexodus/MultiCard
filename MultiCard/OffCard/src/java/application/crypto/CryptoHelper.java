@@ -2,9 +2,9 @@ package application.crypto;
 
 import application.log.LogHelper;
 import application.log.LogLevel;
-import common.ErrorResult;
-import common.Result;
-import common.SuccessResult;
+import helper.ErrorResult;
+import helper.Result;
+import helper.SuccessResult;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

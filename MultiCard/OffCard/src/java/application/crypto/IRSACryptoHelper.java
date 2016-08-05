@@ -1,6 +1,6 @@
 package application.crypto;
 
-import common.Result;
+import helper.Result;
 
 import java.math.BigInteger;
 

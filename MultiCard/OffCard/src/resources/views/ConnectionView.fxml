@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.ConnectionController">
+<VBox xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.ConnectionController">
 <GridPane>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
@@ -47,7 +47,7 @@
         </rowConstraints>
         <children>
             <Label styleClass="fieldLabel" text="Terminal-Schlüssel" />
-            <Label styleClass="fieldLabel" text="Card-Schlüssel" GridPane.rowIndex="1" />
+            <Label styleClass="fieldLabel" text="SC-Schlüssel" GridPane.rowIndex="1" />
             <Label fx:id="terminalKeyStatus" text="Label" GridPane.columnIndex="1" />
             <Label fx:id="cardKeyStatus" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="generateKeyButton" mnemonicParsing="false" text="generieren" GridPane.columnIndex="1" GridPane.rowIndex="2" />

@@ -2,10 +2,10 @@ package application.crypto;
 
 import application.log.LogHelper;
 import application.log.LogLevel;
-import common.ErrorResult;
-import common.KeyPath;
-import common.Result;
-import common.SuccessResult;
+import helper.ErrorResult;
+import helper.KeyPath;
+import helper.Result;
+import helper.SuccessResult;
 
 import javax.crypto.Cipher;
 import java.math.BigInteger;
