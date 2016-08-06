@@ -4,8 +4,8 @@ import application.card.JavaCardHelper;
 import application.crypto.CryptoHelper;
 import application.crypto.ImportedKeys;
 import application.crypto.RSACryptoHelper;
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.KeyPath;
 import helper.Result;
@@ -59,17 +59,17 @@ public class CryptoApplet {
         Result<byte[]> exportModResult = JavaCardHelper.sendCommandWithoutEncryption(CLA, INS_ExportCardPublicMod, (byte) 0x40);
         if (!exportModResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Import of modulus from card failed.");
-            return new ErrorResult<>(exportModResult.getErrorMessage());
+            return new ErrorResult<>(exportModResult.getErrorMsg());
         }
 
         Result<byte[]> exportExponentResult = JavaCardHelper.sendCommandWithoutEncryption(CLA, INS_ExportCardPublicExp, (byte) 0x03);
         if (!exportExponentResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Import of exponent from failed.");
-            return new ErrorResult<>(exportExponentResult.getErrorMessage());
+            return new ErrorResult<>(exportExponentResult.getErrorMsg());
         }
 
-        byte[] modulus = CryptoHelper.addLeadingZero(exportModResult.get());
-        byte[] exponent = CryptoHelper.addLeadingZero(exportExponentResult.get());
+        byte[] modulus = CryptoHelper.addLeadingZero(exportModResult.getData());
+        byte[] exponent = CryptoHelper.addLeadingZero(exportExponentResult.getData());
 
         RSACryptoHelper.current().setCardPublicKey(new BigInteger(modulus), new BigInteger(exponent));
 
@@ -85,22 +85,22 @@ public class CryptoApplet {
     public static Result<Boolean> loadAndSetCardKeys() {
         Result<ImportedKeys> readResult = CryptoHelper.readKeysFromFile(KeyPath.CARD_KEY_PATH);
         if (!readResult.isSuccess())
-            return new ErrorResult<>(readResult.getErrorMessage());
+            return new ErrorResult<>(readResult.getErrorMsg());
 
         Result<Boolean> exportToCartResult = setKeyToCard(
                 CLA,
-                readResult.get().getPrivateMod().toByteArray(),
+                readResult.getData().getPrivateMod().toByteArray(),
                 INS_ImportCardPrivateMod,
-                readResult.get().getPrivateExp().toByteArray(),
+                readResult.getData().getPrivateExp().toByteArray(),
                 INS_ImportCardPrivateExp);
         if (!exportToCartResult.isSuccess())
             return exportToCartResult;
 
         return setKeyToCard(
                 CLA,
-                readResult.get().getPublicMod().toByteArray(),
+                readResult.getData().getPublicMod().toByteArray(),
                 INS_ImportCardPublicMod,
-                readResult.get().getPublicExp().toByteArray(),
+                readResult.getData().getPublicExp().toByteArray(),
                 INS_ImportCardPublicExp);
     }
 
@@ -110,7 +110,7 @@ public class CryptoApplet {
         Result<byte[]> importModResult = JavaCardHelper.sendCommandWithoutEncryption(cla, insMod, mod);
         if (!importModResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Importieren von Mod ist fehlgeschlagen.");
-            return new ErrorResult<>(importModResult.getErrorMessage());
+            return new ErrorResult<>(importModResult.getErrorMsg());
         }
 
         byte[] exp = CryptoHelper.stripLeadingZero(exponent);
@@ -118,7 +118,7 @@ public class CryptoApplet {
         Result<byte[]> importExpResult = JavaCardHelper.sendCommandWithoutEncryption(cla, insExp, exp);
         if (!importExpResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Importieren von Exp ist fehlgeschlagen.");
-            return new ErrorResult<>(importExpResult.getErrorMessage());
+            return new ErrorResult<>(importExpResult.getErrorMsg());
         }
         return new SuccessResult<>(true);
     }

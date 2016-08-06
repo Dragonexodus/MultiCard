@@ -33,22 +33,22 @@ public class IdentificationController {
     }
 
     /**
-     * Uses the IdentificationApplet to get Name, Date of Birth and CarID
+     * Uses the IdentificationApplet to getData Name, Date of Birth and CarID
      */
     private void getIdentificationData() {
         Result<String> nameResult = IdentificationApplet.getName();
         if (nameResult.isSuccess()) {
-            this.model.setName(nameResult.get());
+            this.model.setName(nameResult.getData());
         }
 
         Result<String> birthDateResult = IdentificationApplet.getBirthDay();
         if (birthDateResult.isSuccess()) {
-            this.model.setBirthDate(birthDateResult.get());
+            this.model.setBirthDate(birthDateResult.getData());
         }
 
         Result<String> carIdResult = IdentificationApplet.getCarId();
         if (carIdResult.isSuccess()) {
-            this.model.setMatrikel(carIdResult.get());
+            this.model.setMatrikel(carIdResult.getData());
         }
     }
 

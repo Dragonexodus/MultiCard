@@ -9,37 +9,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import view.model.BonusModel;
 
-/**
- * Created by Patrick on 08.07.2015.
- */
 public class BonusController {
     public Label pointsLabel;
     public Button getButton;
 
-    private BonusModel model = new BonusModel();
+    private BonusModel model;
 
     public BonusController() {
-        this.model = new BonusModel();
+        model = new BonusModel();
     }
 
     @FXML
     public void initialize() {
-        initializeBindings();
+        getButton.addEventHandler(ActionEvent.ACTION, e -> getIdentificationData());
+        pointsLabel.textProperty().bind(Bindings.convert(model.pointsProperty()));
     }
 
     /**
-     * Uses the BonusApplet to get Points
+     * Uses the BonusApplet to getData Points
      */
     private void getIdentificationData() {
         Result<Short> pointsResult = BonusApplet.getAllBonus();
         if (pointsResult.isSuccess()) {
-            this.model.setPoints(pointsResult.get());
+            this.model.setPoints(pointsResult.getData());
         }
-    }
-
-    private void initializeBindings() {
-        getButton.addEventHandler(ActionEvent.ACTION, e -> getIdentificationData());
-
-        pointsLabel.textProperty().bind(Bindings.convert(this.model.pointsProperty()));
     }
 }

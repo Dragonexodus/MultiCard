@@ -1,6 +1,6 @@
 package view.controller;
 
-import application.log.LogHelper;
+import helper.LogHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import view.model.LogModel;

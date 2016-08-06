@@ -1,8 +1,8 @@
 package application.applet;
 
 import application.card.JavaCardHelper;
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
@@ -30,7 +30,7 @@ public final class CommonApplet {
         Result<byte[]> result = JavaCardHelper.sendCommandWithoutEncryption(cla, insReset);
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.INFO, "Zurücksetzen fehlgeschlagen");
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
         return new SuccessResult<>(true);
     }
@@ -47,13 +47,13 @@ public final class CommonApplet {
     public static Result<byte[]> sendValue(String appletName, byte cla, byte ins, byte[] data, byte answerLength) {
         Result<Boolean> selectResult = JavaCardHelper.selectApplet(appletName);
         if (!selectResult.isSuccess()) {
-            return new ErrorResult<>(selectResult.getErrorMessage());
+            return new ErrorResult<>(selectResult.getErrorMsg());
         }
 
         Result<byte[]> result = JavaCardHelper.sendCommand(cla, ins, data, answerLength);
 
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
         return result;

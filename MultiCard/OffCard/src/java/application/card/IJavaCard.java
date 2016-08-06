@@ -5,7 +5,7 @@ import helper.Result;
 public interface IJavaCard {
     Result<Boolean> connect();
 
-    Result<byte[]> sendCommand(McCmd cmd);
+    Result<byte[]> sendCommand(Cmd cmd);
 
     void shutdown();
 

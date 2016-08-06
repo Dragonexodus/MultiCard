@@ -2,15 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="400.0" minWidth="400.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.MainController">
+<BorderPane prefHeight="600.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.MainController">
     <center>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -29,12 +28,22 @@
                         <fx:include fx:id="IdentificationTab" source="Identification.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Access-Control">
+                <Tab text="StudiCard">
+                    <content>
+                        <fx:include fx:id="StudiCardTab" source="StudiCard.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="DiscoCard">
+                    <content>
+                        <fx:include fx:id="DiscoCardTab" source="DiscoCard.fxml" />
+                    </content>
+                </Tab>
+                <Tab disable="true" text="Access-Control">
                     <content>
                         <fx:include fx:id="AccessTab" source="AccessView.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Bonus Points">
+                <Tab disable="true" text="Bonus Points">
                     <content>
                         <fx:include fx:id="BonusTab" source="Bonus.fxml" />
                     </content>
@@ -51,35 +60,32 @@
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
     </padding>
     <bottom>
-        <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);">
-         <Pane prefWidth="240.0">
-            <children>
-               <HBox>
-                  <children>
-                     <Separator orientation="VERTICAL" />
-                        <Label text="Verbindung: ">
+        <VBox>
+                <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);">
+                    <Label text="Verbindung:">
                         <font>
-                           <Font name="System Bold" size="13.0" />
-                        </font></Label>
-                        <Label fx:id="lblStatusConnection" text="connection" />
-                  </children>
-               </HBox>
-            </children>
-         </Pane>
-         <Pane>
-            <children>
-               <HBox>
-                  <children>
-                     <Separator orientation="VERTICAL" />
-                     <Label text="letzter Status: ">
+                            <Font name="System Bold" size="13.0" />
+                        </font>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+                    </Label>
+                    <Label fx:id="lblStatusConnection" text="connection" />
+            <VBox.margin>
+               <Insets bottom="1.0" />
+            </VBox.margin>
+                </HBox>
+                <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);" VBox.vgrow="NEVER">
+                    <Label text="Status:">
                         <font>
-                           <Font name="System Bold" size="13.0" />
-                        </font></Label>
-                     <Label fx:id="lblStatusStatus" text="status" />
-                  </children>
-               </HBox>
-            </children>
-         </Pane>
-        </HBox>
+                            <Font name="System Bold" size="13.0" />
+                        </font>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+                    </Label>
+                    <Label fx:id="lblStatusStatus" text="status" />
+                </HBox>
+        </VBox>
     </bottom>
 </BorderPane>

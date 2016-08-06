@@ -1,7 +1,7 @@
 package application.crypto;
 
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;

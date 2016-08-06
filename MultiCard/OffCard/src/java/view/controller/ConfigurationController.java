@@ -4,8 +4,8 @@ import application.applet.AccessApplet;
 import application.applet.AccessRestrictedRoom;
 import application.applet.BonusApplet;
 import application.applet.IdentificationApplet;
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.Result;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,33 +49,33 @@ public class ConfigurationController {
     private void setIdentificationData() {
         Result<Boolean> result = IdentificationApplet.setName(this.model.getName());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setBirthDay(this.model.getBirthDate());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setCarId(this.model.getCarId());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
         result = IdentificationApplet.setSafePin(this.model.getSafePin());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");
@@ -86,9 +86,9 @@ public class ConfigurationController {
     private void addPoints() {
         Result<Boolean> result = BonusApplet.registerBonus((short) this.model.getPoints());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");
         LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
@@ -101,9 +101,9 @@ public class ConfigurationController {
     private void resetIdentification() {
         Result<Boolean> result = IdentificationApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
@@ -113,9 +113,9 @@ public class ConfigurationController {
     private void resetAccess() {
         Result<Boolean> result = AccessApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
@@ -125,9 +125,9 @@ public class ConfigurationController {
     private void resetPoints() {
         Result<Boolean> result = BonusApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
@@ -144,9 +144,9 @@ public class ConfigurationController {
 
         Result<Boolean> result = AccessApplet.setAccess(accessRestriction);
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMessage());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+//            AlertHelper.showErrorAlert(result.getErrorMsg());
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 //        AlertHelper.showSuccessAlert("Data successfully set.");

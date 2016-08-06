@@ -4,8 +4,8 @@ import application.card.JavaCard;
 import application.crypto.KeyFileGenerator;
 import application.crypto.RSACryptoHelper;
 import application.applet.CryptoApplet;
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.KeyPath;
 import helper.Result;
 import helper.SuccessResult;
@@ -50,7 +50,7 @@ public class ConnectionController {
 
         // prüft, ob die keys da sind
         Result<Boolean> checkRsaKeyFilesResult = checkRsaKeyFiles();
-        if (!checkRsaKeyFilesResult.isSuccess() || !checkRsaKeyFilesResult.get()) {
+        if (!checkRsaKeyFilesResult.isSuccess() || !checkRsaKeyFilesResult.getData()) {
             LogHelper.log(LogLevel.INFO, "Schlüsseldateien nicht vorhanden");
             MainController.setStatus("Schlüsseldateien nicht vorhanden", Color.ORANGE);
             return;
@@ -87,14 +87,14 @@ public class ConnectionController {
         Result<Boolean> connectResult = JavaCard.current().connect();
         if (!connectResult.isSuccess()) {
             MainController.setConnectionStatus(false, "nicht verbunden", Color.RED);
-            LogHelper.log(LogLevel.WARNING, connectResult.getErrorMessage());
-            MainController.setStatus(connectResult.getErrorMessage(), Color.ORANGE);
+            LogHelper.log(LogLevel.WARNING, connectResult.getErrorMsg());
+            MainController.setStatus(connectResult.getErrorMsg(), Color.ORANGE);
             return;
         }
 
         Result<Boolean> importCardPublicKeyResult = CryptoApplet.getPublicKeyFromCard();
         if (!importCardPublicKeyResult.isSuccess()) {
-            LogHelper.log(LogLevel.WARNING, "publicCardKey-Fehler -> SC initialisieren" + importCardPublicKeyResult.getErrorMessage());
+            LogHelper.log(LogLevel.WARNING, "publicCardKey-Fehler -> SC initialisieren" + importCardPublicKeyResult.getErrorMsg());
             MainController.setStatus("publicCardKey-Fehler -> SC initialisieren", Color.ORANGE);
             return;
         }
@@ -119,7 +119,7 @@ public class ConnectionController {
             if (!generateResult.isSuccess())
                 return generateResult;
         }
-        return new SuccessResult<>(checkRsaKeyFiles().get());   // noch ein mal prüfen, ob die keys da sind
+        return new SuccessResult<>(checkRsaKeyFiles().getData());   // noch ein mal prüfen, ob die keys da sind
     }
 
     /**
@@ -130,8 +130,8 @@ public class ConnectionController {
     private Result<Boolean> initTerminalCrypto() {
         Result<Boolean> setupTerminalKey = RSACryptoHelper.current().importTerminalKeyFromFile();
         if (!setupTerminalKey.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, setupTerminalKey.getErrorMessage());
-            MainController.setStatus(setupTerminalKey.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, setupTerminalKey.getErrorMsg());
+            MainController.setStatus(setupTerminalKey.getErrorMsg(), Color.RED);
         }
         return setupTerminalKey;
     }
@@ -156,22 +156,22 @@ public class ConnectionController {
         Result<Boolean> result;
         result = CryptoApplet.loadAndSetCardKeys();
         if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
         result = CryptoApplet.setTerminalPublicKeyToCard();
         if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
         result = CryptoApplet.getPublicKeyFromCard();
         if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
         MainController.setConnectionStatus(true, "verbunden", Color.GREEN);
@@ -188,8 +188,8 @@ public class ConnectionController {
     private void onCardInserted() {
         Result<Boolean> result = CryptoApplet.getPublicKeyFromCard();
         if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMessage());
-            MainController.setStatus(result.getErrorMessage(), Color.RED);
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
         MainController.setConnectionStatus(true, "verbunden", Color.GREEN);

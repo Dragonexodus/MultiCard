@@ -1,12 +1,9 @@
 package helper;
 
-/**
- * Created by Patrick on 23.06.2015.
- */
 public abstract class Result<T> {
     private T data;
     private boolean success;
-    private String errorMessage;
+    private String errorMsg;
 
     protected Result() {
     }
@@ -16,7 +13,7 @@ public abstract class Result<T> {
         this.success = success;
     }
 
-    public T get() {
+    public T getData() {
         return data;
     }
 
@@ -32,11 +29,11 @@ public abstract class Result<T> {
         this.success = success;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
-    protected void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    protected void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

@@ -1,22 +1,20 @@
 package application.card;
 
 import application.crypto.RSACryptoHelper;
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
 
 public class JavaCardHelper {
     public static Result<Boolean> selectApplet(String appletId) {
-        McCmd command = ApduHelper.getSelectCommand(appletId);
+        Cmd command = ApduHelper.getSelectCommand(appletId);
         Result<byte[]> selectResult = JavaCard.current().sendCommand(command);
-
         if (!selectResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Applet: %s kann nicht ausgewählt werden", appletId);
-            return new ErrorResult<>(selectResult.getErrorMessage());
+            return new ErrorResult<>(selectResult.getErrorMsg());
         }
-
         return new SuccessResult<>(true);
     }
 
@@ -24,26 +22,25 @@ public class JavaCardHelper {
         Result<byte[]> encryptedMessage = RSACryptoHelper.current().encrypt(content);
         if (!encryptedMessage.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Verschlüsseln fehlgeschlagen");
-            return new ErrorResult<>(encryptedMessage.getErrorMessage());
+            return new ErrorResult<>(encryptedMessage.getErrorMsg());
         }
 
-        McCmd command = ApduHelper.getCommand(cla, ins, encryptedMessage.get(), answerLength);
+        Cmd command = ApduHelper.getCommand(cla, ins, encryptedMessage.getData(), answerLength);
         Result<byte[]> commandResult = JavaCard.current().sendCommand(command);
-        if (!commandResult.isSuccess() || commandResult.get().length < 1) {
+        if (!commandResult.isSuccess() || commandResult.getData().length < 1) {
             return commandResult;
         }
 
-        Result<byte[]> decryptedMessage = RSACryptoHelper.current().decrypt(commandResult.get());
+        Result<byte[]> decryptedMessage = RSACryptoHelper.current().decrypt(commandResult.getData());
         if (!decryptedMessage.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Entschlüsseln fehlgeschlagen");
-            return new ErrorResult<>(decryptedMessage.getErrorMessage());
+            return new ErrorResult<>(decryptedMessage.getErrorMsg());
         }
-
         return decryptedMessage;
     }
 
     public static Result<byte[]> sendCommandWithoutEncryption(byte cla, byte ins, byte[] content, byte answerLength) {
-        McCmd command = ApduHelper.getCommand(cla, ins, content, answerLength);
+        Cmd command = ApduHelper.getCommand(cla, ins, content, answerLength);
         return JavaCard.current().sendCommand(command);
     }
 

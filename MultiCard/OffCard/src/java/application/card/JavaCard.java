@@ -1,7 +1,7 @@
 package application.card;
 
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
@@ -69,7 +69,7 @@ public class JavaCard implements IJavaCard, CTListener {
     }
 
     @Override
-    public Result<byte[]> sendCommand(McCmd command) {                          //TODO: eigene Fehlern definieren & reset oder nicht
+    public Result<byte[]> sendCommand(Cmd command) {                          //TODO: eigene Fehlern definieren & reset oder nicht
         if (card == null) {
             LogHelper.log(LogLevel.WARNING, "JavaCard.sendCmd(): Keine SC vorhanden");
             return new ErrorResult<>("JavaCard.sendCmd(): Keine SC vorhanden");
@@ -98,7 +98,7 @@ public class JavaCard implements IJavaCard, CTListener {
                 //new ISOCommandAPDU((byte) 0x00, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01);
                 System.out.println("################################################################");
 
-                McCmd c = new McCmd((byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x00, (byte) 0x80);
+                Cmd c = new Cmd((byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x00, (byte) 0x80);
                 LogHelper.log(LogLevel.INFO, "Sending %s", c.toString());
                 ResponseAPDU response = passThru.sendCommandAPDU(c);
                 LogHelper.log(LogLevel.INFO, "Command successfull");

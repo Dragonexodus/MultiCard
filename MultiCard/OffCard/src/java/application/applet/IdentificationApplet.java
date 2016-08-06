@@ -1,7 +1,7 @@
 package application.applet;
 
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
@@ -42,7 +42,7 @@ public class IdentificationApplet {
         }
 
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_NAME, name.getBytes());
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     /**
@@ -53,10 +53,10 @@ public class IdentificationApplet {
     public static Result<String> getName() {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_NAME);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        return new SuccessResult<>(new String(result.get()));
+        return new SuccessResult<>(new String(result.getData()));
     }
 
     /**
@@ -71,7 +71,7 @@ public class IdentificationApplet {
         }
 
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_CARID, carId.getBytes());
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     /**
@@ -82,10 +82,10 @@ public class IdentificationApplet {
     public static Result<String> getCarId() {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_CARID);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        return new SuccessResult<>(new String(result.get()));
+        return new SuccessResult<>(new String(result.getData()));
     }
 
     /**
@@ -106,7 +106,7 @@ public class IdentificationApplet {
 
         byte[] pin = ConvertSafePin(safePin);
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_SAFEPIN, pin);
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     /**
@@ -123,10 +123,10 @@ public class IdentificationApplet {
         byte[] pin = ConvertSafePin(safePin);
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_CHECK_SAFEPIN, pin);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        if (result.get()[0] != 0x01) {
+        if (result.getData()[0] != 0x01) {
             LogHelper.log(LogLevel.FAILURE, "Wrong SafePIN");
             return new ErrorResult<>("Wrong SafePIN");
         }
@@ -160,7 +160,7 @@ public class IdentificationApplet {
         data[3] = (byte) (date.getYear() % 100);
 
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_BIRTHDAY, data);
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     /**
@@ -171,12 +171,12 @@ public class IdentificationApplet {
     public static Result<String> getBirthDay() {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_BIRTHDAY);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        int day = result.get()[0];
-        int month = result.get()[1];
-        int year = (result.get()[2] * 100) + result.get()[3];
+        int day = result.getData()[0];
+        int month = result.getData()[1];
+        int year = (result.getData()[2] * 100) + result.getData()[3];
 
         return new SuccessResult<>(String.format("%02d.%02d.%d", day, month, year));
     }
@@ -198,10 +198,10 @@ public class IdentificationApplet {
 
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_CHECK_AGE, data);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        if (result.get()[0] != 0x01) {
+        if (result.getData()[0] != 0x01) {
             LogHelper.log(LogLevel.FAILURE, "Age restriction not statisfied");
             return new ErrorResult<>("Age restriction not statisfied");
         }

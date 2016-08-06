@@ -1,7 +1,7 @@
 package application.crypto;
 
-import application.log.LogHelper;
-import application.log.LogLevel;
+import helper.LogHelper;
+import helper.LogLevel;
 import helper.ErrorResult;
 import helper.KeyPath;
 import helper.Result;
@@ -66,19 +66,19 @@ public class RSACryptoHelper implements IRSACryptoHelper {
     public Result<Boolean> importTerminalKeyFromFile() {
         Result<ImportedKeys> readResult = CryptoHelper.readKeysFromFile(KeyPath.TERMINAL_KEY_PATH);
         if (!readResult.isSuccess())
-            return new ErrorResult<>(readResult.getErrorMessage());
+            return new ErrorResult<>(readResult.getErrorMsg());
 
         try {
             KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
 
             RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(
-                    readResult.get().getPrivateMod(),
-                    readResult.get().getPrivateExp());
+                    readResult.getData().getPrivateMod(),
+                    readResult.getData().getPrivateExp());
             terminalPrivateKey = (RSAPrivateKey) rsaKeyFactory.generatePrivate(keySpec);
 
             RSAPublicKeySpec spec = new RSAPublicKeySpec(
-                    readResult.get().getPublicMod(),
-                    readResult.get().getPublicExp());
+                    readResult.getData().getPublicMod(),
+                    readResult.getData().getPublicExp());
             terminalPublicKey = (RSAPublicKey) rsaKeyFactory.generatePublic(spec);
         } catch (Exception ex) {
             LogHelper.log(ex);

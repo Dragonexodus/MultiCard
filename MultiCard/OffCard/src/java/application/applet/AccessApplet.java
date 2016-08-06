@@ -50,7 +50,7 @@ public class AccessApplet {
         }
 
         Result<byte[]> result = CommonApplet.sendValue(APPLET_NAME, CLA, INS_SET_RIGHT, accessBytes);
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     public static Result<Boolean> checkRoom(AccessRestrictedRoom room) {
@@ -61,6 +61,6 @@ public class AccessApplet {
         roomByte[1] = (byte) Integer.parseInt(roomNumber.substring(2, 4));
 
         Result<byte[]> result = CommonApplet.sendValue(APPLET_NAME, CLA, INS_GET_RIGHT, roomByte, CommonApplet.ANSWER_LENGTH);
-        return result.isSuccess() && result.get()[0] == ACCESS_GRANTED ? new SuccessResult<>(true) : new ErrorResult<>("Access Denied");
+        return result.isSuccess() && result.getData()[0] == ACCESS_GRANTED ? new SuccessResult<>(true) : new ErrorResult<>("Access Denied");
     }
 }

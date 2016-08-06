@@ -1,4 +1,4 @@
-package application.log;
+package helper;
 
 public enum LogLevel {
     INFO,

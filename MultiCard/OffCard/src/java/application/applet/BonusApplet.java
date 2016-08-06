@@ -34,7 +34,7 @@ public class BonusApplet {
         byte[] bytes = buffer.array();
 
         Result<byte[]> result = CommonApplet.sendValue(APPLET_NAME, CLA, INS_REGISTER_BONUS, bytes);
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMessage()) : new SuccessResult<>(true);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     /**
@@ -45,10 +45,10 @@ public class BonusApplet {
     public static Result<Short> getAllBonus() {
         Result<byte[]> result = CommonApplet.sendValue(APPLET_NAME, CLA, INS_GET_ALL_BONUS, CommonApplet.ANSWER_LENGTH);
         if (!result.isSuccess()) {
-            return new ErrorResult<>(result.getErrorMessage());
+            return new ErrorResult<>(result.getErrorMsg());
         }
 
-        ByteBuffer wrapped = ByteBuffer.wrap(result.get());
+        ByteBuffer wrapped = ByteBuffer.wrap(result.getData());
         return new SuccessResult<>(wrapped.getShort());
     }
 

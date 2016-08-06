@@ -30,7 +30,7 @@ public class ConnectionModel {
     }
 
 //    public String getConnectionStatusString() {
-//        return connectionStatus.get();
+//        return connectionStatus.getData();
 //    }
 //
 //    public StringProperty connectionStatusStringProperty() {
