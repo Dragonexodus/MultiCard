@@ -23,14 +23,14 @@
                         <fx:include fx:id="ConfigurationTab" source="ConfigurationView.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Identifikation">
-                    <content>
-                        <fx:include fx:id="IdentificationTab" source="Identification.fxml" />
-                    </content>
-                </Tab>
                 <Tab text="StudiCard">
                     <content>
                         <fx:include fx:id="StudiCardTab" source="StudiCard.fxml" />
+                    </content>
+                </Tab>
+                <Tab disable="true" text="StudiCardTemp">
+                    <content>
+                        <fx:include fx:id="StudiCardTempTab" source="StudiCardTemp.fxml" />
                     </content>
                 </Tab>
                 <Tab text="DiscoCard">

@@ -69,15 +69,15 @@ public class IdentificationController {
 
     private void initializeBindings() {
         getButton.addEventHandler(ActionEvent.ACTION, e -> getIdentificationData());
-        checkButton.addEventHandler(ActionEvent.ACTION, e -> checkSafePin());
+//        checkButton.addEventHandler(ActionEvent.ACTION, e -> checkSafePin());
 
         nameLabel.textProperty().bind(this.model.nameProperty());
         birthDateLabel.textProperty().bind(this.model.birthDateProperty());
         carIdLabel.textProperty().bind(this.model.matrikelProperty());
 
-        safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);
-        safePinTextField.textProperty().bindBidirectional(this.model.safePinProperty());
-        resultLabel.textProperty().bind(this.model.checkStatusProperty());
-        resultLabel.textFillProperty().bind(this.model.checkStatusColorProperty());
+//        safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);
+//        safePinTextField.textProperty().bindBidirectional(this.model.safePinProperty());
+//        resultLabel.textProperty().bind(this.model.checkStatusProperty());
+//        resultLabel.textFillProperty().bind(this.model.checkStatusColorProperty());
     }
 }
