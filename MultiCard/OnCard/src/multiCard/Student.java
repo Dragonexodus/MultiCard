@@ -17,12 +17,13 @@ public class Student extends Applet {
 	private static final byte INS_GET_MONEY = (byte) 0x20;
 	private static final byte INS_ADD_MONEY = (byte) 0x21;
 	private static final byte INS_SUB_MONEY = (byte) 0x22;
-	private static final byte INS_SET_NAME = (byte) 0x23;
-	private static final byte INS_GET_NAME = (byte) 0x24;
-	private static final byte INS_SET_MATRIKEL = (byte) 0x25;
-	private static final byte INS_GET_MATRIKEL = (byte) 0x26;
-	private static final byte INS_SET_ROOMS = (byte) 0x27;
-	private static final byte INS_GET_ROOMS = (byte) 0x28;
+	private static final byte INS_RESET_MONEY = (byte) 0x23;
+	private static final byte INS_SET_NAME = (byte) 0x24;
+	private static final byte INS_GET_NAME = (byte) 0x25;
+	private static final byte INS_SET_MATRIKEL = (byte) 0x26;
+	private static final byte INS_GET_MATRIKEL = (byte) 0x27;
+	private static final byte INS_SET_ROOMS = (byte) 0x28;
+	private static final byte INS_GET_ROOMS = (byte) 0x29;
 
 	// Fehler
 	private static final short ERROR_ADD_EURO_OVERFLOW = (short) 0xE021;
@@ -90,6 +91,9 @@ public class Student extends Applet {
 		}
 
 		switch (buffer[ISO7816.OFFSET_INS]) {
+		case INS_RESET_MONEY:
+			resetMoney(apdu);
+			break;
 		case INS_ADD_MONEY:
 			addMoney(apdu);
 			break;
@@ -116,6 +120,15 @@ public class Student extends Applet {
 		}
 	}
 
+	/**
+	 * Reset des Geldes 
+	 * @param apdu
+	 */
+	private void resetMoney(APDU apdu) {
+		this.euro = 0;
+		this.cent = 0;
+	}
+	
 	/**
 	 * Fügt Geld hinzu
 	 * 
