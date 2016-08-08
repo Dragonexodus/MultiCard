@@ -21,9 +21,6 @@ import view.model.ConfigurationModel;
 
 import java.util.HashMap;
 
-/**
- * Created by Patrick on 08.07.2015.
- */
 public class ConfigurationController {
     public Button setIdentificationButton, resetAccessControl, resetIdentification, setAccessButton, addPointsButton, resetPoints;
     public DatePicker birthDateDatePicker;
@@ -35,7 +32,7 @@ public class ConfigurationController {
     private ConfigurationModel model;
 
     public ConfigurationController() {
-        this.model = new ConfigurationModel();
+        model = new ConfigurationModel();
     }
 
     @FXML
@@ -47,7 +44,7 @@ public class ConfigurationController {
      * Uses the IdentificationApplet to set Name, Date of Birth, CarID and SafePin
      */
     private void setIdentificationData() {
-        Result<Boolean> result = IdentificationApplet.setName(this.model.getName());
+        Result<Boolean> result = IdentificationApplet.setName(model.getName());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -55,7 +52,7 @@ public class ConfigurationController {
             return;
         }
 
-        result = IdentificationApplet.setBirthDay(this.model.getBirthDate());
+        result = IdentificationApplet.setBirthDay(model.getBirthDate());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -63,7 +60,7 @@ public class ConfigurationController {
             return;
         }
 
-        result = IdentificationApplet.setCarId(this.model.getCarId());
+        result = IdentificationApplet.setCarId(model.getCarId());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -71,7 +68,7 @@ public class ConfigurationController {
             return;
         }
 
-        result = IdentificationApplet.setSafePin(this.model.getSafePin());
+        result = IdentificationApplet.setSafePin(model.getSafePin());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -84,7 +81,7 @@ public class ConfigurationController {
     }
 
     private void addPoints() {
-        Result<Boolean> result = BonusApplet.registerBonus((short) this.model.getPoints());
+        Result<Boolean> result = BonusApplet.registerBonus((short) model.getPoints());
         if (!result.isSuccess()) {
 //            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());

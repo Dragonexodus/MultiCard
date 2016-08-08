@@ -1,11 +1,7 @@
 package application.card;
 
-
 import opencard.core.terminal.CommandAPDU;
 
-/**
- * Created by Patrick on 16.08.2015.
- */
 public class Cmd extends CommandAPDU {
     public Cmd(byte classByte, byte instruction, byte p1, byte p2, byte[] content, byte answerLength) {
         super(ToCommandBytes(classByte, instruction, p1, p2, content, answerLength));
