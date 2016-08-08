@@ -2,9 +2,8 @@ package view.controller;
 
 import javafx.fxml.FXML;
 
-public class StudiCardController {
-
-    public StudiCardController() {
+public class DiscoController {
+    public DiscoController() {
 
     }
 

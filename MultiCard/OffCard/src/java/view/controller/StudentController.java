@@ -13,7 +13,7 @@ import view.model.IdentificationModel;
 /**
  * Created by Patrick on 08.07.2015.
  */
-public class IdentificationController {
+public class StudentController {
     public Label nameLabel, birthDateLabel, carIdLabel;
     public Button getButton;
 
@@ -23,7 +23,7 @@ public class IdentificationController {
 
     private IdentificationModel model = new IdentificationModel();
 
-    public IdentificationController() {
+    public StudentController() {
         this.model = new IdentificationModel();
     }
 
@@ -72,7 +72,7 @@ public class IdentificationController {
 //        checkButton.addEventHandler(ActionEvent.ACTION, e -> checkSafePin());
 
         nameLabel.textProperty().bind(this.model.nameProperty());
-        birthDateLabel.textProperty().bind(this.model.birthDateProperty());
+//        birthDateLabel.textProperty().bind(this.model.birthDateProperty());
         carIdLabel.textProperty().bind(this.model.matrikelProperty());
 
 //        safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);

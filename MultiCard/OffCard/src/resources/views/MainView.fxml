@@ -25,27 +25,12 @@
                 </Tab>
                 <Tab text="StudiCard">
                     <content>
-                        <fx:include fx:id="StudiCardTab" source="StudiCard.fxml" />
-                    </content>
-                </Tab>
-                <Tab disable="true" text="StudiCardTemp">
-                    <content>
-                        <fx:include fx:id="StudiCardTempTab" source="StudiCardTemp.fxml" />
+                        <fx:include fx:id="StudentTab" source="StudentView.fxml" />
                     </content>
                 </Tab>
                 <Tab text="DiscoCard">
                     <content>
-                        <fx:include fx:id="DiscoCardTab" source="DiscoCard.fxml" />
-                    </content>
-                </Tab>
-                <Tab disable="true" text="Access-Control">
-                    <content>
-                        <fx:include fx:id="AccessTab" source="AccessView.fxml" />
-                    </content>
-                </Tab>
-                <Tab disable="true" text="Bonus Points">
-                    <content>
-                        <fx:include fx:id="BonusTab" source="Bonus.fxml" />
+                        <fx:include fx:id="DiscoTab" source="DiscoView.fxml" />
                     </content>
                 </Tab>
                 <Tab text="Log">
@@ -72,7 +57,7 @@
                     </Label>
                     <Label fx:id="lblStatusConnection" text="connection" />
             <VBox.margin>
-               <Insets bottom="1.0" />
+               <Insets bottom="2.0" />
             </VBox.margin>
                 </HBox>
                 <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);" VBox.vgrow="NEVER">

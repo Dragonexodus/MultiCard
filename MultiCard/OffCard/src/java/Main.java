@@ -18,6 +18,7 @@ public class Main extends Application {
 //        scene.getStylesheets().add(getClass().getResource("/style.css").toString());
         Stage stage = new Stage();
         stage.setTitle("MultiCard");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(e -> close());
