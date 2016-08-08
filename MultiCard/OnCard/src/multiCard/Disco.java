@@ -10,13 +10,13 @@ import javacard.framework.JCSystem;
 public class Disco extends Applet{
 	 // Java Card
     // Applet
-    private static final byte DISCO_CLA = 0x44;
+    private static final byte DISCO_CLA = 0x30;
 
     // Befehle
     private static final byte INS_DO_STH = (byte) 0xB0;
 
     // Andere Applets
-    private static final byte[] CRYPTOGRAPHY_AID = {0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x67, 0x72, 0x61, 0x70, 0x68, 0x79};
+    private static final byte[] CRYPTOGRAPHY_AID = { 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f};
     private static final byte CRYPTOGRAPHY_SECRET = 0x2A;
 
     // Konstanten und Offsets
@@ -92,7 +92,7 @@ public class Disco extends Applet{
     private short encryptMessage(byte[] buffer, byte[] message, byte offset, byte length)
     {
         AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0, (byte) CRYPTOGRAPHY_AID.length);
-        ICryptography cryptoApp = (ICryptography) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
+        ICrypto cryptoApp = (ICrypto) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
 
         return cryptoApp.encrypt(buffer, message, offset, length);
     }
@@ -105,7 +105,7 @@ public class Disco extends Applet{
     private short decryptMessage(byte[] buffer)
     {
         AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0, (byte) CRYPTOGRAPHY_AID.length);
-        ICryptography cryptoApp = (ICryptography) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
+        ICrypto cryptoApp = (ICrypto) JCSystem.getAppletShareableInterfaceObject(cryptographyAid, CRYPTOGRAPHY_SECRET);
 
         return cryptoApp.decrypt(buffer, ISO7816.OFFSET_CDATA);
     }

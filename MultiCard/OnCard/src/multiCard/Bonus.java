@@ -180,7 +180,7 @@ public class Bonus extends Applet {
 			byte length) {
 		AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0,
 				(byte) CRYPTOGRAPHY_AID.length);
-		ICryptography cryptoApp = (ICryptography) JCSystem
+		ICrypto cryptoApp = (ICrypto) JCSystem
 				.getAppletShareableInterfaceObject(cryptographyAid,
 						CRYPTOGRAPHY_SECRET);
 
@@ -199,7 +199,7 @@ public class Bonus extends Applet {
 	private short decryptMessage(byte[] buffer) {
 		AID cryptographyAid = JCSystem.lookupAID(CRYPTOGRAPHY_AID, (short) 0,
 				(byte) CRYPTOGRAPHY_AID.length);
-		ICryptography cryptoApp = (ICryptography) JCSystem
+		ICrypto cryptoApp = (ICrypto) JCSystem
 				.getAppletShareableInterfaceObject(cryptographyAid,
 						CRYPTOGRAPHY_SECRET);
 
