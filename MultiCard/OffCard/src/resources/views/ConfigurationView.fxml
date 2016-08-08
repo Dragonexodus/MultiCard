@@ -2,8 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -15,7 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import view.widget.NumericTextField?>
 <?import view.widget.StringTextField?>
 
 <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.ConfigurationController">
@@ -26,30 +23,24 @@
                     <content>
                         <GridPane>
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label styleClass="fieldLabel" text="Name" />
-                                <TextField fx:id="nameTextField" maxWidth="250.0" GridPane.columnIndex="1" />
-                                <Label styleClass="fieldLabel" text="Geburtsdatum" GridPane.rowIndex="1" />
-                                <DatePicker fx:id="birthDateDatePicker" maxWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label styleClass="fieldLabel" text="Matrikel" GridPane.rowIndex="2" />
-                                <StringTextField fx:id="carIdTextField" maxWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label styleClass="fieldLabel" text="Safe-Pin_" visible="false" GridPane.rowIndex="3" />
-                                <NumericTextField fx:id="safePinTextField" maxWidth="250.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <HBox maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <Label styleClass="fieldLabel" text="Name:" />
+                                <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
+                                <Label styleClass="fieldLabel" text="Matrikel:" GridPane.rowIndex="1" />
+                                <StringTextField fx:id="carIdTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <children>
                                         <Button fx:id="setIdentificationButton" mnemonicParsing="false" text="übernehmen">
                                             <HBox.margin>
-                                                <Insets right="10.0" />
+                                                <Insets />
                                             </HBox.margin>
                                         </Button>
                                         <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
@@ -67,39 +58,75 @@
                </VBox.margin>
                 </TitledPane>
                 <TitledPane text="Guthaben und Bonuspunkte">
-                    <content>
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label styleClass="fieldLabel" text="Bonuspunkte" GridPane.rowIndex="1" />
-                                <TextField fx:id="pointsTextField" maxWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <HBox maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <children>
-                                        <Button fx:id="addPointsButton" mnemonicParsing="false" text="übernehmen" />
-                                        <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="resetPoints" mnemonicParsing="false" text="zurücksetzen" />
-                                    </children>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                                </HBox>
-                        <Label styleClass="fieldLabel" text="Guthaben" />
-                        <TextField GridPane.columnIndex="1" />
-                            </children>
-                        </GridPane>
-                    </content>
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
+               <content>
+                  <VBox>
+                     <children>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label prefWidth="100.0" styleClass="fieldLabel" text="Guthaben:" />
+                              <TextField GridPane.columnIndex="1" />
+                              <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                              <Button fx:id="addPointsButton" mnemonicParsing="false" text="übernehmen" />
+                                              <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
+                                              <Button fx:id="resetPoints" mnemonicParsing="false" text="zurücksetzen" />
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </content>
                 </TitledPane>
+            <TitledPane text="Bonuspunkte">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <content>
+                  <VBox>
+                     <children>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                                      <Label prefWidth="100.0" styleClass="fieldLabel" text="Bonuspunkte:" />
+                                      <TextField fx:id="pointsTextField" GridPane.columnIndex="1" />
+                              <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="übernehmen" />
+                                    <Separator maxWidth="1.7976931348623157E308" opacity="0.0" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" text="zurücksetzen" />
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
             <TitledPane text="Raumzugang">
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -111,9 +138,9 @@
                         </TextArea>
                         <HBox>
                            <children>
-                              <Button mnemonicParsing="false" text="übernehmen" />
+                              <Button mnemonicParsing="false" text="auslesen" />
                               <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                              <Button mnemonicParsing="false" text="zurücksetzen" />
+                              <Button mnemonicParsing="false" text="übernehmen" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
@@ -122,47 +149,10 @@
                      </children>
                   </VBox>
                </content>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
             </TitledPane>
-                <TitledPane text="Access Control" visible="false">
-                    <content>
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label styleClass="fieldLabel" text="Classic Bar" />
-                                <Label styleClass="fieldLabel" text="Casino" GridPane.rowIndex="1" />
-                                <Label styleClass="fieldLabel" text="Pool" GridPane.rowIndex="2" />
-                                <Label styleClass="fieldLabel" text="Sky Bar" GridPane.rowIndex="3" />
-                                <Label styleClass="fieldLabel" text="Wellness" GridPane.rowIndex="4" />
-                                <CheckBox fx:id="classicBarCheckbox" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="1" />
-                                <CheckBox fx:id="casinoCheckbox" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <CheckBox fx:id="poolCheckbox" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <CheckBox fx:id="skyBarCheckbox" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <CheckBox fx:id="wellnessCheckbox" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="CheckBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <HBox maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                    <children>
-                                        <Button fx:id="setAccessButton" mnemonicParsing="false" text="übernehmen" />
-                                        <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="resetAccessControl" mnemonicParsing="false" text="zurücksetzen" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </GridPane>
-                    </content>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </TitledPane>
             </children>
         </VBox>
     </content>

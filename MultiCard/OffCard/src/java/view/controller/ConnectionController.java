@@ -19,8 +19,8 @@ import view.model.ConnectionModel;
 import java.nio.file.Files;
 
 public class ConnectionController {
-    public Button connectButton, generateKeyButton, initializeCardButton;
-    public Label terminalKeyStatus, cardKeyStatus;
+    public Button butConnect, butGenKeys, butInitSC;
+    public Label lblTerminalKeyStatus, lblCardKeyStatus;
 
     public static ConnectionModel model;
 
@@ -34,19 +34,19 @@ public class ConnectionController {
 
     @FXML
     public void initialize() {
-        connectButton.addEventHandler(ActionEvent.ACTION, e -> connectToCardAsync(true));
-        connectButton.disableProperty().bind(model.isConnectionEstablishedProperty());
+        butConnect.addEventHandler(ActionEvent.ACTION, e -> connectToCardAsync());
+        butConnect.disableProperty().bind(model.isConnectionEstablishedProperty());
 
-        generateKeyButton.addEventHandler(ActionEvent.ACTION, e -> generateRsaKeys());
-        generateKeyButton.disableProperty().bind(model.isTerminalKeyFileAvailableProperty().and(model.isTerminalKeyFileAvailableProperty()));
+        butGenKeys.addEventHandler(ActionEvent.ACTION, e -> generateRsaKeys());
+        butGenKeys.disableProperty().bind(model.isTerminalKeyFileAvailableProperty().and(model.isTerminalKeyFileAvailableProperty()));
 
-        initializeCardButton.addEventHandler(ActionEvent.ACTION, e -> setupCardKeys());
-        initializeCardButton.disableProperty().bind(model.isConnectionEstablishedProperty());
+        butInitSC.addEventHandler(ActionEvent.ACTION, e -> setupCardKeys());
+        butInitSC.disableProperty().bind(model.isConnectionEstablishedProperty());
 
-        terminalKeyStatus.textProperty().bind(model.terminalKeyStatusProperty());
-        terminalKeyStatus.textFillProperty().bind(model.terminalKeyStatusColorProperty());
-        cardKeyStatus.textProperty().bind(model.cardKeyStatusProperty());
-        cardKeyStatus.textFillProperty().bind(model.cardKeyStatusColorProperty());
+        lblTerminalKeyStatus.textProperty().bind(model.terminalKeyStatusProperty());
+        lblTerminalKeyStatus.textFillProperty().bind(model.terminalKeyStatusColorProperty());
+        lblCardKeyStatus.textProperty().bind(model.cardKeyStatusProperty());
+        lblCardKeyStatus.textFillProperty().bind(model.cardKeyStatusColorProperty());
 
         // prüft, ob die keys da sind
         Result<Boolean> checkRsaKeyFilesResult = checkRsaKeyFiles();
@@ -63,25 +63,20 @@ public class ConnectionController {
         }
 
         connectToSmartCard();
-
-//        JavaCard.current().setOnCardInserted(() -> onCardInserted());
-//        JavaCard.current().setOnCardRemoved(() -> onCardRemoved());
     }
 
     /**
-     * Connects asynchronously to the smartcard.
-     *
-     * @param showStatus determines if error messages are shown in an alert window
+     * Verbinden zu SC (asynchron)
      */
-    private void connectToCardAsync(boolean showStatus) {
-        new Thread(() -> connectToSmartCard(/*showStatus*/)).start();
+    private void connectToCardAsync() {
+        new Thread(() -> connectToSmartCard()).start();
     }
 
     /**
      * Verbindungsaufbau mir der SC
      * PublicKeys werden mit der SC ausgetauscht
      */
-    private void connectToSmartCard() {                      //TODO: showMassage
+    private void connectToSmartCard() {
         MainController.setConnectionStatus(false, "verbinden", Color.ORANGE);
 
         Result<Boolean> connectResult = JavaCard.current().connect();
@@ -102,7 +97,7 @@ public class ConnectionController {
     }
 
     /**
-     * generiert keyFiles und initialisiert Terminal-crypto
+     * generiert keyFiles und initialisiert Terminal-Crypto
      *
      * @return result
      */
@@ -176,14 +171,6 @@ public class ConnectionController {
         }
         MainController.setConnectionStatus(true, "verbunden", Color.GREEN);
     }
-
-//    private void setConnectionStatusString(boolean isConnectionEstablished, String statusText, Color color) {
-//        Platform.runLater(() -> {
-//            this.model.setIsConnectionEstablished(isConnectionEstablished);
-//            this.model.setConnectionStatusString(statusText);
-//            this.model.setConnectionStatusStringColor(color);
-//        });
-//    }
 
     private void onCardInserted() {
         Result<Boolean> result = CryptoApplet.getPublicKeyFromCard();

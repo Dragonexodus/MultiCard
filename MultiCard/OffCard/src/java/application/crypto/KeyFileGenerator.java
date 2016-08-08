@@ -34,8 +34,8 @@ public class KeyFileGenerator {
             writer.println(publicKey.getModulus());
             writer.println(publicKey.getPublicExponent());
             writer.close();
-        } catch (Exception ex) {
-            LogHelper.log(ex);
+        } catch (Exception e) {
+            LogHelper.log(e);
             return new ErrorResult<>("keyFile %s wurde nicht generiert", filePath.toString());
         }
 

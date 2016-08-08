@@ -1,7 +1,6 @@
 package view.controller;
 
 import application.applet.AccessApplet;
-import application.applet.AccessRestrictedRoom;
 import application.applet.BonusApplet;
 import application.applet.IdentificationApplet;
 import helper.LogHelper;
@@ -10,24 +9,17 @@ import helper.Result;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
-import view.widget.NumericTextField;
-import view.widget.StringTextField;
 import view.model.ConfigurationModel;
-
-import java.util.HashMap;
+import view.widget.StringTextField;
 
 public class ConfigurationController {
-    public Button setIdentificationButton, resetAccessControl, resetIdentification, setAccessButton, addPointsButton, resetPoints;
-    public DatePicker birthDateDatePicker;
+    public Button setIdentificationButton, resetIdentification, addPointsButton, resetPoints;
     public TextField nameTextField, pointsTextField;
     public StringTextField carIdTextField;
-    public NumericTextField safePinTextField;
-    public CheckBox classicBarCheckbox, casinoCheckbox, poolCheckbox, skyBarCheckbox, wellnessCheckbox;
+//    public NumericTextField safePinTextField;
 
     private ConfigurationModel model;
 
@@ -37,45 +29,24 @@ public class ConfigurationController {
 
     @FXML
     public void initialize() {
-        initializeBindings();
+        initBindings();
     }
 
-    /**
-     * Uses the IdentificationApplet to set Name, Date of Birth, CarID and SafePin
-     */
     private void setIdentificationData() {
         Result<Boolean> result = IdentificationApplet.setName(model.getName());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
-        result = IdentificationApplet.setBirthDay(model.getBirthDate());
+        result = IdentificationApplet.setCarId(model.getMatrikel());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
-        result = IdentificationApplet.setCarId(model.getCarId());
-        if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-            return;
-        }
-
-        result = IdentificationApplet.setSafePin(model.getSafePin());
-        if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-            return;
-        }
-//        AlertHelper.showSuccessAlert("Data successfully set.");
         LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
         MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
@@ -83,94 +54,46 @@ public class ConfigurationController {
     private void addPoints() {
         Result<Boolean> result = BonusApplet.registerBonus((short) model.getPoints());
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
-//        AlertHelper.showSuccessAlert("Data successfully set.");
         LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
         MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
-    /**
-     * Resets the IdentificationApplet
-     */
     private void resetIdentification() {
         Result<Boolean> result = IdentificationApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
-    /**
-     * Resets the AccessApplet
-     */
     private void resetAccess() {
         Result<Boolean> result = AccessApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
-    /**
-     * Resets the Bonus Points
-     */
     private void resetPoints() {
         Result<Boolean> result = BonusApplet.reset();
         if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
     }
 
-    /**
-     * Sets the access restriction to the AccessApplet
-     */
-    private void setAccessData() {
-        HashMap<AccessRestrictedRoom, Boolean> accessRestriction = new HashMap<>();
-        accessRestriction.put(AccessRestrictedRoom.ClassicBar, this.model.getClassicBarAccess());
-        accessRestriction.put(AccessRestrictedRoom.Casino, this.model.getCasinoAccess());
-        accessRestriction.put(AccessRestrictedRoom.Pool, this.model.getPoolAccess());
-        accessRestriction.put(AccessRestrictedRoom.SkyBar, this.model.getSkyBarAccess());
-        accessRestriction.put(AccessRestrictedRoom.Wellness, this.model.getWellnessAccess());
-
-        Result<Boolean> result = AccessApplet.setAccess(accessRestriction);
-        if (!result.isSuccess()) {
-//            AlertHelper.showErrorAlert(result.getErrorMsg());
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-            return;
-        }
-//        AlertHelper.showSuccessAlert("Data successfully set.");
-        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
-        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
-    }
-
-    private void initializeBindings() {
+    private void initBindings() {
         setIdentificationButton.addEventHandler(ActionEvent.ACTION, e -> setIdentificationData());
-        setAccessButton.addEventHandler(ActionEvent.ACTION, e -> setAccessData());
         addPointsButton.addEventHandler(ActionEvent.ACTION, e -> addPoints());
         resetIdentification.addEventHandler(ActionEvent.ACTION, e -> resetIdentification());
-        resetAccessControl.addEventHandler(ActionEvent.ACTION, e -> resetAccess());
         resetPoints.addEventHandler(ActionEvent.ACTION, e -> resetPoints());
 
         nameTextField.textProperty().bindBidirectional(this.model.nameProperty());
         carIdTextField.setMaxlength(IdentificationApplet.CARID_LENGTH);
-        carIdTextField.textProperty().bindBidirectional(this.model.carIdProperty());
-        safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);
-        safePinTextField.textProperty().bindBidirectional(this.model.safePinProperty());
-        birthDateDatePicker.valueProperty().bindBidirectional(this.model.birthDateProperty());
+        carIdTextField.textProperty().bindBidirectional(this.model.matrikelProperty());
         pointsTextField.textProperty().bindBidirectional(this.model.pointsProperty(), new NumberStringConverter());
-
-        classicBarCheckbox.selectedProperty().bindBidirectional(this.model.classicBarAccessProperty());
-        casinoCheckbox.selectedProperty().bindBidirectional(this.model.casinoAccessProperty());
-        poolCheckbox.selectedProperty().bindBidirectional(this.model.poolAccessProperty());
-        skyBarCheckbox.selectedProperty().bindBidirectional(this.model.skyBarAccessProperty());
-        wellnessCheckbox.selectedProperty().bindBidirectional(this.model.wellnessAccessProperty());
     }
 }
