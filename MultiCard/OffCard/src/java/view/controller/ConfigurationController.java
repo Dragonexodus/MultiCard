@@ -1,25 +1,23 @@
 package view.controller;
 
-import application.applet.AccessApplet;
 import application.applet.BonusApplet;
-import application.applet.IdentificationApplet;
+import application.applet.StudentApplet;
 import helper.LogHelper;
 import helper.LogLevel;
 import helper.Result;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
 import view.model.ConfigurationModel;
-import view.widget.StringTextField;
 
 public class ConfigurationController {
-    public Button setIdentificationButton, resetIdentification, addPointsButton, resetPoints;
-    public TextField nameTextField, pointsTextField;
-    public StringTextField carIdTextField;
-//    public NumericTextField safePinTextField;
+    public Button butSetIdentification, butAddMoney, butResetMoney, butAddBonus, butResetBonus, butGetRoom, butSetRoom;
+    public TextField tfName, tfMatrikel, tfMoney, tfBonus;
+    public TextArea taRoom;
 
     private ConfigurationModel model;
 
@@ -33,14 +31,14 @@ public class ConfigurationController {
     }
 
     private void setIdentificationData() {
-        Result<Boolean> result = IdentificationApplet.setName(model.getName());
+        Result<Boolean> result = StudentApplet.setName(model.getName());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
             return;
         }
 
-        result = IdentificationApplet.setCarId(model.getMatrikel());
+        result = StudentApplet.setMatrikel(model.getMatrikel());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
@@ -51,8 +49,8 @@ public class ConfigurationController {
         MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
-    private void addPoints() {
-        Result<Boolean> result = BonusApplet.registerBonus((short) model.getPoints());
+    private void addMoney() {
+        Result<Boolean> result = BonusApplet.registerBonus((short) model.getBonus());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
@@ -61,23 +59,7 @@ public class ConfigurationController {
         MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
 
-    private void resetIdentification() {
-        Result<Boolean> result = IdentificationApplet.reset();
-        if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-        }
-    }
-
-    private void resetAccess() {
-        Result<Boolean> result = AccessApplet.reset();
-        if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-        }
-    }
-
-    private void resetPoints() {
+    private void resetMoney() {
         Result<Boolean> result = BonusApplet.reset();
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -86,14 +68,13 @@ public class ConfigurationController {
     }
 
     private void initBindings() {
-        setIdentificationButton.addEventHandler(ActionEvent.ACTION, e -> setIdentificationData());
-        addPointsButton.addEventHandler(ActionEvent.ACTION, e -> addPoints());
-        resetIdentification.addEventHandler(ActionEvent.ACTION, e -> resetIdentification());
-        resetPoints.addEventHandler(ActionEvent.ACTION, e -> resetPoints());
+        butSetIdentification.addEventHandler(ActionEvent.ACTION, e -> setIdentificationData());
+        butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
+        butResetMoney.addEventHandler(ActionEvent.ACTION, e -> resetMoney());
 
-        nameTextField.textProperty().bindBidirectional(this.model.nameProperty());
-        carIdTextField.setMaxlength(IdentificationApplet.CARID_LENGTH);
-        carIdTextField.textProperty().bindBidirectional(this.model.matrikelProperty());
-        pointsTextField.textProperty().bindBidirectional(this.model.pointsProperty(), new NumberStringConverter());
+        tfName.textProperty().bindBidirectional(model.nameProperty());
+        tfMatrikel.textProperty().bindBidirectional(model.matrikelProperty(), new NumberStringConverter());
+        tfMoney.textProperty().bindBidirectional(model.moneyProperty(), new NumberStringConverter());
+        tfBonus.textProperty().bindBidirectional(model.bonusProperty(), new NumberStringConverter());
     }
 }

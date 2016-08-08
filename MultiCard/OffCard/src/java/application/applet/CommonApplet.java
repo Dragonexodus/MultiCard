@@ -7,27 +7,23 @@ import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
 
-/**
- * Created by Patrick on 07.07.2015.
- */
 public final class CommonApplet {
     public static final byte ANSWER_LENGTH = (byte) 0x80;
 
     /**
-     * Resets the applet
+     * Setzt Applet zurück
      *
-     * @param appletName appletName
-     * @param cla        ClassByte
-     * @param insReset   Reset InstructionByte
-     * @return result of the operation
+     * @param applet
+     * @param cla
+     * @param ins
+     * @return
      */
-    public static Result<Boolean> reset(String appletName, byte cla, byte insReset) {
-        Result<Boolean> selectResult = JavaCardHelper.selectApplet(appletName);
-        if (!selectResult.isSuccess()) {
+    public static Result<Boolean> reset(String applet, byte cla, byte ins) {
+        Result<Boolean> selectResult = JavaCardHelper.selectApplet(applet);
+        if (!selectResult.isSuccess())
             return selectResult;
-        }
 
-        Result<byte[]> result = JavaCardHelper.sendCommandWithoutEncryption(cla, insReset);
+        Result<byte[]> result = JavaCardHelper.sendCommandWithoutEncryption(cla, ins);
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.INFO, "Zurücksetzen fehlgeschlagen");
             return new ErrorResult<>(result.getErrorMsg());
@@ -36,55 +32,53 @@ public final class CommonApplet {
     }
 
     /**
-     * Sends the given data to the card with the given instruction
+     * Sendet APDU mit den Daten zur SC und erwartet eine Antwort zurück
      *
-     * @param appletName applet to select
-     * @param cla        cla
-     * @param ins        instruction
-     * @param data       data to encrypt and send
-     * @return result of the operation
+     * @param applet
+     * @param cla
+     * @param ins
+     * @param data         Daten zur Verschlüsselung und zum Senden
+     * @param answerLength
+     * @return
      */
-    public static Result<byte[]> sendValue(String appletName, byte cla, byte ins, byte[] data, byte answerLength) {
-        Result<Boolean> selectResult = JavaCardHelper.selectApplet(appletName);
-        if (!selectResult.isSuccess()) {
+    public static Result<byte[]> sendValue(String applet, byte cla, byte ins, byte[] data, byte answerLength) {
+        Result<Boolean> selectResult = JavaCardHelper.selectApplet(applet);
+        if (!selectResult.isSuccess())
             return new ErrorResult<>(selectResult.getErrorMsg());
-        }
 
         Result<byte[]> result = JavaCardHelper.sendCommand(cla, ins, data, answerLength);
-
-        if (!result.isSuccess()) {
+        if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-        }
-
         return result;
     }
 
     /**
-     * Sends the given data to the card with the given instruction
+     * Sendet APDU mit den Daten zur SC
      *
-     * @param appletName applet to select
-     * @param cla        cla
-     * @param ins        instruction
-     * @param data       data to encrypt and send
-     * @return result of the operation
+     * @param applet
+     * @param cla
+     * @param ins
+     * @param data   Daten zur Verschlüsselung und zum Senden
+     * @return
      */
-    public static Result<byte[]> sendValue(String appletName, byte cla, byte ins, byte[] data) {
-        return sendValue(appletName, cla, ins, data, (byte) 0x00);
+    public static Result<byte[]> sendValue(String applet, byte cla, byte ins, byte[] data) {
+        return sendValue(applet, cla, ins, data, (byte) 0x00);
     }
 
     /**
-     * Sends the given instruction to the card
+     * Sendet APDU zur SC und erwartet eine Antwort zurück
      *
-     * @param appletName applet to select
-     * @param cla        cla
-     * @param ins        instruction
-     * @return result of the operation
+     * @param applet
+     * @param cla
+     * @param ins
+     * @param answerLength
+     * @return
      */
-    public static Result<byte[]> sendValue(String appletName, byte cla, byte ins, byte answerLength) {
-        return sendValue(appletName, cla, ins, new byte[0], answerLength);
+    public static Result<byte[]> sendValue(String applet, byte cla, byte ins, byte answerLength) {
+        return sendValue(applet, cla, ins, new byte[0], answerLength);
     }
 
-    public static Result<byte[]> sendValue(String appletName, byte cla, byte ins) {
-        return sendValue(appletName, cla, ins, new byte[0]);
+    public static Result<byte[]> sendValue(String applet, byte cla, byte ins) {
+        return sendValue(applet, cla, ins, new byte[0]);
     }
 }

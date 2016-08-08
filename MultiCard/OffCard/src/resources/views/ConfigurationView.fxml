@@ -33,18 +33,16 @@
                             </rowConstraints>
                             <children>
                                 <Label styleClass="fieldLabel" text="Name:" />
-                                <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
+                                <TextField fx:id="tfName" GridPane.columnIndex="1" />
                                 <Label styleClass="fieldLabel" text="Matrikel:" GridPane.rowIndex="1" />
-                                <StringTextField fx:id="carIdTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <StringTextField fx:id="tfMatrikel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <children>
-                                        <Button fx:id="setIdentificationButton" mnemonicParsing="false" text="übernehmen">
+                                        <Button fx:id="butSetIdentification" mnemonicParsing="false" text="übernehmen">
                                             <HBox.margin>
                                                 <Insets />
                                             </HBox.margin>
                                         </Button>
-                                        <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="resetIdentification" mnemonicParsing="false" text="zurücksetzen" />
                                     </children>
                            <GridPane.margin>
                               <Insets top="5.0" />
@@ -75,12 +73,12 @@
                           </rowConstraints>
                            <children>
                               <Label prefWidth="100.0" styleClass="fieldLabel" text="Guthaben:" />
-                              <TextField GridPane.columnIndex="1" />
+                              <TextField fx:id="tfMoney" GridPane.columnIndex="1" />
                               <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                              <Button fx:id="addPointsButton" mnemonicParsing="false" text="übernehmen" />
+                                              <Button fx:id="butAddMoney" mnemonicParsing="false" text="übernehmen" />
                                               <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                                              <Button fx:id="resetPoints" mnemonicParsing="false" text="zurücksetzen" />
+                                              <Button fx:id="butResetMoney" mnemonicParsing="false" text="zurücksetzen" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets top="5.0" />
@@ -110,12 +108,12 @@
                           </rowConstraints>
                            <children>
                                       <Label prefWidth="100.0" styleClass="fieldLabel" text="Bonuspunkte:" />
-                                      <TextField fx:id="pointsTextField" GridPane.columnIndex="1" />
+                                      <TextField fx:id="tfBonus" GridPane.columnIndex="1" />
                               <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Button mnemonicParsing="false" text="übernehmen" />
+                                    <Button fx:id="butAddBonus" mnemonicParsing="false" text="übernehmen" />
                                     <Separator maxWidth="1.7976931348623157E308" opacity="0.0" HBox.hgrow="ALWAYS" />
-                                    <Button mnemonicParsing="false" text="zurücksetzen" />
+                                    <Button fx:id="butResetBonus" mnemonicParsing="false" text="zurücksetzen" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets top="5.0" />
@@ -131,16 +129,16 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Räume bitte einzeln in eine Zeile eintragen">
+                        <TextArea fx:id="taRoom" prefHeight="200.0" prefWidth="200.0" promptText="Räume bitte einzeln in eine Zeile eintragen">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TextArea>
                         <HBox>
                            <children>
-                              <Button mnemonicParsing="false" text="auslesen" />
+                              <Button fx:id="butGetRoom" mnemonicParsing="false" text="auslesen" />
                               <Separator opacity="0.0" HBox.hgrow="ALWAYS" />
-                              <Button mnemonicParsing="false" text="übernehmen" />
+                              <Button fx:id="butSetRoom" mnemonicParsing="false" text="übernehmen" />
                            </children>
                            <padding>
                               <Insets top="5.0" />

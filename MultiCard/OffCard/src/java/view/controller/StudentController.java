@@ -1,83 +1,44 @@
 package view.controller;
 
-import application.applet.IdentificationApplet;
+import application.applet.StudentApplet;
 import helper.Result;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import view.widget.NumericTextField;
-import view.model.IdentificationModel;
+import view.model.StudentModel;
 
-/**
- * Created by Patrick on 08.07.2015.
- */
 public class StudentController {
-    public Label nameLabel, birthDateLabel, carIdLabel;
-    public Button getButton;
+    public Label lblName, lblMatrikel, lblMoney;
+    public Button butGetStudent, butAddMoney, butPayMoney, butGetRoom;
+    //TODO: Room
 
-    public NumericTextField safePinTextField;
-    public Label resultLabel;
-    public Button checkButton;
-
-    private IdentificationModel model = new IdentificationModel();
+    private StudentModel model = new StudentModel();
 
     public StudentController() {
-        this.model = new IdentificationModel();
+        model = new StudentModel();
     }
 
     @FXML
     public void initialize() {
-        initializeBindings();
+        initBindings();
     }
 
-    /**
-     * Uses the IdentificationApplet to getData Name, Date of Birth and CarID
-     */
-    private void getIdentificationData() {
-        Result<String> nameResult = IdentificationApplet.getName();
+    private void getStudent() {
+        Result<String> nameResult = StudentApplet.getName();
         if (nameResult.isSuccess()) {
-            this.model.setName(nameResult.getData());
+            model.setName(nameResult.getData());
         }
 
-        Result<String> birthDateResult = IdentificationApplet.getBirthDay();
-        if (birthDateResult.isSuccess()) {
-            this.model.setBirthDate(birthDateResult.getData());
-        }
-
-        Result<String> carIdResult = IdentificationApplet.getCarId();
-        if (carIdResult.isSuccess()) {
-            this.model.setMatrikel(carIdResult.getData());
+        Result<String> matrikelResult = StudentApplet.getMatrikel();
+        if (matrikelResult.isSuccess()) {
+            model.setMatrikel(matrikelResult.getData());
         }
     }
 
-    /**
-     * Checks the entered Safe PIN
-     */
-    private void checkSafePin() {
-        Result<Boolean> nameResult = IdentificationApplet.checkSafePin(this.model.getSafePin());
-        if (!nameResult.isSuccess()) {
-            this.model.setCheckStatus("Wrong Safe PIN!");
-            this.model.setCheckStatusColor(Color.RED);
-            return;
-        }
-
-        this.model.setCheckStatus("Correct Safe PIN");
-        this.model.setCheckStatusColor(Color.GREEN);
-    }
-
-    private void initializeBindings() {
-        getButton.addEventHandler(ActionEvent.ACTION, e -> getIdentificationData());
-//        checkButton.addEventHandler(ActionEvent.ACTION, e -> checkSafePin());
-
-        nameLabel.textProperty().bind(this.model.nameProperty());
-//        birthDateLabel.textProperty().bind(this.model.birthDateProperty());
-        carIdLabel.textProperty().bind(this.model.matrikelProperty());
-
-//        safePinTextField.setMaxlength(IdentificationApplet.SAFEPIN_LENGTH);
-//        safePinTextField.textProperty().bindBidirectional(this.model.safePinProperty());
-//        resultLabel.textProperty().bind(this.model.checkStatusProperty());
-//        resultLabel.textFillProperty().bind(this.model.checkStatusColorProperty());
+    private void initBindings() {
+        butGetStudent.addEventHandler(ActionEvent.ACTION, e -> getStudent());
+        lblName.textProperty().bind(model.nameProperty());
+        lblMatrikel.textProperty().bind(model.matrikelProperty());
     }
 }

@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
@@ -25,7 +24,7 @@
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
-                                    <Label fx:id="nameLabel" text="name" />
+                                    <Label fx:id="lblName" text="name" />
                         </children>
                         <VBox.margin>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -37,13 +36,13 @@
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
-                                    <Label fx:id="carIdLabel" text="matrikel" />
+                                    <Label fx:id="lblMatrikel" text="matrikel" />
                         </children>
                         <VBox.margin>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </VBox.margin>
                      </HBox>
-                            <Button fx:id="getButton" mnemonicParsing="false" text="Daten abrufen" />
+                            <Button fx:id="butGetStudent" mnemonicParsing="false" text="Daten abrufen" />
                         </children>
                     </VBox>
                 </content>
@@ -66,7 +65,7 @@
                                  <Insets right="5.0" />
                               </HBox.margin>
                            </Label>
-                           <Label text="geld" />
+                           <Label fx:id="lblMoney" text="geld" />
                         </children>
                         <VBox.margin>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -79,12 +78,12 @@
                                           <Insets right="5.0" />
                                       </HBox.margin>
                                   </Label>
-                                  <TextField maxWidth="220.0" HBox.hgrow="ALWAYS">
+                                  <TextField fx:id="tfMoney" maxWidth="220.0" HBox.hgrow="ALWAYS">
                                       <HBox.margin>
                                           <Insets right="5.0" />
                                       </HBox.margin>
                                   </TextField>
-                                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES">
+                                  <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES">
                                       <HBox.margin>
                                           <Insets />
                                       </HBox.margin>
@@ -112,12 +111,12 @@
                                             <Insets right="5.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <ChoiceBox maxWidth="220.0" HBox.hgrow="ALWAYS">
-                                        <HBox.margin>
-                                            <Insets right="5.0" />
-                                        </HBox.margin>
-                                    </ChoiceBox>
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="essen" HBox.hgrow="SOMETIMES">
+                           <TextField fx:id="tfMensa">
+                              <HBox.margin>
+                                 <Insets right="5.0" />
+                              </HBox.margin>
+                           </TextField>
+                                    <Button fx:id="butPayMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="essen" HBox.hgrow="SOMETIMES">
                                         <HBox.margin>
                                             <Insets />
                                         </HBox.margin>
@@ -135,8 +134,8 @@
                 <content>
                     <VBox>
                         <children>
-                            <TextArea minHeight="200.0" prefWidth="200.0" />
-                            <Button mnemonicParsing="false" text="anzeigen">
+                            <TextArea fx:id="taRoom" minHeight="200.0" prefWidth="200.0" />
+                            <Button fx:id="butGetRoom" mnemonicParsing="false" text="anzeigen">
                                 <VBox.margin>
                                     <Insets top="5.0" />
                                 </VBox.margin>

@@ -19,7 +19,7 @@
     </padding>
     <children>
         <Label styleClass="fieldLabel" text="Bonus Points"/>
-        <Label fx:id="pointsLabel" text="points" GridPane.columnIndex="1"/>
+        <Label fx:id="pointsLabel" text="bonus" GridPane.columnIndex="1"/>
         <Button fx:id="getButton" mnemonicParsing="false" text="Get" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     </children>
 </GridPane>
