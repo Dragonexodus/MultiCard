@@ -248,11 +248,16 @@ public class Student extends Applet implements IMoney {
 	 * Wandelt short zu byteArray und sendet es an die APDU
 	 * 
 	 * @param apdu
+	 * 
+	 *            private void getMoney(APDU apdu) {
+	 *            apdu.setIncomingAndReceive(); send(apdu, new byte[] { (byte)
+	 *            ((this.euro >> 8) & 0xFF), (byte) (this.cent & 0x00FF) },
+	 *            (byte) 0, SHORT_LENGTH); }
 	 */
 	private void getMoney(APDU apdu) {
 		apdu.setIncomingAndReceive();
-		send(apdu, new byte[] { (byte) ((this.euro >> 8) & 0xFF),
-				(byte) (this.cent & 0x00FF) }, (byte) 0, SHORT_LENGTH);
+		send(apdu, new byte[] { (byte) this.euro, (byte) this.cent }, (byte) 0,
+				SHORT_LENGTH);
 	}
 
 	/**
@@ -438,10 +443,12 @@ public class Student extends Applet implements IMoney {
 
 	/**
 	 * Durch Applet-Firewall wird Geld ausgelesen
+	 * 
+	 * public byte[] getMoney() { return new byte[] { (byte) ((this.euro >> 8) &
+	 * 0xFF), (byte) (this.cent & 0x00FF) }; }
 	 */
 	public byte[] getMoney() {
-		return new byte[] { (byte) ((this.euro >> 8) & 0xFF),
-				(byte) (this.cent & 0x00FF) };
+		return new byte[] { (byte) this.euro, (byte) this.cent };
 	}
 
 	/**
