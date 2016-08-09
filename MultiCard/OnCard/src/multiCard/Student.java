@@ -6,9 +6,10 @@ import javacard.framework.Applet;
 import javacard.framework.ISO7816;
 import javacard.framework.ISOException;
 import javacard.framework.JCSystem;
+import javacard.framework.Shareable;
 import javacard.framework.Util;
 
-public class Student extends Applet {
+public class Student extends Applet implements IMoney{
 	// Java Card
 	// Applet
 	private static final byte STUDENT_CLA = (byte) 0x20;
@@ -42,7 +43,9 @@ public class Student extends Applet {
 	private static final byte[] CRYPTOGRAPHY_AID = { 0x43, 0x72, 0x79, 0x70,
 			0x74, 0x6f };
 	private static final byte CRYPTOGRAPHY_SECRET = 0x2A;
-
+	// ID's anderer Applets
+	private static final byte[] DISCO_AID = { 0x44, 0x69, 0x73, 0x63, 0x6f };
+	
 	// Konstanten und Offsets
 	private static final byte MAX_EURO_VALUE = (byte) 0x7F;
 	private static final byte MAX_CENT_VALUE = (byte) 0x63;
@@ -67,7 +70,6 @@ public class Student extends Applet {
 
 	/**
 	 * Install Applet
-	 * 
 	 * @param bArray
 	 * @param bOffset
 	 * @param bLength
@@ -121,14 +123,14 @@ public class Student extends Applet {
 	}
 
 	/**
-	 * Reset des Geldes 
+	 * Reset des Geldes
 	 * @param apdu
 	 */
 	private void resetMoney(APDU apdu) {
 		this.euro = 0;
 		this.cent = 0;
 	}
-	
+
 	/**
 	 * Fügt Geld hinzu
 	 * 
@@ -145,9 +147,8 @@ public class Student extends Applet {
 			ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 
 		short money = Util.getShort(buffer, (short) 0);
-		// TODO Testen, evtl. falsch
-		byte tmpEuro = (byte) (money << 0);
-		byte tmpCent = (byte) (money << 8);
+		byte tmpCent = (byte) (money >>> 0);
+		byte tmpEuro = (byte) (money >>> 8);
 
 		if (tmpEuro > MAX_EURO_VALUE || tmpEuro < 0)
 			ISOException.throwIt(ERROR_ADD_EURO_OVERFLOW);
@@ -159,7 +160,7 @@ public class Student extends Applet {
 			tmpEuro++;
 			tmpCent = (byte) (tmpCent + this.cent - MAX_CENT_VALUE - 1);
 		} else
-			tmpCent += tmpCent + this.cent;
+			tmpCent = (byte) (tmpCent + this.cent);
 
 		// Money Overflow!
 		if (tmpEuro + this.euro > MAX_EURO_VALUE || tmpEuro + this.euro < 0) {
@@ -180,30 +181,34 @@ public class Student extends Applet {
 		byte[] buffer = apdu.getBuffer();
 
 		short messageLength = decryptMessage(buffer);
-
 		// short ist 2 bytes lang
 		if (messageLength != SHORT_LENGTH)
 			ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 
 		short money = Util.getShort(buffer, (short) 0);
-		// TODO Testen, evtl. falsch
-		byte tmpEuro = (byte) (money << 0);
-		byte tmpCent = (byte) (money << 8);
+		byte tmpCent = (byte) (money >>> 0);
+		byte tmpEuro = (byte) (money >>> 8);
 
 		if (tmpEuro > MAX_EURO_VALUE || tmpEuro < 0)
 			ISOException.throwIt(ERROR_SUB_EURO_OVERFLOW);
 		if (tmpCent > MAX_CENT_VALUE || tmpCent < 0)
 			ISOException.throwIt(ERROR_SUB_CENT_OVERFLOW);
+		if (this.euro - tmpEuro < 0) {
+			ISOException.throwIt(ERROR_SUB_INSUFFICIENT_MONEY);
+		}
 
 		if ((this.cent - tmpCent) < 0) {
 			if (tmpEuro > 0) {
 				tmpEuro--;
+				if (tmpEuro == 0) {
+					ISOException.throwIt(ERROR_SUB_INSUFFICIENT_MONEY);
+				}
 			} else {
 				ISOException.throwIt(ERROR_SUB_INSUFFICIENT_MONEY);
 			}
-			tmpCent = (byte) (this.cent - tmpCent + MAX_CENT_VALUE);
+			tmpCent = (byte) (this.cent - tmpCent + MAX_CENT_VALUE + 1);
 		} else
-			tmpCent += this.cent - tmpCent;
+			tmpCent = (byte) (this.cent - tmpCent);
 
 		// Money Overflow!
 		if (this.euro - tmpEuro > MAX_EURO_VALUE || this.euro - tmpEuro < 0) {
@@ -221,12 +226,12 @@ public class Student extends Applet {
 	 */
 	private void getMoney(APDU apdu) {
 		apdu.setIncomingAndReceive();
-		send(apdu, new byte[] { this.euro, this.cent }, (byte) 0, SHORT_LENGTH);
+		send(apdu, new byte[] { (byte) ((this.euro >> 8) & 0xFF),
+				(byte) (this.cent & 0x00FF) }, (byte) 0, SHORT_LENGTH);
 	}
 
 	/**
 	 * Setzt den Namen
-	 * 
 	 * @param apdu
 	 */
 	private void setName(APDU apdu) {
@@ -248,7 +253,6 @@ public class Student extends Applet {
 
 	/**
 	 * Sendet den Namen
-	 * 
 	 * @param apdu
 	 */
 	private void getName(APDU apdu) {
@@ -276,7 +280,6 @@ public class Student extends Applet {
 
 	/**
 	 * Wandelt short zu byteArray und sendet es an die APDU
-	 * 
 	 * @param apdu
 	 */
 	private void getMatrikel(APDU apdu) {
@@ -287,7 +290,6 @@ public class Student extends Applet {
 
 	/**
 	 * Sendet den verschlüsselten Inhalt an die APDU
-	 * 
 	 * @param apdu
 	 * @param content
 	 *            Zu verschlüsselender Inhalt
@@ -306,7 +308,6 @@ public class Student extends Applet {
 	/**
 	 * Verschlüsselt die Nachricht, in dem es das Cryptography-Applet via
 	 * applet-firewall nutzt.
-	 * 
 	 * @param buffer
 	 *            Ziel Speicher. Resultat wird ab Offset 0 gespeichert.
 	 * @param message
@@ -331,7 +332,6 @@ public class Student extends Applet {
 	/**
 	 * Entschlüsselt die Nachricht an der Stelle 0 via dem Cryptographie-Applet
 	 * von der Applet Firewall.
-	 * 
 	 * @param buffer
 	 *            Quell-und Zielspeicher, Nachricht startet bei
 	 *            ISO7816.OFFSET_CDATA und das Ergebnis beginnt ab Offset 0.
@@ -347,4 +347,33 @@ public class Student extends Applet {
 		return cryptoApp.decrypt(buffer, ISO7816.OFFSET_CDATA);
 	}
 
+	/**
+	 * Aufgerufen, wenn andere Applets dieses Applet verwenden möchten
+	 * @param client_aid
+	 * @return this dieses Applet
+	 */
+	public Shareable getShareableInterfaceObject(AID client_aid, byte parameter) {
+		if (!client_aid.equals(DISCO_AID, (short) 0, (byte) DISCO_AID.length)){
+			return null;
+		}
+		return this;
+	}
+
+	public void addMoneyS(APDU apdu) {
+		this.addMoney(apdu);	
+	}
+
+	public byte[] getMoney() {
+		return new byte[] { (byte) ((this.euro >> 8) & 0xFF),
+				(byte) (this.cent & 0x00FF) };
+	}
+
+	public void resetMoney() {
+		this.euro = 0;
+		this.cent = 0;		
+	}
+
+	public void subMoneyS(APDU apdu) {
+		this.subMoney(apdu);		
+	}
 }
