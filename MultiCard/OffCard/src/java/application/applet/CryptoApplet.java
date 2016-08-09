@@ -14,18 +14,17 @@ import helper.SuccessResult;
 import java.math.BigInteger;
 
 public class CryptoApplet {
-    private static final String AppletName = "Cryptography";
+    private static final String AppletName = "Crypto";
 
-    private static final byte CLA = (byte) 0x43;
-    private static final byte INS_ImportCardPrivateMod = (byte) 0xF0;
-    private static final byte INS_ImportCardPrivateExp = (byte) 0xF1;
-    private static final byte INS_ImportCardPublicMod = (byte) 0xF2;
-    private static final byte INS_ImportCardPublicExp = (byte) 0xF3;
-    private static final byte INS_ExportCardPublicMod = (byte) 0xF4;
-    private static final byte INS_ExportCardPublicExp = (byte) 0xF5;
-
-    private static final byte INS_ImportTerminalPublicMod = (byte) 0xE0;
-    private static final byte INS_ImportTerminalPublicExp = (byte) 0xE1;
+    private static final byte CLA = (byte) 0x10;
+    private static final byte INS_ImportCardPrivateMod = (byte) 0x10;
+    private static final byte INS_ImportCardPrivateExp = (byte) 0x11;
+    private static final byte INS_ImportCardPublicMod = (byte) 0x12;
+    private static final byte INS_ImportCardPublicExp = (byte) 0x13;
+    private static final byte INS_ExportCardPublicMod = (byte) 0x14;
+    private static final byte INS_ExportCardPublicExp = (byte) 0x15;
+    private static final byte INS_ImportTerminalPublicMod = (byte) 0x16;
+    private static final byte INS_ImportTerminalPublicExp = (byte) 0x17;
 
     /**
      * Exports the public key of the terminal to the card
@@ -58,13 +57,13 @@ public class CryptoApplet {
 
         Result<byte[]> exportModResult = JavaCardHelper.sendCommandWithoutEncryption(CLA, INS_ExportCardPublicMod, (byte) 0x40);
         if (!exportModResult.isSuccess()) {
-            LogHelper.log(LogLevel.FAILURE, "Import of modulus from card failed.");
+            LogHelper.log(LogLevel.FAILURE, "Importieren von Mod von der SC ist fehlgeschlagen");
             return new ErrorResult<>(exportModResult.getErrorMsg());
         }
 
         Result<byte[]> exportExponentResult = JavaCardHelper.sendCommandWithoutEncryption(CLA, INS_ExportCardPublicExp, (byte) 0x03);
         if (!exportExponentResult.isSuccess()) {
-            LogHelper.log(LogLevel.FAILURE, "Import of exponent from failed.");
+            LogHelper.log(LogLevel.FAILURE, "Importieren von Exp von der SC ist fehlgeschlagen");
             return new ErrorResult<>(exportExponentResult.getErrorMsg());
         }
 

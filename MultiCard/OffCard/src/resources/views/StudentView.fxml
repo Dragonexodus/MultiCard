@@ -20,7 +20,7 @@
                         <children>
                      <HBox>
                         <children>
-                                    <Label prefWidth="64.0" styleClass="fieldLabel" text="Name:">
+                                    <Label prefWidth="75.0" styleClass="fieldLabel" text="Name:">
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
@@ -32,7 +32,7 @@
                      </HBox>
                      <HBox>
                         <children>
-                                    <Label prefWidth="64.0" styleClass="fieldLabel" text="Matrikel:">
+                                    <Label prefWidth="75.0" styleClass="fieldLabel" text="Matrikel:">
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
@@ -42,7 +42,20 @@
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </VBox.margin>
                      </HBox>
-                            <Button fx:id="butGetStudent" mnemonicParsing="false" text="Daten abrufen" />
+                     <HBox>
+                        <children>
+                           <Label prefWidth="75.0" text="Guthaben:">
+                              <HBox.margin>
+                                 <Insets right="5.0" />
+                              </HBox.margin>
+                           </Label>
+                           <Label fx:id="lblMoney" text="geld" />
+                        </children>
+                        <VBox.margin>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </VBox.margin>
+                     </HBox>
+                            <Button fx:id="butGetStudent" mnemonicParsing="false" text="Daten abrufen" visible="false" />
                         </children>
                     </VBox>
                 </content>
@@ -58,27 +71,14 @@
             <content>
                <VBox>
                   <children>
-                     <HBox>
-                        <children>
-                           <Label prefWidth="64.0" text="Stand:">
-                              <HBox.margin>
-                                 <Insets right="5.0" />
-                              </HBox.margin>
-                           </Label>
-                           <Label fx:id="lblMoney" text="geld" />
-                        </children>
-                        <VBox.margin>
-                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                        </VBox.margin>
-                     </HBox>
                           <HBox>
                               <children>
-                                  <Label prefWidth="64.0" text="Betrag:">
+                                  <Label prefWidth="75.0" text="Betrag:">
                                       <HBox.margin>
                                           <Insets right="5.0" />
                                       </HBox.margin>
                                   </Label>
-                                  <TextField fx:id="tfMoney" maxWidth="220.0" HBox.hgrow="ALWAYS">
+                                  <TextField fx:id="tfAddMoney" prefWidth="220.0">
                                       <HBox.margin>
                                           <Insets right="5.0" />
                                       </HBox.margin>
@@ -106,17 +106,17 @@
                         <children>
                             <HBox>
                                 <children>
-                                    <Label prefWidth="64.0" text="Essen:">
+                                    <Label prefWidth="75.0" text="Essen:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>
                                     </Label>
-                           <TextField fx:id="tfMensa">
+                           <TextField fx:id="tfSubMoney" prefWidth="220.0">
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin>
                            </TextField>
-                                    <Button fx:id="butPayMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="essen" HBox.hgrow="SOMETIMES">
+                                    <Button fx:id="butSubMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="essen" HBox.hgrow="SOMETIMES">
                                         <HBox.margin>
                                             <Insets />
                                         </HBox.margin>

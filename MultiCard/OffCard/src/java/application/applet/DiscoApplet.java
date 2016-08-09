@@ -5,55 +5,31 @@ import helper.ErrorResult;
 import helper.Result;
 import helper.SuccessResult;
 
-public class StudentApplet {
-    private static final String AppletName = "Student";
+public class DiscoApplet {
+    private static final String AppletName = "Disco";
 
-    private static final byte CLA = (byte) 0x20;
+    private static final byte CLA = (byte) 0x30;
+    private static final byte INS_GET_BONUS = (byte) 0x30;
+    private static final byte INS_ADD_BONUS = (byte) 0x31;
+    private static final byte INS_SUB_BONUS = (byte) 0x32;
+    private static final byte INS_RESET_BONUS = (byte) 0x33;
     private static final byte INS_GET_MONEY = (byte) 0x20;
     private static final byte INS_ADD_MONEY = (byte) 0x21;
     private static final byte INS_SUB_MONEY = (byte) 0x22;
     private static final byte INS_RESET_MONEY = (byte) 0x23;
-    private static final byte INS_SET_NAME = (byte) 0x24;
-    private static final byte INS_GET_NAME = (byte) 0x25;
-    private static final byte INS_SET_MATRIKEL = (byte) 0x26;
-    private static final byte INS_GET_MATRIKEL = (byte) 0x27;
-    private static final byte INS_SET_ROOMS = (byte) 0x28;
-    private static final byte INS_GET_ROOMS = (byte) 0x29;
+    private static final byte INS_GET_DRINKS = (byte) 0x34;
+    private static final byte INS_ADD_DRINKS = (byte) 0x35;
+    private static final byte INS_SET_PAID_DRINKS = (byte) 0x36;
 
     private static final int MATRIKEL_BYTE_LENGTH = 2;
 
-    public static Result<Boolean> setName(String name) {
-        if (name.equals(""))
-            name = " ";
-
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_NAME, name.getBytes());
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
-    }
-
-    public static Result<String> getName() {
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_NAME);
-        if (!result.isSuccess())
-            return new ErrorResult<>(result.getErrorMsg());
-
-        return new SuccessResult<>(new String(result.getData()));
-    }
-
-    public static Result<Boolean> setMatrikel(Integer matrikel) {
-        byte[] a = ByteHelper.intToByteArrayLsb(matrikel, MATRIKEL_BYTE_LENGTH);
-        if (a == null)
-            return new ErrorResult<>("ungültige Matrikel-Eingabe");
-
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_MATRIKEL, a);
-        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
-    }
-
-    public static Result<String> getMatrikel() {
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MATRIKEL);
+    public static Result<String> getBonus() {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MONEY);
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
 
         String s = ByteHelper.byteArrayToIntegerLsb(result.getData()).toString();
-        return new SuccessResult<>(new String(s));
+        return new SuccessResult<>(s);
     }
 
     public static Result<Boolean> addMoney(String s) {

@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 public class ConfigurationModel {
     private StringProperty name = new SimpleStringProperty("");
     private IntegerProperty matrikel = new SimpleIntegerProperty(0);
-    private SimpleFloatProperty money = new SimpleFloatProperty(0);
+    private StringProperty money = new SimpleStringProperty("0");
     private IntegerProperty bonus = new SimpleIntegerProperty(0);
     //TODO: Room
 
@@ -33,18 +33,6 @@ public class ConfigurationModel {
         return bonus;
     }
 
-    public float getMoney() {
-        return money.get();
-    }
-
-    public void setMoney(float money) {
-        this.money.set(money);
-    }
-
-    public SimpleFloatProperty moneyProperty() {
-        return money;
-    }
-
     public int getMatrikel() {
         return matrikel.get();
     }
@@ -55,5 +43,17 @@ public class ConfigurationModel {
 
     public IntegerProperty matrikelProperty() {
         return matrikel;
+    }
+
+    public String getMoney() {
+        return money.get();
+    }
+
+    public void setMoney(String money) {
+        this.money.set(money);
+    }
+
+    public StringProperty moneyProperty() {
+        return money;
     }
 }

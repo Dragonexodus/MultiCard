@@ -18,7 +18,7 @@
                   <Insets left="5.0" right="5.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="rein" VBox.vgrow="ALWAYS">
+            <Button fx:id="butIn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="rein" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -39,7 +39,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="geld" />
+                        <Label fx:id="lblGetMoney" text="geld" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -57,7 +57,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </ChoiceBox>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="butTrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -81,7 +81,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="bonuspunkte" />
+                        <Label fx:id="lblBonus" text="bonuspunkte" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -94,12 +94,12 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField maxWidth="220.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="tfAddMoney" maxWidth="220.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -109,7 +109,7 @@
             </VBox>
          </content>
       </TitledPane>
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="raus" VBox.vgrow="ALWAYS">
+      <Button fx:id="butOut" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="raus" VBox.vgrow="ALWAYS">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>

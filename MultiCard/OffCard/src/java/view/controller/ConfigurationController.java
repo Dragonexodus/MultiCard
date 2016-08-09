@@ -1,6 +1,5 @@
 package view.controller;
 
-import application.applet.BonusApplet;
 import application.applet.StudentApplet;
 import helper.LogHelper;
 import helper.LogLevel;
@@ -50,7 +49,7 @@ public class ConfigurationController {
     }
 
     private void addMoney() {
-        Result<Boolean> result = BonusApplet.registerBonus((short) model.getBonus());
+        Result<Boolean> result = StudentApplet.addMoney(model.getMoney());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
@@ -60,7 +59,7 @@ public class ConfigurationController {
     }
 
     private void resetMoney() {
-        Result<Boolean> result = BonusApplet.reset();
+        Result<Boolean> result = StudentApplet.resetMoney();
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
@@ -74,7 +73,7 @@ public class ConfigurationController {
 
         tfName.textProperty().bindBidirectional(model.nameProperty());
         tfMatrikel.textProperty().bindBidirectional(model.matrikelProperty(), new NumberStringConverter());
-        tfMoney.textProperty().bindBidirectional(model.moneyProperty(), new NumberStringConverter());
+        tfMoney.textProperty().bindBidirectional(model.moneyProperty());
         tfBonus.textProperty().bindBidirectional(model.bonusProperty(), new NumberStringConverter());
     }
 }

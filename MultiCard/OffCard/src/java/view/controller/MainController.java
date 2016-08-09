@@ -3,6 +3,7 @@ package view.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
 import view.model.MainModel;
 
@@ -20,6 +21,7 @@ public class MainController {
 
     public Label lblStatusConnection;
     public Label lblStatusStatus;
+    public Tab tabStudent, tabDisco;
 
     public MainController() {
     }
@@ -81,8 +83,16 @@ public class MainController {
     public void initialize() {
         lblStatusConnection.textProperty().bind(model.connectionStatusStringProperty());
         lblStatusConnection.textFillProperty().bind(model.connectionStatusStringColorProperty());
-
         lblStatusStatus.textProperty().bind(model.statusProperty());
         lblStatusStatus.textFillProperty().bind(model.statusColorProperty());
+
+        tabStudent.selectedProperty().addListener((ov, oldTab, newTab) -> {
+            if (newTab)
+                StudentController.getInstance().getStudent();
+        });
+        tabDisco.selectedProperty().addListener((ov, oldTab, newTab) -> {
+            if (newTab)
+                DiscoController.getInstance().getState();
+        });
     }
 }
