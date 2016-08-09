@@ -132,6 +132,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Schreibt den öffentlichen Modulus in die APDU Falls öffentlicher Modulus
+	 * 
 	 * @param apdu
 	 */
 	private void exportCardPublicModulus(APDU apdu) {
@@ -147,6 +148,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Schreibt den öffentlichen Exponenten in die APDU
+	 * 
 	 * @param apdu
 	 */
 	private void exportCardPublicExponent(APDU apdu) {
@@ -162,6 +164,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Setzt den übergeben privaten Modulus zum privaten Schlüssel der Karte
+	 * 
 	 * @param apdu
 	 */
 	private void importCardPrivateModulus(APDU apdu, short lc) {
@@ -179,6 +182,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Setzt den übergeben privaten Exponent zum privaten Schlüssel der Karte
+	 * 
 	 * @param apdu
 	 */
 	private void importCardPrivateExponent(APDU apdu, short lc) {
@@ -196,6 +200,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Setzt den übergeben public Modulus zum öffentlichen Schlüssel der Karte
+	 * 
 	 * @param apdu
 	 */
 	private void importCardPublicModulus(APDU apdu, short lc) {
@@ -213,6 +218,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Setzt den übergeben public Exponent zum öffentlichen Schlüssel der Karte
+	 * 
 	 * @param apdu
 	 */
 	private void importCardPublicExponent(APDU apdu, short lc) {
@@ -231,6 +237,7 @@ public class Crypto extends Applet implements ICrypto {
 	/**
 	 * Setzt den übergeben public Modulus des Terminals zum öffentlichen
 	 * Schlüssels des Terminals
+	 * 
 	 * @param apdu
 	 */
 	private void importTerminalPublicModulus(APDU apdu, short lc) {
@@ -249,6 +256,7 @@ public class Crypto extends Applet implements ICrypto {
 	/**
 	 * Setzt den übergeben public Exponent des Terminals zum öffentlichen
 	 * Schlüssels des Terminals
+	 * 
 	 * @param apdu
 	 */
 	private void importTerminalPublicExponent(APDU apdu, short lc) {
@@ -267,6 +275,7 @@ public class Crypto extends Applet implements ICrypto {
 	/**
 	 * Verschlüsselt die übergebene Nachricht mit dem öffentlichen Schlüssel des
 	 * Terminals und schreibt es in den Buffer an Offset 0.
+	 * 
 	 * @param buffer
 	 *            apdu buffer
 	 * @param message
@@ -293,6 +302,7 @@ public class Crypto extends Applet implements ICrypto {
 	/**
 	 * Entschlüsselt die übergebene Nachricht mit dem privaten Schlüssel der
 	 * Karte und schreibt es in den Buffer an Offset 0.
+	 * 
 	 * @param buffer
 	 *            apdu buffer
 	 * @param offset
@@ -315,6 +325,7 @@ public class Crypto extends Applet implements ICrypto {
 
 	/**
 	 * Aufgerufen, wenn andere Applets dieses Applet verwenden möchten
+	 * 
 	 * @param client_aid
 	 * @param parameter
 	 *            Geheimnis
