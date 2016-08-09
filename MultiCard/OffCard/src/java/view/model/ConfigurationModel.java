@@ -4,9 +4,9 @@ import javafx.beans.property.*;
 
 public class ConfigurationModel {
     private StringProperty name = new SimpleStringProperty("");
-    private IntegerProperty matrikel = new SimpleIntegerProperty(0);
+    private StringProperty matrikel = new SimpleStringProperty("");
     private StringProperty money = new SimpleStringProperty("0");
-    private IntegerProperty bonus = new SimpleIntegerProperty(0);
+    private StringProperty bonus = new SimpleStringProperty("0");
     //TODO: Room
 
     public String getName() {
@@ -21,30 +21,6 @@ public class ConfigurationModel {
         return name;
     }
 
-    public int getBonus() {
-        return bonus.get();
-    }
-
-    public void setBonus(int bonus) {
-        this.bonus.set(bonus);
-    }
-
-    public IntegerProperty bonusProperty() {
-        return bonus;
-    }
-
-    public int getMatrikel() {
-        return matrikel.get();
-    }
-
-    public void setMatrikel(int matrikel) {
-        this.matrikel.set(matrikel);
-    }
-
-    public IntegerProperty matrikelProperty() {
-        return matrikel;
-    }
-
     public String getMoney() {
         return money.get();
     }
@@ -55,5 +31,29 @@ public class ConfigurationModel {
 
     public StringProperty moneyProperty() {
         return money;
+    }
+
+    public String getMatrikel() {
+        return matrikel.get();
+    }
+
+    public StringProperty matrikelProperty() {
+        return matrikel;
+    }
+
+    public void setMatrikel(String matrikel) {
+        this.matrikel.set(matrikel);
+    }
+
+    public String getBonus() {
+        return bonus.get();
+    }
+
+    public StringProperty bonusProperty() {
+        return bonus;
+    }
+
+    public void setBonus(String bonus) {
+        this.bonus.set(bonus);
     }
 }

@@ -38,8 +38,8 @@ public class StudentApplet {
         return new SuccessResult<>(new String(result.getData()));
     }
 
-    public static Result<Boolean> setMatrikel(Integer matrikel) {
-        byte[] a = ByteHelper.intToByteArrayLsb(matrikel, MATRIKEL_BYTE_LENGTH);
+    public static Result<Boolean> setMatrikel(String matrikel) {
+        byte[] a = ByteHelper.intToByteArrayLsb(Integer.parseInt(matrikel), MATRIKEL_BYTE_LENGTH);
         if (a == null)
             return new ErrorResult<>("ungültige Matrikel-Eingabe");
 

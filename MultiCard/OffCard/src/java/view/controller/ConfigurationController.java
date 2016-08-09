@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.util.converter.NumberStringConverter;
 import view.model.ConfigurationModel;
 
 public class ConfigurationController {
@@ -29,21 +28,24 @@ public class ConfigurationController {
         initBindings();
     }
 
-    private void setIdentificationData() {
-        Result<Boolean> result = StudentApplet.setName(model.getName());
-        if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-            return;
+    private void setStudent() {
+        Result<Boolean> result;
+        if (!model.getName().equals("")) {
+            result = StudentApplet.setName(model.getName());
+            if (!result.isSuccess()) {
+                LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+                MainController.setStatus(result.getErrorMsg(), Color.RED);
+                return;
+            }
         }
-
-        result = StudentApplet.setMatrikel(model.getMatrikel());
-        if (!result.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-            MainController.setStatus(result.getErrorMsg(), Color.RED);
-            return;
+        if (!model.getMatrikel().equals("")) {
+            result = StudentApplet.setMatrikel(model.getMatrikel());
+            if (!result.isSuccess()) {
+                LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+                MainController.setStatus(result.getErrorMsg(), Color.RED);
+                return;
+            }
         }
-
         LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
         MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
     }
@@ -67,13 +69,13 @@ public class ConfigurationController {
     }
 
     private void initBindings() {
-        butSetIdentification.addEventHandler(ActionEvent.ACTION, e -> setIdentificationData());
+        butSetIdentification.addEventHandler(ActionEvent.ACTION, e -> setStudent());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
         butResetMoney.addEventHandler(ActionEvent.ACTION, e -> resetMoney());
 
         tfName.textProperty().bindBidirectional(model.nameProperty());
-        tfMatrikel.textProperty().bindBidirectional(model.matrikelProperty(), new NumberStringConverter());
+        tfMatrikel.textProperty().bindBidirectional(model.matrikelProperty());
         tfMoney.textProperty().bindBidirectional(model.moneyProperty());
-        tfBonus.textProperty().bindBidirectional(model.bonusProperty(), new NumberStringConverter());
+        tfBonus.textProperty().bindBidirectional(model.bonusProperty());
     }
 }
