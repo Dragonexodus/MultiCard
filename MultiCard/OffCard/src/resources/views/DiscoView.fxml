@@ -34,12 +34,12 @@
                <children>
                   <HBox>
                      <children>
-                        <Label prefWidth="64.0" text="Stand:">
+                        <Label prefWidth="64.0" text="Bonus:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="lblGetMoney" text="geld" />
+                        <Label fx:id="lblBonus" text="bonus" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -57,7 +57,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </ChoiceBox>
-                        <Button fx:id="butTrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="butDrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -81,7 +81,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="lblBonus" text="bonuspunkte" />
+                        <Label fx:id="lblMoney" text="money" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

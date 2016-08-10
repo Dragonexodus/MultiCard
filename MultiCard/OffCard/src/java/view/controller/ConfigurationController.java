@@ -4,6 +4,7 @@ import application.applet.StudentApplet;
 import helper.LogHelper;
 import helper.LogLevel;
 import helper.Result;
+import helper.RoomHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -68,10 +69,43 @@ public class ConfigurationController {
         }
     }
 
+    private void getRoom() {
+        Result<byte[]> r1 = StudentApplet.getRoom();
+        if (!r1.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r1.getErrorMsg());
+            MainController.setStatus(r1.getErrorMsg(), Color.RED);
+            return;
+        }
+        Result<String> r2 = RoomHelper.getRoomStringFromByteArray(r1.getData());
+        if (!r2.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
+            MainController.setStatus(r2.getErrorMsg(), Color.RED);
+        }
+        model.setRoom(r2.getData());
+    }
+
+    private void setRoom() {
+        Result<byte[]> r1 = RoomHelper.getRoomByteArrayFromString(model.getRoom());
+        if (!r1.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r1.getErrorMsg());
+            MainController.setStatus(r1.getErrorMsg(), Color.PURPLE);
+            return;
+        }
+        Result<Boolean> r2 = StudentApplet.setRoom(r1.getData());
+        if (!r2.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
+            MainController.setStatus(r2.getErrorMsg(), Color.RED);
+        }
+    }
+
     private void initBindings() {
         butSetIdentification.addEventHandler(ActionEvent.ACTION, e -> setStudent());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
         butResetMoney.addEventHandler(ActionEvent.ACTION, e -> resetMoney());
+
+        butGetRoom.addEventHandler(ActionEvent.ACTION, e -> getRoom());
+        butSetRoom.addEventHandler(ActionEvent.ACTION, e -> setRoom());
+        taRoom.textProperty().bindBidirectional(model.roomProperty());
 
         tfName.textProperty().bindBidirectional(model.nameProperty());
         tfMatrikel.textProperty().bindBidirectional(model.matrikelProperty());

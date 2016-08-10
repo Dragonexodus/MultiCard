@@ -9,6 +9,7 @@ public class StudentModel {
     private StringProperty moneyGet = new SimpleStringProperty("0");
     private StringProperty moneyAdd = new SimpleStringProperty("0");
     private StringProperty moneySub = new SimpleStringProperty("0");
+    private StringProperty room = new SimpleStringProperty("");
 
     public String getName() {
         return name.get();
@@ -68,5 +69,17 @@ public class StudentModel {
 
     public StringProperty moneySubProperty() {
         return moneySub;
+    }
+
+    public String getRoom() {
+        return room.get();
+    }
+
+    public StringProperty roomProperty() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room.set(room);
     }
 }

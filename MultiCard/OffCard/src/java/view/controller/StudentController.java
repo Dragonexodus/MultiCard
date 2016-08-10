@@ -4,10 +4,12 @@ import application.applet.StudentApplet;
 import helper.LogHelper;
 import helper.LogLevel;
 import helper.Result;
+import helper.RoomHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import view.model.StudentModel;
@@ -18,6 +20,7 @@ public class StudentController {
     public TextField tfAddMoney, tfSubMoney;
     //TODO: Room
     public Button butGetStudent, butAddMoney, butSubMoney, butGetRoom;
+    public TextArea taRoom;
     private StudentModel model;
 
     public StudentController() {
@@ -51,6 +54,8 @@ public class StudentController {
         if (moneyResult.isSuccess()) {
             model.setMoneyGet(moneyResult.getData());
         }
+
+        getRoom();
     }
 
     private void addMoney() {
@@ -83,14 +88,32 @@ public class StudentController {
         MainController.setStatus("das Geld wurde ausgezahlt", Color.GREEN);
     }
 
+    private void getRoom() {
+        Result<byte[]> r1 = StudentApplet.getRoom();
+        if (!r1.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r1.getErrorMsg());
+            MainController.setStatus(r1.getErrorMsg(), Color.RED);
+            return;
+        }
+        Result<String> r2 = RoomHelper.getRoomStringFromByteArray(r1.getData());
+        if (!r2.isSuccess()) {
+            LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
+            MainController.setStatus(r2.getErrorMsg(), Color.RED);
+        }
+        model.setRoom(r2.getData());
+    }
+
     private void initBindings() {
         butGetStudent.addEventHandler(ActionEvent.ACTION, e -> getStudent());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
         butSubMoney.addEventHandler(ActionEvent.ACTION, e -> subMoney());
+        butGetRoom.addEventHandler(ActionEvent.ACTION, e -> getRoom());
+
         lblName.textProperty().bind(model.nameProperty());
         lblMatrikel.textProperty().bind(model.matrikelProperty());
         lblMoney.textProperty().bind(model.moneyGetProperty());
         tfAddMoney.textProperty().bindBidirectional(model.moneyAddProperty());
         tfSubMoney.textProperty().bindBidirectional(model.moneySubProperty());
+        taRoom.textProperty().bind(model.roomProperty());
     }
 }

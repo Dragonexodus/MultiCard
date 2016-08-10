@@ -7,6 +7,7 @@ public class ConfigurationModel {
     private StringProperty matrikel = new SimpleStringProperty("");
     private StringProperty money = new SimpleStringProperty("0");
     private StringProperty bonus = new SimpleStringProperty("0");
+    private StringProperty room = new SimpleStringProperty("");
     //TODO: Room
 
     public String getName() {
@@ -55,5 +56,17 @@ public class ConfigurationModel {
 
     public void setBonus(String bonus) {
         this.bonus.set(bonus);
+    }
+
+    public String getRoom() {
+        return room.get();
+    }
+
+    public StringProperty roomProperty() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room.set(room);
     }
 }

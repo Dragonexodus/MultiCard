@@ -89,4 +89,14 @@ public class StudentApplet {
     public static Result<Boolean> resetMoney() {
         return CommonApplet.reset(AppletName, CLA, INS_RESET_MONEY);
     }
+
+    public static Result<Boolean> setRoom(byte[] a) {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_ROOMS, a);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
+    }
+
+    public static Result<byte[]> getRoom() {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_ROOMS);
+        return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(result.getData());
+    }
 }

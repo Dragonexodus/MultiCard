@@ -16,9 +16,9 @@ import view.model.DiscoModel;
 public class DiscoController {
 
     private static DiscoController instance;
-    public Label lblGetMoney, lblBonus;
+    public Label lblBonus, lblMoney;
     public TextField tfAddMoney;
-    public Button butIn, butOut, butTrink, butAddMoney;
+    public Button butIn, butOut, butDrink, butAddMoney;
     private DiscoModel model;
 
     public DiscoController() {
@@ -44,7 +44,7 @@ public class DiscoController {
         }
         Result<String> bonusResult = DiscoApplet.getBonus();
         if (bonusResult.isSuccess()) {
-            model.setMoneyGet(bonusResult.getData());
+            model.setBonusGet(bonusResult.getData());
         }
     }
 
@@ -64,7 +64,7 @@ public class DiscoController {
     }
 
     private void initBindings() {
-        lblGetMoney.textProperty().bind(model.moneyGetProperty());
+        lblMoney.textProperty().bind(model.moneyGetProperty());
         tfAddMoney.textProperty().bindBidirectional(model.moneyAddProperty());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
     }
