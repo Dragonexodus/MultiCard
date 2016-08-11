@@ -84,4 +84,11 @@ public class DiscoApplet {
     public static Result<Boolean> resetMoney() {
         return CommonApplet.reset(AppletName, CLA, INS_RESET_MONEY);
     }
+
+    public static Result<Boolean> addDrink(byte[] a) {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_ADD_DRINKS, a);
+        if (!result.isSuccess())
+            return new ErrorResult<>(result.getErrorMsg());
+        return new SuccessResult<>(true);
+    }
 }

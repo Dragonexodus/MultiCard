@@ -79,18 +79,36 @@ public class ByteHelper {
      * @param bytes Anzahl der gewünschten Bytes (max 4)
      * @return byte[]
      */
-    public static byte[] intToByteArrayMsb(Integer val, Integer bytes) {
-        if (val < 0 || bytes < 0 || bytes > 4)
-            return null;
-        if (val > ((1 << (bytes * 8)) - 1)) {
-            return null;
+    public static Result<byte[]> intToByteArrayMsb(Integer val, Integer bytes) {
+        if (val < 0)
+            return new ErrorResult<byte[]>("Negativer wert eingegeben!");
+        else if (bytes < 0 || bytes > 4)
+            return new ErrorResult<byte[]>("Gewünschte byte[]-Länge unzuläßig!");
+        else if (val > ((1 << (bytes * 8)) - 1)) {
+            return new ErrorResult<byte[]>("Integer-Wert zu groß!");
         }
         byte[] aTemp = ByteBuffer.allocate(4).putInt(val).array();
         byte[] a = new byte[bytes];
         int indexA = 0;
         for (int i = 4 - 1; i >= 4 - bytes; i--)
             a[indexA++] = aTemp[i];
-        return a;
+        return new SuccessResult<>(a);
+    }
+
+    public static Result<byte[]> intToByteArrayLsb(Integer val, Integer bytes) {
+        if (val < 0)
+            return new ErrorResult<byte[]>("Negativer wert eingegeben!");
+        else if (bytes < 0 || bytes > 4)
+            return new ErrorResult<byte[]>("Gewünschte byte[]-Länge unzuläßig!");
+        else if (val > ((1 << (bytes * 8)) - 1)) {
+            return new ErrorResult<byte[]>("Integer-Wert zu groß!");
+        }
+        byte[] aTemp = ByteBuffer.allocate(4).putInt(val).array();
+        byte[] a = new byte[bytes];
+        int indexA = 3;
+        for (int i = bytes - 1; i >= 0; i--)
+            a[i] = aTemp[indexA--];
+        return new SuccessResult<>(a);
     }
 
     public static Result<byte[]> intStringToByteArrayLsb(String s, Integer bytes) {
@@ -103,7 +121,7 @@ public class ByteHelper {
             return new ErrorResult<byte[]>("Negativer wert eingegeben!");
         else if (bytes < 0 || bytes > 4)
             return new ErrorResult<byte[]>("Gewünschte byte[]-Länge unzuläßig!");
-        if (val > ((1 << (bytes * 8)) - 1)) {
+        else if (val > ((1 << (bytes * 8)) - 1)) {
             return new ErrorResult<byte[]>("Integer-Wert zu groß!");
         }
         byte[] aTemp = ByteBuffer.allocate(4).putInt(val).array();

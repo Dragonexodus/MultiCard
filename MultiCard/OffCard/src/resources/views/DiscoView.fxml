@@ -52,12 +52,12 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <ChoiceBox maxWidth="220.0" HBox.hgrow="ALWAYS">
+                        <ChoiceBox fx:id="cbDrink" maxWidth="220.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </ChoiceBox>
-                        <Button fx:id="butDrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="butAddDrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

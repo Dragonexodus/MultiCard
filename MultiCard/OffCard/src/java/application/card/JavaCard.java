@@ -18,9 +18,6 @@ import opencard.opt.util.PassThruCardService;
 public class JavaCard implements IJavaCard, CTListener {
     private static IJavaCard instance = null;
 
-//    private Action onCardInserted = null;
-//    private Action onCardRemoved = null;
-
     SmartCard card;
 
     private JavaCard() {
@@ -41,13 +38,13 @@ public class JavaCard implements IJavaCard, CTListener {
             EventGenerator.getGenerator().addCTListener(this);
         } catch (ClassNotFoundException e) {
             LogHelper.log(e);
-            return new ErrorResult<>("Terminal not available. Please check your opencard2.properties file.");
+            return new ErrorResult<>("Terminal ist nicht verfügbar. Prüfen Sie die opencard.properties-Datei!");
         } catch (Exception e) {
             LogHelper.log(e);
-            return new ErrorResult<>("SmartCard couldn't be started.");
+            return new ErrorResult<>("SmartCard kann nicht gestartet werden!");
         }
 
-        LogHelper.log(LogLevel.INFO, "Setting up connection to smartcard");
+        LogHelper.log(LogLevel.INFO, "Verbindungsaufbau zu SmartCard");
 
         CardRequest cardRequest = new CardRequest(CardRequest.ANYCARD, null, null);
         cardRequest.setTimeout(1);
@@ -56,73 +53,132 @@ public class JavaCard implements IJavaCard, CTListener {
             card = SmartCard.waitForCard(cardRequest);
         } catch (Exception e) {
             LogHelper.log(e);
-            return new ErrorResult<>("No smartcard found.");
+            return new ErrorResult<>("Keine SmartCard gefunden!");
         }
 
         if (card == null) {
-            LogHelper.log(LogLevel.WARNING, "No smartcard found");
-            return new ErrorResult<>("No smartcard found.");
+            LogHelper.log(LogLevel.WARNING, "Keine SmartCard gefunden!");
+            return new ErrorResult<>("Keine SmartCard gefunden!");
         }
 
-        LogHelper.log(LogLevel.INFO, "Connection to smartcard established");
+        LogHelper.log(LogLevel.INFO, "Verbindung zuSmartCard aufgebaut");
         return new SuccessResult<>(true);
     }
 
     @Override
-    public Result<byte[]> sendCommand(Cmd command) {                          //TODO: eigene Fehlern definieren & reset oder nicht
+    public Result<byte[]> sendCommand(Cmd command) {                            //TODO: eigene Fehlern definieren & reset oder nicht
         if (card == null) {
             LogHelper.log(LogLevel.WARNING, "JavaCard.sendCmd(): Keine SC vorhanden");
             return new ErrorResult<>("JavaCard.sendCmd(): Keine SC vorhanden");
         }
-
         try {
             PassThruCardService passThru = (PassThruCardService) card.getCardService(PassThruCardService.class, true);
 
-            LogHelper.log(LogLevel.INFO, "Sending %s", command.toString());
+            LogHelper.log(LogLevel.INFO, "Senden: %s", command.toString());
             ResponseAPDU responseApdu = passThru.sendCommandAPDU(command);
 
+            // allgemein -------------------------------------------------------
             String status = HexString.hexifyShort(responseApdu.sw1(), responseApdu.sw2());
             if (status.equals("6E00")) {
-                LogHelper.log(LogLevel.FAILURE, "Unknown class byte %02x", command.getCLA());
-                return new ErrorResult<>("Unknown class byte. Please check your command.");
+                LogHelper.log(LogLevel.FAILURE, "ClassByte %02x ist unbekannt", command.getCLA());
+                return new ErrorResult<>("ClassByte %02x ist unbekannt", command.getCLA());
             } else if (status.equals("6D00")) {
-                LogHelper.log(LogLevel.FAILURE, "Unknown instruction byte %02x", command.getINS());
-                return new ErrorResult<>("Incorrect instruction byte. Please check your command.");
-            } else if (status.equals("6986")) {
-                LogHelper.log(LogLevel.FAILURE, "Data already set or not available");
-                return new ErrorResult<>("The data is already set. If you want to set new data, please reset the applet.");
+                LogHelper.log(LogLevel.FAILURE, "Unbekanntes InstructionByte %02x", command.getINS());
+                return new ErrorResult<>("Unbekanntes InstructionByte %02x", command.getINS());
             } else if (status.equals("6984")) {
-                LogHelper.log(LogLevel.FAILURE, "Ungültige Daten. Signature verification failed.");
-                return new ErrorResult<>("Ungültige Daten. Signature verification failed.");
+                LogHelper.log(LogLevel.FAILURE, "Ungültige Daten, siehe Log!");
+                return new ErrorResult<>("Ungültige Daten, siehe Log!");
+                // Crypto ------------------------------------------------------
+            } else if (status.equals("E010")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_card_private_mod");
+                return new ErrorResult<>("Error: import_card_private_mod");
+            } else if (status.equals("E011")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_card_private_exp");
+                return new ErrorResult<>("Error: import_card_private_exp");
+            } else if (status.equals("E012")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_card_public_mod");
+                return new ErrorResult<>("Error: import_card_public_mod");
+            } else if (status.equals("E013")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_card_public_exp");
+                return new ErrorResult<>("Error: import_card_public_exp");
+            } else if (status.equals("E014")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: export_card_public_mod");
+                return new ErrorResult<>("Error: export_card_public_mod");
+            } else if (status.equals("E015")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: export_card_public_exp");
+                return new ErrorResult<>("Error: export_card_public_exp");
+            } else if (status.equals("E016")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_terminal_public_mod");
+                return new ErrorResult<>("Error: import_terminal_public_mod");
+            } else if (status.equals("E017")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: import_terminal_public_exp");
+                return new ErrorResult<>("Error: import_terminal_public_exp");
+                // Student -----------------------------------------------------
+            } else if (status.equals("E021")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: add_euro_overflow");
+                return new ErrorResult<>("Error: add_euro_overflow");
+            } else if (status.equals("E121")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: add_cent_overflow");
+                return new ErrorResult<>("Error: add_cent_overflow");
+            } else if (status.equals("E221")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: add_money_overflow");
+                return new ErrorResult<>("Error: add_money_overflow");
+            } else if (status.equals("E022")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: sub_euro_overflow");
+                return new ErrorResult<>("Error: sub_euro_overflow");
+            } else if (status.equals("E122")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: sub_cent_overflow");
+                return new ErrorResult<>("Error: sub_cent_overflow");
+            } else if (status.equals("E222")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: sub_insufficient_money");
+                return new ErrorResult<>("Error: sub_insufficient_money");
+            } else if (status.equals("E025")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: set_matrikel_negative");
+                return new ErrorResult<>("Error: set_matrikel_negative");
+            } else if (status.equals("E125")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: set_matrikel_overflow");
+                return new ErrorResult<>("Error: set_matrikel_overflow");
+                // Disco -------------------------------------------------------
+            } else if (status.equals("E030")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: add_bonus_overflow");
+                return new ErrorResult<>("Error: add_bonus_overflow");
+            } else if (status.equals("E031")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: sub_bonus_overflow");
+                return new ErrorResult<>("Error: sub_bonus_overflow");
+            } else if (status.equals("E032")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: sub_insufficient_bonus");
+                return new ErrorResult<>("Error: sub_insufficient_bonus");
+            } else if (status.equals("E033")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: add_drink_had_to_much");
+                return new ErrorResult<>("Error: add_drink_had_to_much");
+                // other -------------------------------------------------------
+            } else if (status.equals("6700")) {
+                LogHelper.log(LogLevel.FAILURE, "Error: wrong_byte[]_length");
+                return new ErrorResult<>("Error: wrong_byte[]_length");
             } else if (status.startsWith("61")) {
-                //new ISOCommandAPDU((byte) 0x00, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x01);
                 System.out.println("################################################################");
-
                 Cmd c = new Cmd((byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x00, (byte) 0x80);
                 LogHelper.log(LogLevel.INFO, "Sending %s", c.toString());
                 ResponseAPDU response = passThru.sendCommandAPDU(c);
-                LogHelper.log(LogLevel.INFO, "Command successfull");
+                LogHelper.log(LogLevel.INFO, "Cmd erfolgreich");
                 byte[] data = response.data();
                 return data == null ? new SuccessResult<>(new byte[0]) : new SuccessResult<>(data);
             } else if (!status.equals("9000")) {
-                LogHelper.log(LogLevel.FAILURE, "Answer incorrect: %s", status);
-                return new ErrorResult<>("Incorrect answer. Please check your command.");
+                LogHelper.log(LogLevel.FAILURE, "Ungültiges Antwort: %s", status);
+                return new ErrorResult<>("Ungültiges Antwort: %s", status);
             }
-
-
-            LogHelper.log(LogLevel.INFO, "Command successfull");
+            LogHelper.log(LogLevel.INFO, "Cmd erfolgreich");
             byte[] data = responseApdu.data();
             return data == null ? new SuccessResult<>(new byte[0]) : new SuccessResult<>(data);
-        } catch (Exception ex) {
-            LogHelper.log(ex);
-            return new ErrorResult<>(ex.getMessage());
+        } catch (Exception e) {
+            LogHelper.log(e);
+            return new ErrorResult<>(e.getMessage());
         }
     }
 
     @Override
     public void shutdown() {
-        LogHelper.log(LogLevel.INFO, "Shutdown initiated");
-
+        LogHelper.log(LogLevel.INFO, "Beenden initialisiert");
         try {
             if (card != null) {
                 card.close();
@@ -146,29 +202,20 @@ public class JavaCard implements IJavaCard, CTListener {
         CardRequest cardRequest = new CardRequest(CardRequest.ANYCARD, null, null);
         cardRequest.setTimeout(5);
         card = SmartCard.getSmartCard(cardTerminalEvent, cardRequest);
-
-//        if (onCardInserted != null) {
-//            onCardInserted.execute();
-//        }
     }
 
     @Override
     public void cardRemoved(CardTerminalEvent cardTerminalEvent) throws CardTerminalException {
         LogHelper.log(LogLevel.INFO, "SC entfernt");
-//        if (onCardRemoved != null) {
-//            onCardRemoved.execute();
-//        }
     }
 
     //implemented
     public void setOnCardInserted(Action action) {
-//        this.onCardInserted = action;
         System.out.println("CONNECTED");
     }
 
     //implemented
     public void setOnCardRemoved(Action action) {
-//        this.onCardRemoved = action;
         System.out.println("DISCONNECTED");
     }
 }

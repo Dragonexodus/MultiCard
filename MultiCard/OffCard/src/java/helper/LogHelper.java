@@ -1,12 +1,7 @@
 package helper;
 
-
 import java.time.ZonedDateTime;
 import java.util.function.Consumer;
-
-/**
- * Created by Patrick on 22.06.2015.
- */
 
 public class LogHelper {
 
