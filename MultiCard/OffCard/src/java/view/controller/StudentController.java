@@ -99,6 +99,7 @@ public class StudentController {
         if (!r2.isSuccess()) {
             LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
             MainController.setStatus(r2.getErrorMsg(), Color.RED);
+            return;
         }
         model.setRoom(r2.getData());
     }

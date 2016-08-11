@@ -22,35 +22,55 @@ public class DiscoApplet {
     private static final byte INS_SET_PAID_DRINKS = (byte) 0x36;
 
     private static final int MATRIKEL_BYTE_LENGTH = 2;
+    private static final int BONUS_BYTE_LENGTH = 1;
 
     public static Result<String> getBonus() {
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MONEY);
-        if (!result.isSuccess())
-            return new ErrorResult<>(result.getErrorMsg());
+        Result<byte[]> r1 = CommonApplet.sendValue(AppletName, CLA, INS_GET_BONUS);
+        if (!r1.isSuccess())
+            return new ErrorResult<>(r1.getErrorMsg());
+        Result<Integer> r2 = ByteHelper.byteArrayToIntegerLsb(r1.getData());
+        if (!r2.isSuccess())
+            return new ErrorResult<>(r2.getErrorMsg());
+        return new SuccessResult<>(r2.getData().toString());
+    }
 
-        String s = ByteHelper.byteArrayToIntegerLsb(result.getData()).toString();
-        return new SuccessResult<>(s);
+    public static Result<Boolean> addBonus(String s) {
+        Result<byte[]> r = ByteHelper.intStringToByteArrayLsb(s, BONUS_BYTE_LENGTH);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> r2 = CommonApplet.sendValue(AppletName, CLA, INS_ADD_BONUS, r.getData());
+        return !r2.isSuccess() ? new ErrorResult<>(r2.getErrorMsg()) : new SuccessResult<>(true);
+    }
+
+    public static Result<Boolean> subBonus(String s) {
+        Result<byte[]> r = ByteHelper.intStringToByteArrayLsb(s, BONUS_BYTE_LENGTH);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> r2 = CommonApplet.sendValue(AppletName, CLA, INS_SUB_BONUS, r.getData());
+        return !r2.isSuccess() ? new ErrorResult<>(r2.getErrorMsg()) : new SuccessResult<>(true);
+    }
+
+    public static Result<Boolean> resetBonus() {
+        return CommonApplet.reset(AppletName, CLA, INS_RESET_BONUS);
     }
 
     public static Result<Boolean> addMoney(String s) {
-        byte[] a = ByteHelper.doubleStringToByteArray(s);
-        if (s == null)
-            return new ErrorResult<>("Fehler in der Eingabe des Betrags!");
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_ADD_MONEY, a);
+        Result<byte[]> r = ByteHelper.doubleStringToByteArray(s);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_ADD_MONEY, r.getData());
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(true);
     }
 
     public static Result<Boolean> subMoney(String s) {
-        byte[] a = ByteHelper.doubleStringToByteArray(s);
-        if (s == null)
-            return new ErrorResult<>("Fehler in der Eingabe des Betrags!");
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SUB_MONEY, a);
+        Result<byte[]> r = ByteHelper.doubleStringToByteArray(s);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SUB_MONEY, r.getData());
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(true);
     }
 
@@ -58,7 +78,6 @@ public class DiscoApplet {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MONEY);
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(new String(ByteHelper.byteArrayMoneyToString(result.getData())));
     }
 

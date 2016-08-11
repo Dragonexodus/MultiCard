@@ -4,9 +4,10 @@ import java.nio.ByteBuffer;
 
 public class ByteHelper {
 
-    public static byte[] doubleStringToByteArray(String s) {
+    public static Result<byte[]> doubleStringToByteArray(String s) {
         if (s == "")
             s = "0";
+
         String[] sl;
         if (s.contains("."))
             sl = s.split("\\.");
@@ -17,29 +18,37 @@ public class ByteHelper {
             sl[0] = s;
         }
 
-        if (sl.length == 2)         // ,12 - Eingabe
+        for (int i = 0; i < sl.length; i++)
+            for (int j = 0; j < sl[i].length(); j++)
+                if (!Character.isDigit(sl[i].charAt(j)))
+                    return new ErrorResult<byte[]>("Ungültiges Zeichen in der Eingabe!");
+
+        if (sl.length == 2) {        // _,12 - Eingabe
             if (sl[0].equals(""))
                 sl[0] = "0";
+            if (sl[1].length() < 2 || sl[1].length() > 2)
+                return new ErrorResult<byte[]>("Cent-Eingabe soll zweistellig sein!");
+        }
 
         if (sl.length < 1 || sl.length > 2)
-            return null;
+            return new ErrorResult<byte[]>("Zu viele Kommas eingegeben!");
         else if (sl.length >= 1 && Integer.parseInt(sl[0]) > 255)
-            return null;
+            return new ErrorResult<byte[]>("Maximel zulässiger Betrag beträgt 255€!");
         else if (sl.length == 2 && Integer.parseInt(sl[1]) > 99)
-            return null;
+            return new ErrorResult<byte[]>("Ungültige Cent-Eingabe!");
 
-        if (sl.length == 2)         // ,2 => ,20
-            if (Integer.parseInt(sl[1]) < 10) {
-                StringBuffer sb = new StringBuffer(sl[1]);
-                sb.append("0");
-                sl[1] = sb.toString();
-            }
+//        if (sl.length == 2)         // ,2 => ,20
+//            if (Integer.parseInt(sl[1]) < 10) {
+//                StringBuffer sb = new StringBuffer(sl[1]);
+//                sb.append("0");
+//                sl[1] = sb.toString();
+//            }
 
         byte[] a = new byte[2];
         for (int i = 0; i < sl.length; i++) {
             a[i] = intToByte(Integer.parseInt(sl[i]));
         }
-        return a;
+        return new SuccessResult<>(a);
     }
 
     public static byte intToByte(Integer i) {
@@ -84,18 +93,25 @@ public class ByteHelper {
         return a;
     }
 
-    public static byte[] intToByteArrayLsb(Integer val, Integer bytes) {
-        if (val < 0 || bytes < 0 || bytes > 4)
-            return null;
+    public static Result<byte[]> intStringToByteArrayLsb(String s, Integer bytes) {
+        for (int i = 0; i < s.length(); i++)
+            if (!Character.isDigit(s.charAt(i)))
+                return new ErrorResult<byte[]>("Ungültige Eingabe in der Position %d", i + 1);
+
+        Integer val = Integer.parseInt(s);
+        if (val < 0)
+            return new ErrorResult<byte[]>("Negativer wert eingegeben!");
+        else if (bytes < 0 || bytes > 4)
+            return new ErrorResult<byte[]>("Gewünschte byte[]-Länge unzuläßig!");
         if (val > ((1 << (bytes * 8)) - 1)) {
-            return null;
+            return new ErrorResult<byte[]>("Integer-Wert zu groß!");
         }
         byte[] aTemp = ByteBuffer.allocate(4).putInt(val).array();
         byte[] a = new byte[bytes];
         int indexA = 3;
         for (int i = bytes - 1; i >= 0; i--)
             a[i] = aTemp[indexA--];
-        return a;
+        return new SuccessResult<>(a);
     }
 
     /**
@@ -117,14 +133,14 @@ public class ByteHelper {
         return ByteBuffer.wrap(aNew).getInt();
     }
 
-    public static Integer byteArrayToIntegerLsb(byte[] a) {
+    public static Result<Integer> byteArrayToIntegerLsb(byte[] a) {
         if (a == null)
-            return -1;
+            return new ErrorResult<Integer>("byte[] ist null!");
         byte[] aNew = new byte[4];
         int indexA = 3;
         for (int i = a.length - 1; i >= 0; i--)
             aNew[indexA--] = a[i];
-        return ByteBuffer.wrap(aNew).getInt();
+        return new SuccessResult<>(ByteBuffer.wrap(aNew).getInt());
     }
 
     /**

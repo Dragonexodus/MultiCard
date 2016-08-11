@@ -16,7 +16,7 @@ public class RoomHelper {
             ByteBuffer bb = new ByteBuffer(2);
             bb.append(a[i * ARRAY_LENGTH + 1]);
             bb.append(a[i * ARRAY_LENGTH + 2]);
-            sb.append(ByteHelper.byteArrayToIntegerLsb(bb.toArray()));
+            sb.append(ByteHelper.byteArrayToIntegerLsb(bb.toArray()).getData());
             sb.append("\n");
         }
         return new SuccessResult<>(sb.toString());
@@ -55,10 +55,13 @@ public class RoomHelper {
             }
             if (Integer.parseInt(sb2.toString()) > MAX_SHORT_VALUE)
                 return new ErrorResult<byte[]>("Zu große Raumzahl (Zeile %d)", i + 1);
-            byte[] a = ByteHelper.intToByteArrayLsb(Integer.parseInt(sb2.toString()), 2);
+            Result<byte[]> a = ByteHelper.intStringToByteArrayLsb(sb2.toString(), 2);
+            if (!a.isSuccess())
+                return new ErrorResult<byte[]>(a.getErrorMsg());
             for (int j = 0; j < 2; j++)
-                bb.append(a[j]);
+                bb.append(a.getData()[j]);
         }
+        bb.trimToSize();
         return new SuccessResult<>(bb.toArray());
     }
 

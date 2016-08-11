@@ -1,5 +1,6 @@
 package view.controller;
 
+import application.applet.DiscoApplet;
 import application.applet.StudentApplet;
 import helper.LogHelper;
 import helper.LogLevel;
@@ -47,8 +48,8 @@ public class ConfigurationController {
                 return;
             }
         }
-        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
-        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "Student wurden erfolgreich konfiguriert");
+        MainController.setStatus("Student wurden erfolgreich konfiguriert", Color.GREEN);
     }
 
     private void addMoney() {
@@ -56,9 +57,10 @@ public class ConfigurationController {
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
         }
-        LogHelper.log(LogLevel.INFO, "Daten wurden erfolgreich übernommen");
-        MainController.setStatus("Daten wurden erfolgreich übernommen", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "Geld wurde eingezahlt");
+        MainController.setStatus("Geld wurde eingezahlt", Color.GREEN);
     }
 
     private void resetMoney() {
@@ -67,6 +69,29 @@ public class ConfigurationController {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
         }
+        LogHelper.log(LogLevel.INFO, "Guthaben wurde zurückgesetzt");
+        MainController.setStatus("Guthaben wurde zurückgesetzt", Color.GREEN);
+    }
+
+    private void addBonus(){
+        Result<Boolean> result = DiscoApplet.addBonus(model.getBonus());
+        if (!result.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
+        }
+        LogHelper.log(LogLevel.INFO, "Bunuspunkte wurden gutgeschrieben");
+        MainController.setStatus("Bunuspunkte wurden gutgeschrieben", Color.GREEN);
+    }
+
+    private void resetBonus() {
+        Result<Boolean> result = DiscoApplet.resetBonus();
+        if (!result.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
+        }
+        LogHelper.log(LogLevel.INFO, "Bonuspunkte wurden zurückgesetzt");
+        MainController.setStatus("Bonuspunkte wurden zurückgesetzt", Color.GREEN);
     }
 
     private void getRoom() {
@@ -80,6 +105,7 @@ public class ConfigurationController {
         if (!r2.isSuccess()) {
             LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
             MainController.setStatus(r2.getErrorMsg(), Color.RED);
+            return;
         }
         model.setRoom(r2.getData());
     }
@@ -102,6 +128,9 @@ public class ConfigurationController {
         butSetIdentification.addEventHandler(ActionEvent.ACTION, e -> setStudent());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
         butResetMoney.addEventHandler(ActionEvent.ACTION, e -> resetMoney());
+
+        butAddBonus.addEventHandler(ActionEvent.ACTION, e -> addBonus());
+        butResetBonus.addEventHandler(ActionEvent.ACTION, e -> resetBonus());
 
         butGetRoom.addEventHandler(ActionEvent.ACTION, e -> getRoom());
         butSetRoom.addEventHandler(ActionEvent.ACTION, e -> setRoom());

@@ -38,13 +38,13 @@ public class DiscoController {
     }
 
     public void getState(){
-        Result<String> moneyResult = StudentApplet.getMoney();
-        if (moneyResult.isSuccess()) {
-            model.setMoneyGet(moneyResult.getData());
+        Result<String> m = DiscoApplet.getMoney();
+        if (m.isSuccess()) {
+            model.setMoneyGet(m.getData());
         }
-        Result<String> bonusResult = DiscoApplet.getBonus();
-        if (bonusResult.isSuccess()) {
-            model.setBonusGet(bonusResult.getData());
+        Result<String> b = DiscoApplet.getBonus();
+        if (b.isSuccess()) {
+            model.setBonusGet(b.getData());
         }
     }
 
@@ -64,6 +64,7 @@ public class DiscoController {
     }
 
     private void initBindings() {
+        lblBonus.textProperty().bind(model.bonusGetProperty());
         lblMoney.textProperty().bind(model.moneyGetProperty());
         tfAddMoney.textProperty().bindBidirectional(model.moneyAddProperty());
         butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());

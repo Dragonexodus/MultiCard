@@ -25,7 +25,6 @@ public class StudentApplet {
     public static Result<Boolean> setName(String name) {
         if (name.equals(""))
             name = " ";
-
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_NAME, name.getBytes());
         return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
@@ -34,47 +33,46 @@ public class StudentApplet {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_NAME);
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(new String(result.getData()));
     }
 
     public static Result<Boolean> setMatrikel(String matrikel) {
-        byte[] a = ByteHelper.intToByteArrayLsb(Integer.parseInt(matrikel), MATRIKEL_BYTE_LENGTH);
-        if (a == null)
-            return new ErrorResult<>("ungültige Matrikel-Eingabe");
-
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_MATRIKEL, a);
+        if (matrikel.equals(""))
+            matrikel = "0";
+        Result<byte[]> r = ByteHelper.intStringToByteArrayLsb(matrikel, MATRIKEL_BYTE_LENGTH);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_MATRIKEL, r.getData());
         return !result.isSuccess() ? new ErrorResult<>(result.getErrorMsg()) : new SuccessResult<>(true);
     }
 
     public static Result<String> getMatrikel() {
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MATRIKEL);
-        if (!result.isSuccess())
-            return new ErrorResult<>(result.getErrorMsg());
-
-        String s = ByteHelper.byteArrayToIntegerLsb(result.getData()).toString();
-        return new SuccessResult<>(new String(s));
+        Result<byte[]> r1 = CommonApplet.sendValue(AppletName, CLA, INS_GET_MATRIKEL);
+        if (!r1.isSuccess())
+            return new ErrorResult<>(r1.getErrorMsg());
+        Result<Integer> r2 = ByteHelper.byteArrayToIntegerLsb(r1.getData());
+        if (!r2.isSuccess())
+            return new ErrorResult<>(r2.getErrorMsg());
+        return new SuccessResult<>(r2.getData().toString());
     }
 
     public static Result<Boolean> addMoney(String s) {
-        byte[] a = ByteHelper.doubleStringToByteArray(s);
-        if (s == null)
-            return new ErrorResult<>("Fehler in der Eingabe des Betrags!");
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_ADD_MONEY, a);
+        Result<byte[]> r = ByteHelper.doubleStringToByteArray(s);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_ADD_MONEY, r.getData());
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(true);
     }
 
     public static Result<Boolean> subMoney(String s) {
-        byte[] a = ByteHelper.doubleStringToByteArray(s);
-        if (s == null)
-            return new ErrorResult<>("Fehler in der Eingabe des Betrags!");
-        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SUB_MONEY, a);
+        Result<byte[]> r = ByteHelper.doubleStringToByteArray(s);
+        if (!r.isSuccess())
+            return new ErrorResult<>(r.getErrorMsg());
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SUB_MONEY, r.getData());
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(true);
     }
 
@@ -82,7 +80,6 @@ public class StudentApplet {
         Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_MONEY);
         if (!result.isSuccess())
             return new ErrorResult<>(result.getErrorMsg());
-
         return new SuccessResult<>(new String(ByteHelper.byteArrayMoneyToString(result.getData())));
     }
 
