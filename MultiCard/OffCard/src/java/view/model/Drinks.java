@@ -19,9 +19,45 @@ public class Drinks extends ArrayList<Drink> {
         counter++;
     }
 
+    public Result<Integer> getBonusPlus(byte[] a) {
+        Result<Double> r1 = getConsumedMoney(a);
+        if (!r1.isSuccess())
+            return new ErrorResult<Integer>(r1.getErrorMsg());
+        Integer bonus = new Integer(new Double(r1.getData() / 3).intValue());
+        return new SuccessResult<>(bonus);
+    }
+
+    public Result<Double> getConsumedMoney(byte[] a) {
+        Double d = new Double(0);
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] > this.size() - 1 || a[i] < 0)
+                return new ErrorResult<>("Drinks.getConsumedMoney: ungültiges Index!");
+            d += this.get(a[i]).getDrinkPrice();
+        }
+        d = Math.round(d * 100.0) / 100.0;                                      // aufrunden
+        return new SuccessResult<>(d);
+    }
+
+    public Result<String> getConsumedDrinks(byte[] a) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < a.length; i++) {
+            Result<String> r1 = getDrinkString(a[i]);
+            if (!r1.isSuccess())
+                return new ErrorResult<String>(r1.getErrorMsg());
+            sb.append(r1.getData() + "\n");
+        }
+        return new SuccessResult<>(sb.toString());
+    }
+
+    public Result<byte[]> getDrinkByteArray(int index) {
+        if (index > this.size() - 1 || index < 0)
+            return new ErrorResult<>("Drinks.getDrinkByteArray: ungültiges Index!");
+        return new SuccessResult<>(this.get(index).getB());
+    }
+
     public Result<String> getDrinkString(int drink) {
         if (drink > this.size() - 1 || drink < 0)
-            return new ErrorResult<String>("Drinks: ungültiges Index!");
+            return new ErrorResult<>("Drinks.getDrinkString: ungültiges Index!");
         return new SuccessResult<>(this.get(drink).getDrinkName());
     }
 
@@ -43,20 +79,13 @@ public class Drinks extends ArrayList<Drink> {
 class Drink {
     private String drinkName;
     private double drinkPrice;
-    private byte b;
+    private byte[] b;
 
     public Drink(String drinkName, Double drinkPrice, byte b) {
         this.drinkName = drinkName;
         this.drinkPrice = drinkPrice;
-        this.b = b;
-    }
-
-    public byte getB() {
-        return b;
-    }
-
-    public void setB(byte b) {
-        this.b = b;
+        this.b = new byte[1];
+        this.b[0] = b;
     }
 
     public String getDrinkName() {
@@ -73,5 +102,13 @@ class Drink {
 
     public void setDrinkPrice(double drinkPrice) {
         this.drinkPrice = drinkPrice;
+    }
+
+    public byte[] getB() {
+        return b;
+    }
+
+    public void setB(byte[] b) {
+        this.b = b;
     }
 }

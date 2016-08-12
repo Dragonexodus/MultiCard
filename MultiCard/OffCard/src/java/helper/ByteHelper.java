@@ -180,7 +180,7 @@ public class ByteHelper {
             byte b = a[i];
             sb.append(byteToInteger(b).toString());
         }
-        sb.insert(sOffset, ",");
+        sb.insert(sOffset, ".");
         return sb.toString();
     }
 

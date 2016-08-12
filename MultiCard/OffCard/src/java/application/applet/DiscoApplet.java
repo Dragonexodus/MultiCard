@@ -91,4 +91,11 @@ public class DiscoApplet {
             return new ErrorResult<>(result.getErrorMsg());
         return new SuccessResult<>(true);
     }
+
+    public static Result<byte[]> getDrink() {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_GET_DRINKS);
+        if (!result.isSuccess())
+            return new ErrorResult<>(result.getErrorMsg());
+        return new SuccessResult<>(result.getData());
+    }
 }

@@ -52,7 +52,7 @@ public class StudentController {
 
         Result<String> moneyResult = StudentApplet.getMoney();
         if (moneyResult.isSuccess()) {
-            model.setMoneyGet(moneyResult.getData());
+            model.setMoneyGet(moneyResult.getData() + "€");
         }
 
         getRoom();

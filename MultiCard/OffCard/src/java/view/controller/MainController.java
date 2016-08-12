@@ -35,6 +35,7 @@ public class MainController {
     }
 
     static public void setStatus(String s, Color c) {    // weil final für lambda...
+
         if (s.length() > STATUS_LENGTH)
             s = s.substring(0, STATUS_LENGTH);
         setStatus2(s, c);
