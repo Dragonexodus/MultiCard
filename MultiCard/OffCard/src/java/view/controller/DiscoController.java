@@ -157,8 +157,11 @@ public class DiscoController {
             model.setBonusPlus(bonusPlus.getData().toString() + "€");
 
         Result<Integer> bonus = getBonus();
-        if (bonus.isSuccess())
-            model.setRest(consumed.getData() - (bonusPlus.getData() + bonus.getData()) + "€");
+        if (bonus.isSuccess()) {
+            Double rest = consumed.getData() - (bonusPlus.getData() + bonus.getData());
+            if (rest > 0)
+                model.setRest(rest.toString() + "€");
+        }
     }
 
     private Result<Double> getConsumedMoney(byte[] a) {
