@@ -17,7 +17,7 @@ public abstract class Result<T> {
         return data;
     }
 
-    protected void setData(T data) {
+    public void setData(T data) {
         this.data = data;
     }
 

@@ -98,4 +98,11 @@ public class DiscoApplet {
             return new ErrorResult<>(result.getErrorMsg());
         return new SuccessResult<>(result.getData());
     }
+
+    public static Result<Boolean> setPaidDrinks(byte[] a) {
+        Result<byte[]> result = CommonApplet.sendValue(AppletName, CLA, INS_SET_PAID_DRINKS, a);
+        if (!result.isSuccess())
+            return new ErrorResult<>(result.getErrorMsg());
+        return new SuccessResult<>(true);
+    }
 }

@@ -17,10 +17,12 @@ public class DiscoController {
 
     private static DiscoController instance;
     private final Integer EINTRITT = 10;
-    private final Integer EINTRITT_BONUS = 15;
+    private final Integer EINTRITT_BONUS = 40;
+    private final Integer EINTRITT_ADD_BONUS = 15;
+    private final Integer MAX_MONEY_VALUE = 127;
     public Label lblBonus, lblMoney, lblConsumed, lblBonusPlus;
     public TextField tfAddMoney;
-    public Button butIn, butOut, butAddDrink, butAddMoney;
+    public Button butInMoney, butInBonus, butOut, butAddDrink, butAddMoney;
     public ChoiceBox cbDrink;
     public TitledPane tpBar, tpExit;
     public TextArea taConsumed;
@@ -112,7 +114,7 @@ public class DiscoController {
             MainController.setStatus(r2.getErrorMsg(), Color.RED);
             return;
         }
-        Result<String> r3 = drinks.getDrinkString(model.getDrink());
+        Result<String> r3 = drinks.getDrinkName(model.getDrink());
         if (!r3.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, r3.getErrorMsg());
             MainController.setStatus(r3.getErrorMsg(), Color.RED);
@@ -137,7 +139,7 @@ public class DiscoController {
         if (!r1.isSuccess())
             return;
 
-        Result<String> r2 = drinks.getConsumedDrinks(r1.getData());
+        Result<String> r2 = drinks.getConsumedDrinksString(r1.getData());
         if (!r2.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, r2.getErrorMsg());
             MainController.setStatus(r2.getErrorMsg(), Color.RED);
@@ -191,11 +193,12 @@ public class DiscoController {
             }
         });
 
-        butIn.visibleProperty().bind(model.discoIOProperty().not());
+        butInMoney.visibleProperty().bind(model.discoIOProperty().not());
+        butInBonus.visibleProperty().bind(model.discoIOProperty().not());
         tpBar.visibleProperty().bind(model.discoIOProperty());
         tpExit.visibleProperty().bind(model.discoIOProperty());
 
-        butIn.addEventHandler(ActionEvent.ACTION, e -> {
+        butInMoney.addEventHandler(ActionEvent.ACTION, e -> {
             Result<Double> r1 = getMoney();
             if (!r1.isSuccess())
                 return;
@@ -210,13 +213,37 @@ public class DiscoController {
                 MainController.setStatus(r2.getErrorMsg(), Color.RED);
                 return;
             }
-            Result<Boolean> r3 = DiscoApplet.addBonus(EINTRITT_BONUS.toString());
+            Result<Boolean> r3 = DiscoApplet.addBonus(EINTRITT_ADD_BONUS.toString());
             if (!r3.isSuccess()) {
                 LogHelper.log(LogLevel.ERROR, r3.getErrorMsg());
                 MainController.setStatus(r3.getErrorMsg(), Color.RED);
-                if (!r3.getErrorMsg().equals("add_bonus_overflow"))             // bei BonusOverflow wird kein Bonus mehr addiert...
-                    return;
+                return;
             }
+            model.setDiscoIO(true);
+            getState();
+        });
+
+        butInBonus.addEventHandler(ActionEvent.ACTION, e -> {
+            Result<Integer> r1 = getBonus();
+            if (!r1.isSuccess())
+                return;
+            if (EINTRITT > r1.getData()) {
+                LogHelper.log(LogLevel.INFO, "Zu wenig Bonuspunkte auf der SC!");
+                MainController.setStatus("Zu wenig Bonuspunkte auf der SC!", Color.PURPLE);
+                return;
+            }
+            Result<Boolean> r2 = DiscoApplet.subBonus(EINTRITT_BONUS.toString());
+            if (!r2.isSuccess()) {
+                LogHelper.log(LogLevel.ERROR, r2.getErrorMsg());
+                MainController.setStatus(r2.getErrorMsg(), Color.RED);
+                return;
+            }
+//            Result<Boolean> r3 = DiscoApplet.addBonus(EINTRITT_ADD_BONUS.toString());
+//            if (!r3.isSuccess()) {
+//                LogHelper.log(LogLevel.ERROR, r3.getErrorMsg());
+//                MainController.setStatus(r3.getErrorMsg(), Color.RED);
+//                return;
+//            }
             model.setDiscoIO(true);
             getState();
         });
@@ -239,9 +266,65 @@ public class DiscoController {
             if (!bonusPlus.isSuccess())
                 return;
 
-            if (consum.getData() > money.getData() + bonus.getData() + bonusPlus.getData()) {
-                LogHelper.log(LogLevel.INFO, "Zu wenig Geld auf der SC!");
-                MainController.setStatus("Zu wenig Geld auf der SC!", Color.PURPLE);
+            Double moneyAndBonus = money.getData() + bonus.getData() + bonusPlus.getData();
+            // Teilbezahlung ---------------------------------------------------
+            if (consum.getData() > moneyAndBonus) {
+                int paidDrinks = 0;
+                Double summe = 0.0;
+                Double newMoneyAndBonus = 0.0;
+                for (int i = 0; i < drinks.getData().length; i++) {
+                    byte[] newBonusPlus = new byte[i + 1];                      // i+1, da sonst geht ein Getränk verloren
+                    for (int j = 0; j < i + 1; j++)                             // i+1, da sonst geht ein Getränk verloren
+                        newBonusPlus[j] = drinks.getData()[j];
+
+                    newMoneyAndBonus = money.getData() + bonus.getData() + this.drinks.getBonusPlus(newBonusPlus).getData();
+                    summe += this.drinks.getDrinkPrice(drinks.getData()[i]);
+                    paidDrinks++;
+                    if (newMoneyAndBonus < summe + this.drinks.getDrinkPrice(drinks.getData()[i + 1])) {
+                        System.out.println("plus: " + this.drinks.getBonusPlus(newBonusPlus).getData());
+                        System.out.println("newMoneyAndBonus: " + newMoneyAndBonus);
+                        System.out.println("summe: " + summe);
+                        break;
+                    }
+                }
+                Double restMoney = newMoneyAndBonus - summe;
+                byte[] aPaid = new byte[drinks.getData().length];
+                for (int i = 0; i < paidDrinks; i++)
+                    aPaid[i] = 1;
+
+                Result<Boolean> rPaid = DiscoApplet.setPaidDrinks(aPaid);
+                if (!rPaid.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, rPaid.getErrorMsg());
+                    MainController.setStatus(rPaid.getErrorMsg(), Color.RED);
+                    return;
+                }
+                Result<Boolean> rResetM = DiscoApplet.resetMoney();
+                if (!rResetM.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, rResetM.getErrorMsg());
+                    MainController.setStatus(rResetM.getErrorMsg(), Color.RED);
+                    return;
+                }
+                Result<Boolean> rAddM = DiscoApplet.addMoney(String.format("%.2f", restMoney));
+                if (!rAddM.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, rAddM.getErrorMsg());
+                    MainController.setStatus(rAddM.getErrorMsg(), Color.RED);
+                    return;
+                }
+                Result<Boolean> rResetB = DiscoApplet.resetBonus();
+                if (!rResetB.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, rResetB.getErrorMsg());
+                    MainController.setStatus(rResetB.getErrorMsg(), Color.RED);
+                    return;
+                }
+                getState();
+                getConsumed();
+                LogHelper.log(LogLevel.INFO, "Teilbezahlung erfolgreich, bitte nachzahlen!");
+                MainController.setStatus("Teilbezahlung erfolgreich, bitte nachzahlen!", Color.PURPLE);
+                return;
+            }
+
+            if (consum.getData() > moneyAndBonus) {
+
                 return;
             }
 

@@ -19,6 +19,10 @@ public class Drinks extends ArrayList<Drink> {
         counter++;
     }
 
+    public Double getDrinkPrice(int i){
+        return this.get(i).getDrinkPrice();
+    }
+
     public Result<Integer> getBonusPlus(byte[] a) {
         Result<Double> r1 = getConsumedMoney(a);
         if (!r1.isSuccess())
@@ -38,10 +42,10 @@ public class Drinks extends ArrayList<Drink> {
         return new SuccessResult<>(d);
     }
 
-    public Result<String> getConsumedDrinks(byte[] a) {
+    public Result<String> getConsumedDrinksString(byte[] a) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < a.length; i++) {
-            Result<String> r1 = getDrinkString(a[i]);
+            Result<String> r1 = getDrinkName(a[i]);
             if (!r1.isSuccess())
                 return new ErrorResult<String>(r1.getErrorMsg());
             sb.append(r1.getData() + "\n");
@@ -55,9 +59,9 @@ public class Drinks extends ArrayList<Drink> {
         return new SuccessResult<>(this.get(index).getB());
     }
 
-    public Result<String> getDrinkString(int drink) {
+    public Result<String> getDrinkName(int drink) {
         if (drink > this.size() - 1 || drink < 0)
-            return new ErrorResult<>("Drinks.getDrinkString: ungültiges Index!");
+            return new ErrorResult<>("Drinks.getDrinkName: ungültiges Index!");
         return new SuccessResult<>(this.get(drink).getDrinkName());
     }
 
