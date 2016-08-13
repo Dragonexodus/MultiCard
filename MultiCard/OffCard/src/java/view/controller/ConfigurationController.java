@@ -73,7 +73,7 @@ public class ConfigurationController {
         MainController.setStatus("Guthaben wurde zurückgesetzt", Color.GREEN);
     }
 
-    private void addBonus(){
+    private void addBonus() {
         Result<Boolean> result = DiscoApplet.addBonus(model.getBonus());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());

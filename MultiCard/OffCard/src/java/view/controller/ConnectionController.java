@@ -28,7 +28,7 @@ public class ConnectionController {
         model = new ConnectionModel();
     }
 
-    public static void setConnectionStatus(boolean b){
+    public static void setConnectionStatus(boolean b) {
         model.setIsConnectionEstablished(b);
     }
 

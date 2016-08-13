@@ -19,7 +19,7 @@ public class Drinks extends ArrayList<Drink> {
         counter++;
     }
 
-    public Double getDrinkPrice(int i){
+    public Double getDrinkPrice(int i) {
         return this.get(i).getDrinkPrice();
     }
 

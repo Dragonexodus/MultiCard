@@ -6,7 +6,7 @@ import javafx.scene.paint.Paint;
 
 public class ConnectionModel {
     private BooleanProperty isConnectionEstablished = new SimpleBooleanProperty(false);
-//    private StringProperty connectionStatus = new SimpleStringProperty("Disconnected");
+    //    private StringProperty connectionStatus = new SimpleStringProperty("Disconnected");
     private ObjectProperty<Paint> connectionStatusColor = new SimpleObjectProperty<>(Color.RED);
 
     private BooleanProperty isTerminalKeyFileAvailable = new SimpleBooleanProperty(false);
