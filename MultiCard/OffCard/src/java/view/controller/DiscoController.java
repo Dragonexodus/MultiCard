@@ -161,6 +161,8 @@ public class DiscoController {
             Double rest = consumed.getData() - (bonusPlus.getData() + bonus.getData());
             if (rest > 0)
                 model.setRest(rest.toString() + "€");
+            else
+                model.setRest("0€");
         }
     }
 
