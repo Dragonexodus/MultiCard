@@ -17,10 +17,10 @@ public class DiscoController {
 
     private static DiscoController instance;
     private final Integer EINTRITT = 10;
-    private final Integer EINTRITT_BONUS = 40;
-    private final Integer EINTRITT_ADD_BONUS = 15;
+    private final Integer EINTRITT_BONUS = 20;
+    private final Integer EINTRITT_ADD_BONUS = 10;
     private final Integer MAX_MONEY_VALUE = 127;
-    public Label lblBonus, lblMoney, lblConsumed, lblBonusPlus;
+    public Label lblInMoney, lblInBonus, lblBonus, lblMoney, lblConsumed, lblBonusPlus, lblRest;
     public TextField tfAddMoney;
     public Button butInMoney, butInBonus, butOut, butAddDrink, butAddMoney;
     public ChoiceBox cbDrink;
@@ -120,6 +120,7 @@ public class DiscoController {
             MainController.setStatus(r3.getErrorMsg(), Color.RED);
             return;
         }
+        getConsumed();
         LogHelper.log(LogLevel.INFO, "%s konsumiert :)", r3.getData());
         MainController.setStatus(r3.getData() + " konsumiert :)", Color.GREEN);
     }
@@ -147,13 +148,17 @@ public class DiscoController {
         }
         model.setConsumedDrinks(r2.getData());
 
-        Result<Double> r3 = getConsumedMoney(r1.getData());
-        if (r3.isSuccess())
-            model.setConsumedMoney(r3.getData().toString() + "€");
+        Result<Double> consumed = getConsumedMoney(r1.getData());
+        if (consumed.isSuccess())
+            model.setConsumedMoney(consumed.getData().toString() + "€");
 
-        Result<Integer> r4 = getBonusPlus(r1.getData());
-        if (r4.isSuccess())
-            model.setBonusPlus(r4.getData().toString() + "€");
+        Result<Integer> bonusPlus = getBonusPlus(r1.getData());
+        if (bonusPlus.isSuccess())
+            model.setBonusPlus(bonusPlus.getData().toString() + "€");
+
+        Result<Integer> bonus = getBonus();
+        if (bonus.isSuccess())
+            model.setRest(consumed.getData() - (bonusPlus.getData() + bonus.getData()) + "€");
     }
 
     private Result<Double> getConsumedMoney(byte[] a) {
@@ -193,10 +198,19 @@ public class DiscoController {
             }
         });
 
+        lblInMoney.visibleProperty().bind(model.discoIOProperty().not());
+        lblInBonus.visibleProperty().bind(model.discoIOProperty().not());
         butInMoney.visibleProperty().bind(model.discoIOProperty().not());
         butInBonus.visibleProperty().bind(model.discoIOProperty().not());
         tpBar.visibleProperty().bind(model.discoIOProperty());
         tpExit.visibleProperty().bind(model.discoIOProperty());
+
+        lblConsumed.textProperty().bind(model.consumedMoneyProperty());
+        lblBonusPlus.textProperty().bind(model.bonusPlusProperty());
+        taConsumed.textProperty().bind(model.consumedDrinksProperty());
+        lblRest.textProperty().bind(model.restProperty());
+
+//        getConsumed();
 
         butInMoney.addEventHandler(ActionEvent.ACTION, e -> {
             Result<Double> r1 = getMoney();
@@ -221,6 +235,7 @@ public class DiscoController {
             }
             model.setDiscoIO(true);
             getState();
+            getConsumed();
         });
 
         butInBonus.addEventHandler(ActionEvent.ACTION, e -> {
@@ -246,6 +261,7 @@ public class DiscoController {
 //            }
             model.setDiscoIO(true);
             getState();
+            getConsumed();
         });
 
         butOut.addEventHandler(ActionEvent.ACTION, e -> {
@@ -280,18 +296,23 @@ public class DiscoController {
                     newMoneyAndBonus = money.getData() + bonus.getData() + this.drinks.getBonusPlus(newBonusPlus).getData();
                     summe += this.drinks.getDrinkPrice(drinks.getData()[i]);
                     paidDrinks++;
+                    if (drinks.getData().length <= i + 1) {
+                        LogHelper.log(LogLevel.INFO, "Ungenügend Geld auf SC, bitte nachladen!");
+                        MainController.setStatus("Ungenügend Geld auf SC, bitte nachladen!", Color.PURPLE);
+                        return;
+                    }
                     if (newMoneyAndBonus < summe + this.drinks.getDrinkPrice(drinks.getData()[i + 1])) {
-                        System.out.println("plus: " + this.drinks.getBonusPlus(newBonusPlus).getData());
-                        System.out.println("newMoneyAndBonus: " + newMoneyAndBonus);
-                        System.out.println("summe: " + summe);
+//                        System.err.println("plus: " + this.drinks.getBonusPlus(newBonusPlus).getData());
+//                        System.err.println("newMoneyAndBonus: " + newMoneyAndBonus);
+//                        System.err.println("summe: " + summe);
                         break;
                     }
                 }
                 Double restMoney = newMoneyAndBonus - summe;
-                byte[] aPaid = new byte[drinks.getData().length];
+
+                byte[] aPaid = new byte[drinks.getData().length];               // bezahlte Drinks auf Bezahlt setzen
                 for (int i = 0; i < paidDrinks; i++)
                     aPaid[i] = 1;
-
                 Result<Boolean> rPaid = DiscoApplet.setPaidDrinks(aPaid);
                 if (!rPaid.isSuccess()) {
                     LogHelper.log(LogLevel.ERROR, rPaid.getErrorMsg());
@@ -322,26 +343,65 @@ public class DiscoController {
                 MainController.setStatus("Teilbezahlung erfolgreich, bitte nachzahlen!", Color.PURPLE);
                 return;
             }
+            // Bezahlung -------------------------------------------------------
+            if (consum.getData() < bonus.getData() + bonusPlus.getData()) {     // nur Bonuspinkte ausreichen
+                consum.setData(consum.getData() - bonusPlus.getData());
+                Result<Boolean> subBonus = DiscoApplet.subBonus(getNextInt(consum.getData()).toString());
+                if (!subBonus.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, subBonus.getErrorMsg());
+                    MainController.setStatus(subBonus.getErrorMsg(), Color.RED);
+                    return;
+                }
+            } else {
+                consum.setData(consum.getData() - (bonus.getData() + bonusPlus.getData()));
 
-            if (consum.getData() > moneyAndBonus) {
+                Result<Boolean> subMoney = DiscoApplet.subMoney(String.format("%.2f", consum.getData()));
+                if (!subMoney.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, subMoney.getErrorMsg());
+                    MainController.setStatus(subMoney.getErrorMsg(), Color.RED);
+                    return;
+                }
 
+                Result<Boolean> resetBonus = DiscoApplet.resetBonus();
+                if (!resetBonus.isSuccess()) {
+                    LogHelper.log(LogLevel.ERROR, resetBonus.getErrorMsg());
+                    MainController.setStatus(resetBonus.getErrorMsg(), Color.RED);
+                    return;
+                }
+            }
+
+            byte[] aPaid = new byte[drinks.getData().length];                   // alle Drinks auf Bezahlt setzen
+            for (int i = 0; i < drinks.getData().length; i++)
+                aPaid[i] = 1;
+            Result<Boolean> rPaid = DiscoApplet.setPaidDrinks(aPaid);
+            if (!rPaid.isSuccess()) {
+                LogHelper.log(LogLevel.ERROR, rPaid.getErrorMsg());
+                MainController.setStatus(rPaid.getErrorMsg(), Color.RED);
                 return;
             }
 
+            getState();
+            getConsumed();
             model.setDiscoIO(false);
         });
 
-        tpExit.setExpanded(false);
-        tpExit.setOnMouseEntered(e -> {
-            tpExit.setExpanded(true);
-            getConsumed();
-        });
-        tpExit.setOnMouseExited(e -> {
-            tpExit.setExpanded(false);
-        });
+//        tpExit.setExpanded(false);
+//        tpExit.setOnMouseEntered(e -> {
+//            tpExit.setExpanded(true);
+//            getConsumed();
+//        });
+//        tpExit.setOnMouseExited(e -> {
+//            tpExit.setExpanded(false);
+//        });
+    }
 
-        lblConsumed.textProperty().bind(model.consumedMoneyProperty());
-        lblBonusPlus.textProperty().bind(model.bonusPlusProperty());
-        taConsumed.textProperty().bind(model.consumedDrinksProperty());
+    private Integer getNextInt(Double d) {
+        int i = 0;
+        d = Math.round(d * 100.0) / 100.0;                                      // aufrunden
+        if (d / d.intValue() != 0)
+            i = d.intValue() + 1;
+        else
+            i = d.intValue();
+        return i;
     }
 }

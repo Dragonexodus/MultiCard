@@ -9,6 +9,7 @@ public class DiscoModel {
     private StringProperty consumedMoney = new SimpleStringProperty("0");
     private StringProperty bonusPlus = new SimpleStringProperty("0");
     private StringProperty consumedDrinks = new SimpleStringProperty("");
+    private StringProperty rest = new SimpleStringProperty("0");
     private IntegerProperty drink = new SimpleIntegerProperty(0);
     private BooleanProperty discoIO = new SimpleBooleanProperty(false);
 
@@ -100,11 +101,23 @@ public class DiscoModel {
         return discoIO.get();
     }
 
+    public void setDiscoIO(boolean discoIO) {
+        this.discoIO.set(discoIO);
+    }
+
     public BooleanProperty discoIOProperty() {
         return discoIO;
     }
 
-    public void setDiscoIO(boolean discoIO) {
-        this.discoIO.set(discoIO);
+    public String getRest() {
+        return rest.get();
+    }
+
+    public void setRest(String rest) {
+        this.rest.set(rest);
+    }
+
+    public StringProperty restProperty() {
+        return rest;
     }
 }
