@@ -43,7 +43,7 @@ public class Disco extends Applet {
 	private static final byte MAX_BONUS_VALUE = (byte) 0x7F;
 	private static final byte BYTE_LENGTH = (byte) 0x01;
 	private static final byte SHORT_LENGTH = (byte) 0x02;
-	private static final byte MAX_DRINKS = (byte) 0x40;
+	private static final byte MAX_DRINKS = (byte) 0x32;			// 50 Getränke
 
 	// Daten
 	private byte bonus;
