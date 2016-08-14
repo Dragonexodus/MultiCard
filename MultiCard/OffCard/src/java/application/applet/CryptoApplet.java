@@ -36,7 +36,7 @@ public class CryptoApplet {
         Result<Boolean> selectResult = JavaCardHelper.selectApplet(AppletName);
         if (!selectResult.isSuccess())
             return selectResult;
-        return setKeyToCard(CLA, RSACryptoHelper.current().getPublicMod(), INS_ImportTerminalPublicMod, RSACryptoHelper.current().getPublicExp(), INS_ImportTerminalPublicExp);
+        return setKeyToCard(CLA, RSACryptoHelper.getInstance().getPublicMod(), INS_ImportTerminalPublicMod, RSACryptoHelper.getInstance().getPublicExp(), INS_ImportTerminalPublicExp);
     }
 
     /**
@@ -64,7 +64,7 @@ public class CryptoApplet {
         byte[] modulus = CryptoHelper.addLeadingZero(exportModResult.getData());
         byte[] exponent = CryptoHelper.addLeadingZero(exportExponentResult.getData());
 
-        RSACryptoHelper.current().setCardPublicKey(new BigInteger(modulus), new BigInteger(exponent));
+        RSACryptoHelper.getInstance().setCardPublicKey(new BigInteger(modulus), new BigInteger(exponent));
 
         return new SuccessResult<>(true);
     }

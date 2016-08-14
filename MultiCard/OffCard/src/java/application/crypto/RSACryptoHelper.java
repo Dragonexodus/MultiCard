@@ -43,7 +43,7 @@ public class RSACryptoHelper implements IRSACryptoHelper {
         LogHelper.log(LogLevel.INFO, "RSACryptoHelper initialisiert");
     }
 
-    public static IRSACryptoHelper current() {
+    public static IRSACryptoHelper getInstance() {
         return instance == null ? (instance = new RSACryptoHelper()) : instance;
     }
 
@@ -67,21 +67,12 @@ public class RSACryptoHelper implements IRSACryptoHelper {
         Result<ImportedKeys> readResult = CryptoHelper.readKeysFromFile(KeyPath.TERMINAL_KEY_PATH);
         if (!readResult.isSuccess())
             return new ErrorResult<>(readResult.getErrorMsg());
-
         try {
             KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
-
-            RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(
-                    readResult.getData().getPrivateMod(),
-                    readResult.getData().getPrivateExp());
-            terminalPrivateKey = (RSAPrivateKey) rsaKeyFactory.generatePrivate(keySpec);
-
-            RSAPublicKeySpec spec = new RSAPublicKeySpec(
-                    readResult.getData().getPublicMod(),
-                    readResult.getData().getPublicExp());
-            terminalPublicKey = (RSAPublicKey) rsaKeyFactory.generatePublic(spec);
-        } catch (Exception ex) {
-            LogHelper.log(ex);
+            RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(readResult.getData().getPrivateMod(), readResult.getData().getPrivateExp()); terminalPrivateKey = (RSAPrivateKey) rsaKeyFactory.generatePrivate(keySpec);
+            RSAPublicKeySpec spec = new RSAPublicKeySpec(readResult.getData().getPublicMod(), readResult.getData().getPublicExp()); terminalPublicKey = (RSAPublicKey) rsaKeyFactory.generatePublic(spec);
+        } catch (Exception e) {
+            LogHelper.log(e);
             return new ErrorResult<>("terminalKeys können nicht gesetzt werden");
         }
         return new SuccessResult<>(true);

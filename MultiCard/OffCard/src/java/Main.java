@@ -25,6 +25,6 @@ public class Main extends Application {
 
     private void close() {
         MainController.cancelTimer();
-        JavaCard.current().shutdown();
+        JavaCard.getInstance().shutdown();
     }
 }

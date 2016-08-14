@@ -23,16 +23,14 @@ public class JavaCard implements IJavaCard, CTListener {
     private JavaCard() {
     }
 
-    public static IJavaCard current() {
+    public static IJavaCard getInstance() {
         return instance == null ? (instance = new JavaCard()) : instance;
     }
 
     @Override
     public Result<Boolean> connect() {
-        if (card != null) {
+        if (card != null)
             return new SuccessResult<>(true);
-        }
-
         try {
             SmartCard.start();
             EventGenerator.getGenerator().addCTListener(this);
@@ -41,10 +39,10 @@ public class JavaCard implements IJavaCard, CTListener {
             return new ErrorResult<>("Terminal ist nicht verfügbar. Prüfen Sie die opencard.properties-Datei!");
         } catch (Exception e) {
             LogHelper.log(e);
-            return new ErrorResult<>("SmartCard kann nicht gestartet werden!");
+            return new ErrorResult<>("SC kann nicht gestartet werden!");
         }
 
-        LogHelper.log(LogLevel.INFO, "Verbindungsaufbau zu SmartCard");
+        LogHelper.log(LogLevel.INFO, "Verbindungsaufbau zu SC");
 
         CardRequest cardRequest = new CardRequest(CardRequest.ANYCARD, null, null);
         cardRequest.setTimeout(1);
@@ -53,15 +51,13 @@ public class JavaCard implements IJavaCard, CTListener {
             card = SmartCard.waitForCard(cardRequest);
         } catch (Exception e) {
             LogHelper.log(e);
-            return new ErrorResult<>("Keine SmartCard gefunden!");
+            return new ErrorResult<>("Keine SC gefunden!");
         }
-
         if (card == null) {
-            LogHelper.log(LogLevel.WARNING, "Keine SmartCard gefunden!");
-            return new ErrorResult<>("Keine SmartCard gefunden!");
+            LogHelper.log(LogLevel.WARNING, "Keine SC gefunden!");
+            return new ErrorResult<>("Keine SC gefunden!");
         }
-
-        LogHelper.log(LogLevel.INFO, "Verbindung zuSmartCard aufgebaut");
+        LogHelper.log(LogLevel.INFO, "Verbindung zu SC aufgebaut");
         return new SuccessResult<>(true);
     }
 

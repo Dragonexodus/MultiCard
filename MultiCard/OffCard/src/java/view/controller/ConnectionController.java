@@ -57,8 +57,8 @@ public class ConnectionController {
         }
 
         // cardKeyFile wird eingelesen und der Objekt initialisiert
-        Result<Boolean> initializeTerminalCryptography = initTerminalCrypto();
-        if (!initializeTerminalCryptography.isSuccess()) {
+        Result<Boolean> initTerminalCrypto = initTerminalCrypto();
+        if (!initTerminalCrypto.isSuccess()) {
             return;
         }
 
@@ -79,7 +79,7 @@ public class ConnectionController {
     private void connectToSmartCard() {
         MainController.setConnectionStatus(false, "verbinden", Color.ORANGE);
 
-        Result<Boolean> connectResult = JavaCard.current().connect();
+        Result<Boolean> connectResult = JavaCard.getInstance().connect();
         if (!connectResult.isSuccess()) {
             MainController.setConnectionStatus(false, "nicht verbunden", Color.RED);
             LogHelper.log(LogLevel.WARNING, connectResult.getErrorMsg());
@@ -98,8 +98,6 @@ public class ConnectionController {
 
     /**
      * generiert keyFiles und initialisiert Terminal-Crypto
-     *
-     * @return result
      */
     private Result<Boolean> generateRsaKeys() {
         if (!model.isTerminalKeyFileAvailable()) {
@@ -119,11 +117,9 @@ public class ConnectionController {
 
     /**
      * Terminal-crypto wird initialisiert
-     *
-     * @return result
      */
     private Result<Boolean> initTerminalCrypto() {
-        Result<Boolean> setupTerminalKey = RSACryptoHelper.current().importTerminalKeyFromFile();
+        Result<Boolean> setupTerminalKey = RSACryptoHelper.getInstance().importTerminalKeyFromFile();
         if (!setupTerminalKey.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, setupTerminalKey.getErrorMsg());
             MainController.setStatus(setupTerminalKey.getErrorMsg(), Color.RED);

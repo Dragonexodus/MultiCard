@@ -10,7 +10,7 @@ import helper.SuccessResult;
 public class JavaCardHelper {
     public static Result<Boolean> selectApplet(String appletId) {
         Cmd command = ApduHelper.getSelectCommand(appletId);
-        Result<byte[]> selectResult = JavaCard.current().sendCommand(command);
+        Result<byte[]> selectResult = JavaCard.getInstance().sendCommand(command);
         if (!selectResult.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Applet: %s kann nicht ausgewählt werden", appletId);
             return new ErrorResult<>(selectResult.getErrorMsg());
@@ -19,19 +19,19 @@ public class JavaCardHelper {
     }
 
     public static Result<byte[]> sendCommand(byte cla, byte ins, byte[] content, byte answerLength) {
-        Result<byte[]> encryptedMessage = RSACryptoHelper.current().encrypt(content);
+        Result<byte[]> encryptedMessage = RSACryptoHelper.getInstance().encrypt(content);
         if (!encryptedMessage.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Verschlüsseln fehlgeschlagen");
             return new ErrorResult<>(encryptedMessage.getErrorMsg());
         }
 
         Cmd command = ApduHelper.getCommand(cla, ins, encryptedMessage.getData(), answerLength);
-        Result<byte[]> commandResult = JavaCard.current().sendCommand(command);
+        Result<byte[]> commandResult = JavaCard.getInstance().sendCommand(command);
         if (!commandResult.isSuccess() || commandResult.getData().length < 1) {
             return commandResult;
         }
 
-        Result<byte[]> decryptedMessage = RSACryptoHelper.current().decrypt(commandResult.getData());
+        Result<byte[]> decryptedMessage = RSACryptoHelper.getInstance().decrypt(commandResult.getData());
         if (!decryptedMessage.isSuccess()) {
             LogHelper.log(LogLevel.FAILURE, "Entschlüsseln fehlgeschlagen");
             return new ErrorResult<>(decryptedMessage.getErrorMsg());
@@ -41,7 +41,7 @@ public class JavaCardHelper {
 
     public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins, byte[] content, byte answerLength) {
         Cmd command = ApduHelper.getCommand(cla, ins, content, answerLength);
-        return JavaCard.current().sendCommand(command);
+        return JavaCard.getInstance().sendCommand(command);
     }
 
     public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins, byte[] content) {
