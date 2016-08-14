@@ -103,27 +103,27 @@ public class DiscoController {
     }
 
     private void addDrink() {
-        Result<byte[]> r1 = drinks.getDrinkByteArray(model.getDrink());         //ByteHelper.intToByteArrayLsb(model.getConsumed(), 1);
-        if (!r1.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, r1.getErrorMsg());
-            MainController.setStatus(r1.getErrorMsg(), Color.RED);
+        Result<byte[]> drink = drinks.getDrinkByteArray(model.getDrink());         //ByteHelper.intToByteArrayLsb(model.getConsumed(), 1);
+        if (!drink.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, drink.getErrorMsg());
+            MainController.setStatus(drink.getErrorMsg(), Color.RED);
             return;
         }
-        Result<Boolean> r2 = DiscoApplet.addDrink(r1.getData());
-        if (!r2.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, r2.getErrorMsg());
-            MainController.setStatus(r2.getErrorMsg(), Color.RED);
+        Result<Boolean> r = DiscoApplet.addDrink(drink.getData());
+        if (!r.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, r.getErrorMsg());
+            MainController.setStatus(r.getErrorMsg(), Color.RED);
             return;
         }
-        Result<String> r3 = drinks.getDrinkName(model.getDrink());
-        if (!r3.isSuccess()) {
-            LogHelper.log(LogLevel.ERROR, r3.getErrorMsg());
-            MainController.setStatus(r3.getErrorMsg(), Color.RED);
+        Result<String> drinkName = drinks.getDrinkName(model.getDrink());
+        if (!drinkName.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, drinkName.getErrorMsg());
+            MainController.setStatus(drinkName.getErrorMsg(), Color.RED);
             return;
         }
         getConsumed();
-        LogHelper.log(LogLevel.INFO, "%s konsumiert :)", r3.getData());
-        MainController.setStatus(r3.getData() + " konsumiert :)", Color.GREEN);
+        LogHelper.log(LogLevel.INFO, "%s konsumiert :)", drinkName.getData());
+        MainController.setStatus(drinkName.getData() + " konsumiert :)", Color.GREEN);
     }
 
     private Result<byte[]> getConsumedDrinks() {
@@ -191,9 +191,6 @@ public class DiscoController {
         lblBonus.textProperty().bind(model.bonusGetProperty());
         lblMoney.textProperty().bind(model.moneyGetProperty());
         tfAddMoney.textProperty().bindBidirectional(model.moneyAddProperty());
-        butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
-
-        butAddDrink.addEventHandler(ActionEvent.ACTION, e -> addDrink());
 
         cbDrink.setStyle("-fx-font: 13px \"Monospace\";");
         cbDrink.setItems(FXCollections.observableArrayList(drinks.getDrinkListString()));
@@ -218,6 +215,9 @@ public class DiscoController {
         lblRest.textProperty().bind(model.restProperty());
 
 //        getConsumed();
+
+        butAddMoney.addEventHandler(ActionEvent.ACTION, e -> addMoney());
+        butAddDrink.addEventHandler(ActionEvent.ACTION, e -> addDrink());
 
         butInMoney.addEventHandler(ActionEvent.ACTION, e -> {
             Result<Double> r1 = getMoney();

@@ -4,6 +4,7 @@ import com.sun.corba.se.impl.ior.ByteBuffer;
 
 public class RoomHelper {
 
+    private static Integer MAX_ROOMS = 20;
     private static int MAX_SHORT_VALUE = 65535;
     private static int ARRAY_LENGTH = 3;
 
@@ -27,6 +28,8 @@ public class RoomHelper {
             return new ErrorResult<byte[]>("Keine Einträge enthalten!");
 
         String[] sa = s.split("\\n");
+        if (sa.length > MAX_ROOMS)
+            return new ErrorResult<byte[]>("Zugang in max %d Räume zugelassen!", MAX_ROOMS);
 
         ByteBuffer bb = new ByteBuffer(ARRAY_LENGTH);
 
@@ -53,6 +56,8 @@ public class RoomHelper {
                 else
                     return new ErrorResult<byte[]>("Ungültiges Zeichen in Raumbezeichnung (Zeile %d)", i + 1);
             }
+            if (sb2.toString().equals(""))
+                return new ErrorResult<byte[]>("Keine Raumzahl angegeben!");
             if (Integer.parseInt(sb2.toString()) > MAX_SHORT_VALUE)
                 return new ErrorResult<byte[]>("Zu große Raumzahl (Zeile %d)", i + 1);
             Result<byte[]> a = ByteHelper.intStringToByteArrayLsb(sb2.toString(), 2);

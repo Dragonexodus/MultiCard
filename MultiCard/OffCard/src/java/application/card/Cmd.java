@@ -12,9 +12,8 @@ public class Cmd extends CommandAPDU {
     }
 
     private static byte[] ToCommandBytes(byte cla, byte ins, byte p1, byte p2, byte[] content, byte answerLength) {
-        if (content.length < 1) {
+        if (content.length < 1)
             return ToCommandBytes(cla, ins, p1, p2, answerLength);
-        }
 
         final Integer contentLength = content.length;
         final byte[] command = new byte[6 + contentLength];
@@ -86,7 +85,6 @@ public class Cmd extends CommandAPDU {
             byte current = i % 2 == 1 ? (byte) (buffer[i / 2] & 15) : (byte) (buffer[i / 2] >> 4 & 15);
             ret.append((char) (current < 10 ? current + 48 : current + 55) + (i % 2 == 1 ? blank : ""));
         }
-
         return ret.toString();
     }
 }

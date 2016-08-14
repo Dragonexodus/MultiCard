@@ -39,20 +39,20 @@ public class JavaCardHelper {
         return decryptedMessage;
     }
 
-    public static Result<byte[]> sendCommandWithoutEncryption(byte cla, byte ins, byte[] content, byte answerLength) {
+    public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins, byte[] content, byte answerLength) {
         Cmd command = ApduHelper.getCommand(cla, ins, content, answerLength);
         return JavaCard.current().sendCommand(command);
     }
 
-    public static Result<byte[]> sendCommandWithoutEncryption(byte cla, byte ins, byte[] content) {
-        return sendCommandWithoutEncryption(cla, ins, content, (byte) 0x00);
+    public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins, byte[] content) {
+        return sendCmdWithoutEncryption(cla, ins, content, (byte) 0x00);
     }
 
-    public static Result<byte[]> sendCommandWithoutEncryption(byte cla, byte ins, byte answerLength) {
-        return sendCommandWithoutEncryption(cla, ins, new byte[0], answerLength);
+    public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins, byte answerLength) {
+        return sendCmdWithoutEncryption(cla, ins, new byte[0], answerLength);
     }
 
-    public static Result<byte[]> sendCommandWithoutEncryption(byte cla, byte ins) {
-        return sendCommandWithoutEncryption(cla, ins, new byte[0], (byte) 0x00);
+    public static Result<byte[]> sendCmdWithoutEncryption(byte cla, byte ins) {
+        return sendCmdWithoutEncryption(cla, ins, new byte[0], (byte) 0x00);
     }
 }

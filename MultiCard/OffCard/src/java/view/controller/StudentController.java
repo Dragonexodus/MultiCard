@@ -18,7 +18,6 @@ public class StudentController {
     private static StudentController instance;
     public Label lblName, lblMatrikel, lblMoney;
     public TextField tfAddMoney, tfSubMoney;
-    //TODO: Room
     public Button butGetStudent, butAddMoney, butSubMoney, butGetRoom;
     public TextArea taRoom;
     private StudentModel model;
@@ -67,7 +66,7 @@ public class StudentController {
         }
         Result<String> moneyResult = StudentApplet.getMoney();
         if (moneyResult.isSuccess()) {
-            model.setMoneyGet(moneyResult.getData());
+            model.setMoneyGet(moneyResult.getData() + "€");
         }
         LogHelper.log(LogLevel.INFO, "das Geld wurde eingezahlt");
         MainController.setStatus("das Geld wurde eingezahlt", Color.GREEN);
@@ -82,7 +81,7 @@ public class StudentController {
         }
         Result<String> moneyResult = StudentApplet.getMoney();
         if (moneyResult.isSuccess()) {
-            model.setMoneyGet(moneyResult.getData());
+            model.setMoneyGet(moneyResult.getData() + "€");
         }
         LogHelper.log(LogLevel.INFO, "das Geld wurde ausgezahlt");
         MainController.setStatus("das Geld wurde ausgezahlt", Color.GREEN);

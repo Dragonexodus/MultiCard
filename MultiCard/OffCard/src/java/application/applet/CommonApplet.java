@@ -23,7 +23,7 @@ public final class CommonApplet {
         if (!selectResult.isSuccess())
             return selectResult;
 
-        Result<byte[]> result = JavaCardHelper.sendCommandWithoutEncryption(cla, ins);
+        Result<byte[]> result = JavaCardHelper.sendCmdWithoutEncryption(cla, ins);
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.INFO, "Zurücksetzen fehlgeschlagen");
             return new ErrorResult<>(result.getErrorMsg());

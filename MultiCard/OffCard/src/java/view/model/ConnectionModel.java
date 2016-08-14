@@ -29,18 +29,6 @@ public class ConnectionModel {
         this.isConnectionEstablished.set(isConnectionEstablished);
     }
 
-//    public String getConnectionStatusString() {
-//        return connectionStatus.getData();
-//    }
-//
-//    public StringProperty connectionStatusStringProperty() {
-//        return connectionStatus;
-//    }
-//
-//    public void setConnectionStatusString(String connectionStatus) {
-//        this.connectionStatus.set(connectionStatus);
-//    }
-
     public Paint getConnectionStatusColor() {
         return connectionStatusColor.get();
     }
@@ -117,7 +105,6 @@ public class ConnectionModel {
             setTerminalKeyStatus("Nicht vorhanden");
             setTerminalKeyStatusColor(Color.RED);
         }
-
         this.isTerminalKeyFileAvailable.set(isTerminalKeyFileAvailable);
     }
 
@@ -137,7 +124,6 @@ public class ConnectionModel {
             setCardKeyStatus("Nicht vorhanden");
             setCardKeyStatusColor(Color.RED);
         }
-
         this.isCardKeyFileAvailable.set(isCardKeyFileAvailable);
     }
 }

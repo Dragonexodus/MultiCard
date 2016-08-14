@@ -13,7 +13,7 @@ public class ByteHelper {
             sl = s.split("\\.");
         else if (s.contains(","))
             sl = s.split(",");
-        else {                      // nur eine Zahl
+        else {                          // nur eine Zahl -----------------------
             sl = new String[1];
             sl[0] = s;
         }
@@ -23,7 +23,7 @@ public class ByteHelper {
                 if (!Character.isDigit(sl[i].charAt(j)))
                     return new ErrorResult<byte[]>("Ungültiges Zeichen in der Eingabe!");
 
-        if (sl.length == 2) {        // _,12 - Eingabe
+        if (sl.length == 2) {           // _,12 - Eingabe ----------------------
             if (sl[0].equals(""))
                 sl[0] = "0";
             if (sl[1].length() < 2 || sl[1].length() > 2)
@@ -31,7 +31,7 @@ public class ByteHelper {
         }
 
         if (sl.length < 1 || sl.length > 2)
-            return new ErrorResult<byte[]>("Zu viele Kommas eingegeben!");
+            return new ErrorResult<byte[]>("Zu viele Kommas/Punkte eingegeben!");
         else if (sl.length >= 1 && Integer.parseInt(sl[0]) > 255)
             return new ErrorResult<byte[]>("Maximel zulässiger Betrag beträgt 127,99€!");
         else if (sl.length == 2 && Integer.parseInt(sl[1]) > 99)
@@ -46,30 +46,33 @@ public class ByteHelper {
 
         byte[] a = new byte[2];
         for (int i = 0; i < sl.length; i++) {
-            a[i] = intToByte(Integer.parseInt(sl[i]));
+            Result<Byte> b = intToByte(Integer.parseInt(sl[i]));
+            if (!b.isSuccess())
+                return new ErrorResult<>(b.getErrorMsg());
+            a[i] = b.getData();
         }
         return new SuccessResult<>(a);
     }
 
-    public static byte intToByte(Integer i) {
-        if (i > 255)
-            return -1;
+    public static Result<Byte> intToByte(Integer i) {
+        if (i > 127)
+            return new ErrorResult<Byte>("Euro overflow!");
         if (i < 0)
-            return 0;
+            return new ErrorResult<Byte>("Cent overflow!");
         byte[] a = ByteBuffer.allocate(4).putInt(i).array();
-        return a[3];
+        return new SuccessResult<>(a[3]);
     }
 
-    public static byte[] doubleToByteArray(Double d) {
-        if (d > 255)
-            return null;
-        String s = d.toString();
-        String[] sl = s.split("\\.");
-        byte[] a = new byte[2];
-        a[0] = intToByte(Integer.parseInt(sl[0]));
-        a[1] = intToByte(Integer.parseInt(sl[1]));
-        return a;
-    }
+//    public static byte[] doubleToByteArray(Double d) {
+//        if (d > 255)
+//            return null;
+//        String s = d.toString();
+//        String[] sl = s.split("\\.");
+//        byte[] a = new byte[2];
+//        a[0] = intToByte(Integer.parseInt(sl[0]));
+//        a[1] = intToByte(Integer.parseInt(sl[1]));
+//        return a;
+//    }
 
     /**
      * Konvertiert ein Integer in ein byte[] (MSB)
@@ -169,18 +172,20 @@ public class ByteHelper {
      */
     public static String byteArrayMoneyToString(byte[] a) {
         StringBuilder sb = new StringBuilder();
-        int sOffset = 0;
+        int euroOffset = 0;
         if (a[0] < 10)
-            sOffset = 1;
+            euroOffset = 1;
         else if (a[0] < 100)
-            sOffset = 2;
+            euroOffset = 2;
         else
-            sOffset = 3;
+            euroOffset = 3;
+
         for (int i = 0; i < a.length; i++) {
-            byte b = a[i];
-            sb.append(byteToInteger(b).toString());
+            if (i == 1 && a[i] < 10)            // Cents richtig repräsentieren
+                sb.append("0");
+            sb.append(byteToInteger(a[i]).toString());
         }
-        sb.insert(sOffset, ".");
+        sb.insert(euroOffset, ".");
         return sb.toString();
     }
 

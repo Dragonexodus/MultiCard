@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import view.model.LogModel;
 
-/**
- * Created by Patrick on 08.07.2015.
- */
 public class LogController {
     public TextArea logTextArea;
 
