@@ -15,7 +15,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/MainView.fxml"));
         Scene scene = new Scene(root);
-//        scene.getStylesheets().add(getClass().getResource("/style.css").toString());
         Stage stage = new Stage();
         stage.setTitle("MultiCard");
         stage.setResizable(false);
