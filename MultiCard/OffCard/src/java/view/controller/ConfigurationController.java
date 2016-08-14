@@ -32,21 +32,17 @@ public class ConfigurationController {
 
     private void setStudent() {
         Result<Boolean> result;
-        if (!model.getName().equals("")) {
-            result = StudentApplet.setName(model.getName());
-            if (!result.isSuccess()) {
-                LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-                MainController.setStatus(result.getErrorMsg(), Color.RED);
-                return;
-            }
+        result = StudentApplet.setName(model.getName());
+        if (!result.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
         }
-        if (!model.getMatrikel().equals("")) {
-            result = StudentApplet.setMatrikel(model.getMatrikel());
-            if (!result.isSuccess()) {
-                LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
-                MainController.setStatus(result.getErrorMsg(), Color.RED);
-                return;
-            }
+        result = StudentApplet.setMatrikel(model.getMatrikel());
+        if (!result.isSuccess()) {
+            LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
+            MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
         }
         LogHelper.log(LogLevel.INFO, "Student wurden erfolgreich konfiguriert");
         MainController.setStatus("Student wurden erfolgreich konfiguriert", Color.GREEN);
@@ -68,6 +64,7 @@ public class ConfigurationController {
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
         }
         LogHelper.log(LogLevel.INFO, "Guthaben wurde zurückgesetzt");
         MainController.setStatus("Guthaben wurde zurückgesetzt", Color.GREEN);
@@ -89,6 +86,7 @@ public class ConfigurationController {
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
             MainController.setStatus(result.getErrorMsg(), Color.RED);
+            return;
         }
         LogHelper.log(LogLevel.INFO, "Bonuspunkte wurden zurückgesetzt");
         MainController.setStatus("Bonuspunkte wurden zurückgesetzt", Color.GREEN);
