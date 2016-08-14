@@ -36,7 +36,7 @@
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
-                                    <Label fx:id="lblMatrikel" text="matrikel" />
+                                    <Label fx:id="lblMatrikel" text="Matrikel" />
                         </children>
                         <VBox.margin>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -49,7 +49,7 @@
                                  <Insets right="5.0" />
                               </HBox.margin>
                            </Label>
-                           <Label fx:id="lblMoney" text="geld" />
+                           <Label fx:id="lblMoney" text="Geld" />
                         </children>
                         <VBox.margin>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -64,7 +64,7 @@
                 </VBox.margin>
             </TitledPane>
 
-            <TitledPane text="Geld einzahlen">
+            <TitledPane text="Aufladen">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </VBox.margin>
@@ -83,7 +83,7 @@
                                           <Insets right="5.0" />
                                       </HBox.margin>
                                   </TextField>
-                                  <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES">
+                                  <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Einzahlen" HBox.hgrow="SOMETIMES">
                                       <HBox.margin>
                                           <Insets />
                                       </HBox.margin>
@@ -97,7 +97,7 @@
                </VBox>
             </content>
             </TitledPane>
-            <TitledPane text="In Mensa essen">
+            <TitledPane text="Essen">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </VBox.margin>
@@ -116,7 +116,7 @@
                                  <Insets right="5.0" />
                               </HBox.margin>
                            </TextField>
-                                    <Button fx:id="butSubMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="essen" HBox.hgrow="SOMETIMES">
+                                    <Button fx:id="butSubMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Essen" HBox.hgrow="SOMETIMES">
                                         <HBox.margin>
                                             <Insets />
                                         </HBox.margin>
@@ -130,12 +130,12 @@
                     </VBox>
                 </content>
             </TitledPane>
-            <TitledPane text="Raumzugang">
+            <TitledPane text="Zugang">
                 <content>
                     <VBox>
                         <children>
                             <TextArea fx:id="taRoom" minHeight="200.0" prefWidth="200.0" />
-                            <Button fx:id="butGetRoom" mnemonicParsing="false" text="anzeigen">
+                            <Button fx:id="butGetRoom" mnemonicParsing="false" text="Anzeigen">
                                 <VBox.margin>
                                     <Insets top="5.0" />
                                 </VBox.margin>

@@ -32,7 +32,7 @@
                      <Insets left="5.0" />
                   </GridPane.margin>
                   </Label>
-                  <Button fx:id="butInMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="rein" GridPane.rowIndex="1">
+                  <Button fx:id="butInMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Betreten (Geld)" GridPane.rowIndex="1">
                   <GridPane.margin>
                      <Insets left="5.0" right="5.0" />
                   </GridPane.margin>
@@ -42,7 +42,7 @@
                      <Insets left="5.0" />
                   </GridPane.margin>
                </Label>
-               <Button fx:id="butInBonus" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="rein" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <Button fx:id="butInBonus" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Betreten (Bonus)" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <GridPane.margin>
                      <Insets left="5.0" right="5.0" />
                   </GridPane.margin>
@@ -74,7 +74,7 @@
                             </HBox>
                             <HBox>
                                 <children>
-                                    <Label prefWidth="64.0" text="Betrag">
+                                    <Label prefWidth="64.0" text="Betrag:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>
@@ -84,7 +84,7 @@
                                             <Insets right="5.0" />
                                         </HBox.margin>
                                     </TextField>
-                                    <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="einzahlen" HBox.hgrow="SOMETIMES" />
+                                    <Button fx:id="butAddMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Einzahlen" HBox.hgrow="SOMETIMES" />
                                 </children>
                                 <VBox.margin>
                                     <Insets top="5.0" />
@@ -116,7 +116,7 @@
                         <children>
                             <HBox>
                                 <children>
-                                    <Label prefWidth="64.0" text="Getränk">
+                                    <Label prefWidth="64.0" text="Getränk:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>
@@ -126,7 +126,7 @@
                                             <Insets right="5.0" />
                                         </HBox.margin>
                                     </ChoiceBox>
-                                    <Button fx:id="butAddDrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="trinken" HBox.hgrow="SOMETIMES" />
+                                    <Button fx:id="butAddDrink" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Trinken" HBox.hgrow="SOMETIMES" />
                                 </children>
                                 <VBox.margin>
                                     <Insets left="5.0" right="5.0" />
@@ -136,7 +136,7 @@
                     </VBox>
                 </content>
             </TitledPane>
-            <TitledPane fx:id="tpExit" prefHeight="240.0" text="Disco verlassen...">
+            <TitledPane fx:id="tpExit" prefHeight="240.0" text="Konsum">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </VBox.margin>
@@ -158,12 +158,12 @@
                             </HBox>
                             <HBox prefHeight="100.0" prefWidth="200.0">
                                 <children>
-                                    <Label prefWidth="80.0" text="Bonus+:">
+                                    <Label prefWidth="80.0" text="Bonus:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <Label fx:id="lblBonusPlus" text="bonus+" />
+                                    <Label fx:id="lblBonusPlus" text="Bonus:" />
                                 </children>
                                 <VBox.margin>
                                     <Insets top="5.0" />
@@ -175,7 +175,7 @@
                         </VBox.margin></TextArea>
                      <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label prefWidth="80.0" text="Restbetrag:">
+                           <Label prefWidth="80.0" text="Differenz:">
                               <HBox.margin>
                                  <Insets right="5.0" />
                               </HBox.margin></Label>
@@ -185,7 +185,7 @@
                            <Insets top="5.0" />
                         </VBox.margin>
                      </HBox>
-                        <Button fx:id="butOut" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="raus" VBox.vgrow="ALWAYS">
+                        <Button fx:id="butOut" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Verlassen" VBox.vgrow="ALWAYS">
                             <VBox.margin>
                                 <Insets top="5.0" />
                             </VBox.margin>

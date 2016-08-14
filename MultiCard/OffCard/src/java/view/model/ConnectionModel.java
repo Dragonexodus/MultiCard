@@ -10,11 +10,11 @@ public class ConnectionModel {
     private ObjectProperty<Paint> connectionStatusColor = new SimpleObjectProperty<>(Color.RED);
 
     private BooleanProperty isTerminalKeyFileAvailable = new SimpleBooleanProperty(false);
-    private StringProperty terminalKeyStatus = new SimpleStringProperty("nicht vorhanden");
+    private StringProperty terminalKeyStatus = new SimpleStringProperty("Nicht vorhanden");
     private ObjectProperty<Paint> terminalKeyStatusColor = new SimpleObjectProperty<>(Color.RED);
 
     private BooleanProperty isCardKeyFileAvailable = new SimpleBooleanProperty(false);
-    private StringProperty cardKeyStatus = new SimpleStringProperty("nicht vorhanden");
+    private StringProperty cardKeyStatus = new SimpleStringProperty("Nicht vorhanden");
     private ObjectProperty<Paint> cardKeyStatusColor = new SimpleObjectProperty<>(Color.RED);
 
     public boolean getIsConnectionEstablished() {
@@ -111,10 +111,10 @@ public class ConnectionModel {
 
     public void setIsTerminalKeyFileAvailable(boolean isTerminalKeyFileAvailable) {
         if (isTerminalKeyFileAvailable) {
-            setTerminalKeyStatus("vorhanden");
+            setTerminalKeyStatus("Vorhanden");
             setTerminalKeyStatusColor(Color.GREEN);
         } else {
-            setTerminalKeyStatus("nicht vorhanden");
+            setTerminalKeyStatus("Nicht vorhanden");
             setTerminalKeyStatusColor(Color.RED);
         }
 
@@ -131,10 +131,10 @@ public class ConnectionModel {
 
     public void setIsCardKeyFileAvailable(boolean isCardKeyFileAvailable) {
         if (isCardKeyFileAvailable) {
-            setCardKeyStatus("vorhanden");
+            setCardKeyStatus("Vorhanden");
             setCardKeyStatusColor(Color.GREEN);
         } else {
-            setCardKeyStatus("nicht vorhanden");
+            setCardKeyStatus("Nicht vorhanden");
             setCardKeyStatusColor(Color.RED);
         }
 

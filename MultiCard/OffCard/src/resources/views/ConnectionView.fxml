@@ -21,12 +21,12 @@
             <RowConstraints maxHeight="-Infinity" minHeight="5.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-            <Button fx:id="butConnect" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="verbinden" GridPane.rowIndex="1">
+            <Button fx:id="butConnect" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Verbinden" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </GridPane.margin>
             </Button>
-            <Button fx:id="butInitSC" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="initialisiere SC" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="butInitSC" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Initialisiere SC" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <GridPane.margin>
                <Insets />
             </GridPane.margin></Button>
@@ -48,15 +48,15 @@
             <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-            <Label styleClass="fieldLabel" text="Terminal-Schlüssel" />
-            <Label styleClass="fieldLabel" text="SC-Schlüssel" GridPane.rowIndex="1" />
+            <Label styleClass="fieldLabel" text="Terminal-Schlüssel:" />
+            <Label styleClass="fieldLabel" text="SC-Schlüssel:" GridPane.rowIndex="1" />
             <Label fx:id="lblTerminalKeyStatus" text="Label" GridPane.columnIndex="1" />
             <Label fx:id="lblCardKeyStatus" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="butGenKeys" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="generieren" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="butGenKeys" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Generieren" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <GridPane.margin>
                <Insets />
             </GridPane.margin></Button>
-            <Label styleClass="fieldLabel" text="Schlüsseln generieren" GridPane.rowIndex="2" />
+            <Label styleClass="fieldLabel" text="Schlüssel generieren:" GridPane.rowIndex="2" />
         </children>
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

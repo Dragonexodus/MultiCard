@@ -39,6 +39,7 @@ public class DiscoController {
         drinks.addDrink("Bier dunkel", 3.3);
         drinks.addDrink("Vodka", 4.4);
 
+
     }
 
     public static DiscoController getInstance() {
@@ -202,6 +203,7 @@ public class DiscoController {
                 model.setDrink(newValue.intValue());
             }
         });
+        cbDrink.setValue(cbDrink.getItems().get(0));
 
         lblInMoney.visibleProperty().bind(model.discoIOProperty().not());
         lblInBonus.visibleProperty().bind(model.discoIOProperty().not());

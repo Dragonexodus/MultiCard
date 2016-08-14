@@ -4,9 +4,6 @@ import helper.Result;
 
 import java.math.BigInteger;
 
-/**
- * Created by Patrick on 23.06.2015.
- */
 public interface IRSACryptoHelper {
     Result<Boolean> importTerminalKeyFromFile();
 

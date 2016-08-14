@@ -21,7 +21,6 @@ public class DiscoApplet {
     private static final byte INS_ADD_DRINKS = (byte) 0x35;
     private static final byte INS_SET_PAID_DRINKS = (byte) 0x36;
 
-    private static final int MATRIKEL_BYTE_LENGTH = 2;
     private static final int BONUS_BYTE_LENGTH = 1;
 
     public static Result<String> getBonus() {

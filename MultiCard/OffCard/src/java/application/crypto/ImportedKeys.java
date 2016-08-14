@@ -2,9 +2,6 @@ package application.crypto;
 
 import java.math.BigInteger;
 
-/**
- * Created by Patrick on 25.06.2015.
- */
 public class ImportedKeys {
     private final BigInteger privateMod;
     private final BigInteger privateExp;

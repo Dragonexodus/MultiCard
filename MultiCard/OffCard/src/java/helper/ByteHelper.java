@@ -33,7 +33,7 @@ public class ByteHelper {
         if (sl.length < 1 || sl.length > 2)
             return new ErrorResult<byte[]>("Zu viele Kommas eingegeben!");
         else if (sl.length >= 1 && Integer.parseInt(sl[0]) > 255)
-            return new ErrorResult<byte[]>("Maximel zulässiger Betrag beträgt 255€!");
+            return new ErrorResult<byte[]>("Maximel zulässiger Betrag beträgt 127,99€!");
         else if (sl.length == 2 && Integer.parseInt(sl[1]) > 99)
             return new ErrorResult<byte[]>("Ungültige Cent-Eingabe!");
 
