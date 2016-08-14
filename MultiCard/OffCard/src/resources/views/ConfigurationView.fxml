@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import view.widget.StringTextField?>
 
 <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.ConfigurationController">
     <content>
@@ -35,7 +34,7 @@
                                 <Label styleClass="fieldLabel" text="Name:" />
                                 <TextField fx:id="tfName" GridPane.columnIndex="1" />
                                 <Label styleClass="fieldLabel" text="Matrikel:" GridPane.rowIndex="1" />
-                                <StringTextField fx:id="tfMatrikel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="tfMatrikel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <children>
                                         <Button fx:id="butSetIdentification" mnemonicParsing="false" text="übernehmen">
