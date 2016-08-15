@@ -8,11 +8,6 @@ public abstract class Result<T> {
     protected Result() {
     }
 
-//    public Result(boolean success, T data) {
-//        this.data = data;
-//        this.success = success;
-//    }
-
     public T getData() {
         return data;
     }

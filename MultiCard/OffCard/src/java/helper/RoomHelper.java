@@ -4,7 +4,7 @@ import com.sun.corba.se.impl.ior.ByteBuffer;
 
 public class RoomHelper {
 
-    private static Integer MAX_ROOMS = 20;
+    private static Integer MAX_ROOMS = 16;
     private static int MAX_SHORT_VALUE = 65535;
     private static int ARRAY_LENGTH = 3;
 

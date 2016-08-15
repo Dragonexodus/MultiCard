@@ -33,13 +33,11 @@ public class DiscoController {
         instance = this;
         model = new DiscoModel();
 
-        drinks.addDrink("Fanta", 2.0);
-        drinks.addDrink("Cola", 2.2);
-        drinks.addDrink("Bier hell", 3.1);
-        drinks.addDrink("Bier dunkel", 3.3);
-        drinks.addDrink("Vodka", 4.4);
-
-
+        drinks.addDrink("Fanta", 2.00);
+        drinks.addDrink("Cola", 2.20);
+        drinks.addDrink("Bier hell", 3.10);
+        drinks.addDrink("Bier dunkel", 3.30);
+        drinks.addDrink("Vodka", 4.40);
     }
 
     public static DiscoController getInstance() {
@@ -151,7 +149,7 @@ public class DiscoController {
 
         Result<Double> consumed = getConsumedMoney(r1.getData());
         if (consumed.isSuccess())
-            model.setConsumedMoney(consumed.getData().toString() + "€");
+            model.setConsumedMoney(String.format("%.2f", consumed.getData()) + "€");
 
         Result<Integer> bonusPlus = getBonusPlus(r1.getData());
         if (bonusPlus.isSuccess())
@@ -161,7 +159,7 @@ public class DiscoController {
         if (bonus.isSuccess()) {
             Double rest = consumed.getData() - (bonusPlus.getData() + bonus.getData());
             if (rest > 0)
-                model.setRest(rest.toString() + "€");
+                model.setRest(String.format("%.2f", rest) + "€");
             else
                 model.setRest("0€");
         }
@@ -359,7 +357,7 @@ public class DiscoController {
                     MainController.setStatus(subBonus.getErrorMsg(), Color.RED);
                     return;
                 }
-            } else {
+            } else { // auch mit Geldausgabe -----------------------------------
                 consum.setData(consum.getData() - (bonus.getData() + bonusPlus.getData()));
 
                 Result<Boolean> subMoney = DiscoApplet.subMoney(String.format("%.2f", consum.getData()));

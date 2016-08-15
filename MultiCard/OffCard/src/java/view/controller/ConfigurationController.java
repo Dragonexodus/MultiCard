@@ -15,10 +15,10 @@ import javafx.scene.paint.Color;
 import view.model.ConfigurationModel;
 
 public class ConfigurationController {
+    private final Integer MAX_NAME_LENGTH = 50;
     public Button butSetIdentification, butAddMoney, butResetMoney, butAddBonus, butResetBonus, butGetRoom, butSetRoom;
     public TextField tfName, tfMatrikel, tfMoney, tfBonus;
     public TextArea taRoom;
-
     private ConfigurationModel model;
 
     public ConfigurationController() {
@@ -32,6 +32,11 @@ public class ConfigurationController {
 
     private void setStudent() {
         Result<Boolean> result;
+        if (model.getName().length() > MAX_NAME_LENGTH) {
+            LogHelper.log(LogLevel.FAILURE, "Name ist zu lang, max %d Zeichen!", MAX_NAME_LENGTH);
+            MainController.setStatus(String.format("Name ist zu lang, max %d Zeichen!", MAX_NAME_LENGTH), Color.PURPLE);
+            return;
+        }
         result = StudentApplet.setName(model.getName());
         if (!result.isSuccess()) {
             LogHelper.log(LogLevel.ERROR, result.getErrorMsg());
@@ -119,7 +124,10 @@ public class ConfigurationController {
         if (!r2.isSuccess()) {
             LogHelper.log(LogLevel.INFO, r2.getErrorMsg());
             MainController.setStatus(r2.getErrorMsg(), Color.RED);
+            return;
         }
+        LogHelper.log(LogLevel.INFO, "Zugang erfolgreich festgelegt!");
+        MainController.setStatus("Zugang erfolgreich festgelegt!", Color.GREEN);
     }
 
     private void initBindings() {
