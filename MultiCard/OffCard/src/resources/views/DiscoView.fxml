@@ -158,7 +158,7 @@
                             </HBox>
                             <HBox prefHeight="100.0" prefWidth="200.0">
                                 <children>
-                                    <Label prefWidth="80.0" text="Bonus:">
+                                    <Label prefWidth="80.0" text="Bonus+:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>

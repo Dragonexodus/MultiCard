@@ -39,7 +39,7 @@ public class Student extends Applet implements IMoney {
 	// Andere Applets
 	private static final byte[] CRYPTO_AID = { 0x43, 0x72, 0x79, 0x70, 0x74,
 			0x6f };
-	private static final byte CRYPTO_SECRET = 0x2A;
+	private static final byte CRYPTO_SECRET = (byte) 0x88;
 	// ID's anderer Applets
 	private static final byte[] DISCO_AID = { 0x44, 0x69, 0x73, 0x63, 0x6f };
 
@@ -47,9 +47,9 @@ public class Student extends Applet implements IMoney {
 	private static final byte MAX_EURO_VALUE = (byte) 0x7F;
 	private static final byte MAX_CENT_VALUE = (byte) 0x63;
 	private static final byte SHORT_LENGTH = (byte) 0x02;
-	private static final byte MAX_NAME_LENGTH = (byte) 0x3F;
+	private static final byte MAX_NAME_LENGTH = (byte) 0x32;
 	private static final byte ROOM_LENGTH = (byte) 0x03;
-	private static final byte MAX_ROOM_COUNT = (byte) 0x14;
+	private static final byte MAX_ROOM_COUNT = (byte) 0x10;
 	private static final short MAX_MATRIKEL = (short) 0x7FFF;
 
 	// Daten
@@ -220,15 +220,12 @@ public class Student extends Applet implements IMoney {
 		}
 
 		if ((this.cent - tmpCent) < 0) {
-			if (tmpEuro > 0) {
-				tmpEuro--;
+			if (tmpEuro >= 0) {
+				tmpEuro++;
 				if (tmpEuro == 0) {
 					ISOException.throwIt(ERROR_SUB_INSUFFICIENT_MONEY);
 					return;
 				}
-			} else {
-				ISOException.throwIt(ERROR_SUB_INSUFFICIENT_MONEY);
-				return;
 			}
 			tmpCent = (byte) (this.cent - tmpCent + MAX_CENT_VALUE + 1);
 		} else

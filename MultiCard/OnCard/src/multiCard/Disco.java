@@ -29,7 +29,7 @@ public class Disco extends Applet {
 	// Andere Applets
 	private static final byte[] CRYPTO_AID = { 0x43, 0x72, 0x79, 0x70, 0x74,
 			0x6f };
-	private static final byte CRYPTO_SECRET = 0x2A;
+	private static final byte CRYPTO_SECRET = (byte) 0x88;
 	private static final byte[] STUDENT_AID = { 0x53, 0x74, 0x75, 0x64, 0x65,
 			0x6e, 0x74 };
 
@@ -148,7 +148,7 @@ public class Disco extends Applet {
 		byte tmpBonus = buffer[0];
 
 		if (tmpBonus < 0) {
-			ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+			ISOException.throwIt(ERROR_ADD_BONUS_OVERFLOW);
 			return;
 		}
 		if (this.bonus + tmpBonus > MAX_BONUS_VALUE

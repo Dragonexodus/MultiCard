@@ -70,10 +70,10 @@ public class Drinks extends ArrayList<Drink> {
         for (int i = 0; i < this.size(); i++) {
             StringBuffer sb = new StringBuffer(this.get(i).getDrinkName());
             int l = sb.length();
-            for (int j = 0; j < FIELD_LENGTH - l; j++)
+            for (int j = 0; j < FIELD_LENGTH - l-2; j++)
                 sb.append(" ");
 
-            sb.append(this.get(i).getDrinkPrice() + "€");
+            sb.append(this.get(i).getDrinkPrice() + "0€");
             sl[i] = sb.toString();
         }
         return sl;

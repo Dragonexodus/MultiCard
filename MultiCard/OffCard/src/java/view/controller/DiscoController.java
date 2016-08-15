@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import view.model.DiscoModel;
 import view.model.Drinks;
 
+import java.util.Locale;
+
 public class DiscoController {
 
     private static DiscoController instance;
@@ -149,7 +151,7 @@ public class DiscoController {
 
         Result<Double> consumed = getConsumedMoney(r1.getData());
         if (consumed.isSuccess())
-            model.setConsumedMoney(String.format("%.2f", consumed.getData()) + "€");
+            model.setConsumedMoney(String.format(Locale.ENGLISH,"%.2f", consumed.getData()) + "€");
 
         Result<Integer> bonusPlus = getBonusPlus(r1.getData());
         if (bonusPlus.isSuccess())
@@ -159,7 +161,7 @@ public class DiscoController {
         if (bonus.isSuccess()) {
             Double rest = consumed.getData() - (bonusPlus.getData() + bonus.getData());
             if (rest > 0)
-                model.setRest(String.format("%.2f", rest) + "€");
+                model.setRest(String.format(Locale.ENGLISH,"%.2f", rest) + "€");
             else
                 model.setRest("0€");
         }
@@ -236,6 +238,7 @@ public class DiscoController {
             if (!r3.isSuccess()) {
                 LogHelper.log(LogLevel.ERROR, r3.getErrorMsg());
                 MainController.setStatus(r3.getErrorMsg(), Color.RED);
+                DiscoApplet.addMoney("10");
                 return;
             }
             model.setDiscoIO(true);

@@ -106,7 +106,7 @@
                         <children>
                             <HBox>
                                 <children>
-                                    <Label prefWidth="75.0" text="Essen:">
+                                    <Label prefWidth="75.0" text="Preis:">
                                         <HBox.margin>
                                             <Insets right="5.0" />
                                         </HBox.margin>
@@ -116,7 +116,7 @@
                                  <Insets right="5.0" />
                               </HBox.margin>
                            </TextField>
-                                    <Button fx:id="butSubMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Essen" HBox.hgrow="SOMETIMES">
+                                    <Button fx:id="butSubMoney" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Bezahlen" HBox.hgrow="SOMETIMES">
                                         <HBox.margin>
                                             <Insets />
                                         </HBox.margin>

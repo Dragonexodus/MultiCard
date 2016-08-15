@@ -7,7 +7,7 @@ import javacardx.crypto.Cipher;
 public class Crypto extends Applet implements ICrypto {
 	// Applet
 	private static final byte CRYPTO_CLA = (byte) 0x10;
-	private static final byte CRYPTOGRAPHY_SECRET = 0x2A;
+	private static final byte CRYPTOGRAPHY_SECRET = (byte) 0x88;
 	private static final short KEY_SIZE = (byte) 0x40;
 
 	// ID's anderer Applets
