@@ -13,28 +13,223 @@
 \pagebreak
 
 \section{Einleitung}
-todo
+In dem Projekt \qq{Implementierung einer MultiCard} für das Wahlpflichtmodul \qq{SmartCard-Programmierung} im Sommersemester 2016 geht es um eine beispielhafte Realisierung einer SmartCard-Anwendung.
+Zu einer SmartCard-Anwendung gehören sogenannte On- und OffCard-Teile.
+Der OnCard-Teil beschreibt die Anwendung auf der SmartCard, während der OffCard-Teil die Nutzerseite beschreibt.
+
+In dem Projekt \qq{Implementierung einer MultiCard} sollen mögliche Anwendungen für eine Studenten- und Discokarte realisiert werden.
+Gleichermaßen soll jegliche Kommunikation kryptographisch verschlüsselt erfolgen, damit eine Manipulation der Karte beziehungsweise der Daten auf der Karte verhindert werden.
 
 \paragraph{Aufgabe:}
-todo
+Es sollte eine SmartCard-Anwendung entstehen, welche als Bestandteile zum Einen eine Studenten-Karte realisiert.
+Zum Anderen soll die SmartCard eine sogenannte Disco-Karte realisieren.
+Weiterhin soll die komplette Kommunikation verschlüsselt erfolgen.
+
+Bestandteile der Student-Anwendung sind:
+\begin{itemize}
+	\item Studentenname und Matrikel
+	\item Raumzugänge
+	\item Geld einzahlen und per Essen verbrauchen
+	\item Daten abfragen
+\end{itemize}
+
+Bestandteile der Disco-Anwendung sind:
+\begin{itemize}
+	\item Geld einzahlen
+	\item Konsumierte Getränke speichern und bezahlen
+	\item Bonuspunkte für Konsum und verbrauchen der Punkte
+	\item Daten abfragen
+\end{itemize}
+
+Bestandteile der Kryptographie sind:
+\begin{itemize}
+	\item Verschlüsseln
+	\item Entschlüsseln
+	\item Signierung
+\end{itemize}
 
 \paragraph{Verlauf:}
-todo
+Im Verlauf des Projektes wurden die Anforderungen entsprechend der Aufgabe realisiert.
+Das gesamte Projekt wurde per sogenanntem \qq{Pair-Programming} realisiert.
+\qq{Pair-Programming} bezeichnet das gemeinsame Programmieren an einem Bildschirm, während einer das Programm schreibt denkt der jeweils andere über das geschriebene nach.
+Regelmäßig werden diese beiden Rollen getauscht.
+
+Aufgrund dass unter Linux programmiert wurde, kann die realisierte Anwendung nicht real getestet werden, da benötigte Treiber nicht existieren.
+Daher wurde das gesamte Projekt in der Simulation getestet.
 
 \paragraph{Ergebnis:}
-todo
+Als Ergebnis des Projektes entstand eine kryptographisch gesicherte SmartCard-Anwendung, welche ein Studenten-, Disco- und Crypto-Applet enthält.
+Außerdem entstand eine OffCard-Anwendung welche diese Funktionalitäten der SmartCard anspricht.
+Der einfachheitshalber wurde die OffCard-Anwendung in Tabs untergliedern um die verschiedenen Einsatzbereiche abzutrennen.
 
 \paragraph{Aufbau:}
-todo
-%TODO Aufgabenverteilung
-%TODO SIMULATIOn
+In diesem Bericht wird zunächst auf die verschiedenen Applets mit Ihren Anweisungen und den verschiedenen Fehlern eingegangen.
+Im Anschluss an den OnCard-Teil wird auf den OffCard-Teil eingegangen.
+Am Ende des Berichtes wird ein Fazit über das realisierte Projekte gezogen.
 
-\section{OnCard}
-\subsection{Student-Applet}
-todo
-\subsection{Disco-Applet}
-todo
-\subsection{Crypto-Applet}
+
+\section{OnCard: Student-Applet}
+
+%private static final short ERROR_ADD_EURO_OVERFLOW = (short) 0xE021;
+%private static final short ERROR_ADD_CENT_OVERFLOW = (short) 0xE121;
+%private static final short ERROR_ADD_MONEY_OVERFLOW = (short) 0xE221;
+%private static final short ERROR_SUB_EURO_OVERFLOW = (short) 0xE022;
+%private static final short ERROR_SUB_CENT_OVERFLOW = (short) 0xE122;
+%private static final short ERROR_SUB_INSUFFICIENT_MONEY = (short) 0xE222;
+%private static final short ERROR_SET_MATRIKEL_NEGATIVE = (short) 0xE025;
+%private static final short ERROR_SET_MATRIKEL_OVERFLOW = (short) 0xE125;
+
+
+Die AID des Student-Applets ist Student in hexadezimal geschrieben:
+\begin{itemize}
+	\item 0x 53 74 75 64 65 6e 74
+\end{itemize}
+Das Klassenbyte für das Student-Applet ist:
+\begin{itemize}
+	\item 0x 20
+\end{itemize}
+
+Das Student-Applet unterteilt sich in drei Komponenten.
+Zum Einen die Funktionalität mit Geld umzugehen und zum Anderen das Speichern von Studentennamen sowie die Raumfreischaltungen.
+Das Essen in der Mensa auf der Studentenkarte wird durch einfaches Geld ausgeben realisiert.
+
+\subsection{Geld}
+Im Student-Applet kann Geld eingezahlt und verbraucht werden, dabei wird Euro und Cent jeweils als 1 Byte dargestellt.
+Auf der Karte wird zwischen ganzzahligem Euro-Betrag und Cent-Betrag unterschieden.
+Daraus ergibt sich für den Euro-Betrag eine Obergrenze von 127\texteuro{}, da sonst ein Überlauf des Bytes erfolgen würde.
+Die Höchstgrenze für den Cent-Betrag ist auf 99\textcent{} gesetzt.
+%TODO FEHLER
+
+\paragraph{INS\_GET\_MONEY = 0x20}
+Liefert das aktuell auf der Karte gespeicherte Guthaben.
+\paragraph{INS\_ADD\_MONEY =  0x21}
+Fügt der Karte Geld hinzu.
+\paragraph{INS\_SUB\_MONEY = 0x22}
+Es wird ein Betrag vom Geld subtrahiert und damit ausgegeben.
+
+\paragraph{INS\_RESET\_MONEY = 0x23}
+
+Setzt Euro- und Cent-Betrag auf der Karte auf Null (Werkszustand).
+
+\subsection{Studentendaten}
+Auf der Karte wird der Name sowie die Matrikelnummer des Studenten gespeichert.
+Der Name des Studenten darf maximal 50 Zeichen lang sein.
+
+%private static final byte MAX_NAME_LENGTH = (byte) 0x32;
+
+%	private static final short MAX_MATRIKEL = (short) 0x7FFF;
+
+
+\paragraph{INS\_SET\_NAME = 0x24}
+Schreibt den Namen des Studenten auf die Karte.
+Der Name darf maximal 50 Zeichen lang sein.
+\paragraph{INS\_GET\_NAME = 0x25}
+Liefert den gepeicherten Namen.
+
+\paragraph{INS\_SET\_MATRIKEL = 0x26}
+Setzt die Matrikelnummer des Studenten (2 Byte)
+\paragraph{INS\_GET\_MATRIKEL = 0x27}
+Liefert die gespeicherte Matrikelnummer des Studenten.
+
+\subsection{Raumfreischaltung}
+%TODO
+
+%	private static final byte ROOM_LENGTH = (byte) 0x03;
+%	private static final byte MAX_ROOM_COUNT = (byte) 0x10;
+\paragraph{INS\_SET\_ROOMS = 0x28}
+Speichert die als Liste übergebenen Räume auf der Karte.
+\paragraph{INS\_GET\_ROOMS = 0x29}
+Liefert eine Liste von gespeicherten Räumen auf der Karte
+
+\section{OnCard: Disco-Applet}
+%private static final short ERROR_ADD_BONUS_OVERFLOW = (short) 0xE030;
+%private static final short ERROR_SUB_BONUS_OVERFLOW = (short) 0xE031;
+%private static final short ERROR_SUB_INSUFFICIENT_BONUS = (short) 0xE032;
+%private static final short ERROR_ADD_DRINK_HAD_TO_MUCH = (short) 0xE033;
+
+
+
+Die AID des Disco-Applets ist Disco in hexadezimal geschrieben:
+\begin{itemize}
+	\item 0x 44 69 73 63 6f
+\end{itemize}
+Das Klassenbyte für das Disco-Applet ist:
+\begin{itemize}
+	\item 0x 30
+\end{itemize}
+
+\subsection{Bonus}
+Der Bonus wird als ein Byte gespeichert, daraus ergibt sich der maximale Bonus zu 127, da sonst ein Überlauf auftreten kann.
+
+\paragraph{INS\_GET\_BONUS = 0x30}
+Liefert die aktuell gespeicherten Bonuspunkte.
+
+\paragraph{INS\_ADD\_BONUS = 0x31}
+Fügt Bonuspunkte hinzu.
+
+\paragraph{INS\_SUB\_BONUS = 0x32}
+Verbraucht Bonuspunkte.
+
+\paragraph{INS\_RESET\_BONUS = 0x33}
+Setzt die Bonuspunkte auf der Karte auf Null (Werkszustand).
+
+\subsection{Geld}
+Gleiche instructions wie in Studenten-Applet
+Wird über Applet-Firewall angepsrochen und arbeit mit den Daten des Student-Applets.
+
+\paragraph{INS\_GET\_MONEY = 0x20}
+\paragraph{INS\_ADD\_MONEY = 0x21}
+\paragraph{INS\_SUB\_MONEY = 0x22}
+\paragraph{INS\_RESET\_MONEY = 0x23}
+
+\subsection{Getränke}
+Maximal Getränke 50.
+	%private static final byte MAX_DRINKS = (byte) 0x32;	
+	
+\paragraph{INS\_GET\_DRINKS = 0x34}
+Liefert eine Liste von konsumierten Getränken.
+\paragraph{INS\_ADD\_DRINK = 0x35}
+Fügt ein Getränk der Liste hinzu.
+\paragraph{INS\_SET\_PAID\_DRINKS = 0x36}
+Anhand einer Übergebenen Liste, welche 1en oder 0en enthält wird die Interne Getränke liste bereinigt um Getränke welche bereits bezahlt wurden.
+1 entspricht dabei bereits bezahlt und 0 noch zu bezahlen.
+Die Übergebene Liste muss exakt die gleiche Anzahl besitzen wie Getränke derzeit gespeichert sind.
+%TODO
+
+Startguthaben mit Konsumbergrenze
+Bezahlung von konsumierten Getränken beim Verlassen der Disco
+Bonuspunkte sammeln
+
+\section{OnCard: Crypto-Applet}
+%private static final short ERROR_IMPORT_CARD_PRIVATE_MOD = (short) 0xE010;
+%private static final short ERROR_IMPORT_CARD_PRIVATE_EXP = (short) 0xE011;
+%private static final short ERROR_IMPORT_CARD_PUBLIC_MOD = (short) 0xE012;
+%private static final short ERROR_IMPORT_CARD_PUBLIC_EXP = (short) 0xE013;
+%private static final short ERROR_EXPORT_CARD_PUBLIC_MOD = (short) 0xE014;
+%private static final short ERROR_EXPORT_CARD_PUBLIC_EXP = (short) 0xE015;
+%private static final short ERROR_IMPORT_TERMINAL_PUBLIC_MOD = (short) 0xE016;
+%private static final short ERROR_IMPORT_TERMINAL_PUBLIC_EXP = (short) 0xE017;
+
+
+Die AID des Crypto-Applets ist Crypto in hexadezimal geschrieben:
+\begin{itemize}
+	\item 0x 43 72 79 70 74 6f
+\end{itemize}
+Das Klassenbyte für das Crypto-Applet ist:
+\begin{itemize}
+	\item 0x 10
+\end{itemize}
+
+\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_MOD = 0x10}
+\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_EXP = 0x11}
+\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_MOD = 0x12}
+\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_EXP = 0x13}
+\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_MOD = 0x14}
+\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_EXP = 0x15}
+\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_MOD = 0x16}
+\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_EXP = 0x17}
+
+
 %TODO
 Der komplette Datenaustausch zwischen SmartCard und OffCard-Anwendung soll verschlüsselt und signiert geschehen. 
 Damit nicht jedes Applet die dafür notwendige Logik implementieren muss, wurde mit dem Crypto-Applet eine zentrale Anlaufstelle für folgende Aufgaben geschaffen:
@@ -47,14 +242,6 @@ Als Kryptosystem wird RSA mit einer Schlüssellänge von 512 Bit eingesetzt. Urs
 Cards jedoch nur 255 Byte an Daten unterstützen, wurde sich für eine Reduzierung der Schlüssellänge entschieden.
 Das Cryptography-Applet stellt folgende öffentlich zugängliche Anweisungen bereit:
 
-%INS_IMPORT_CARD_PRIVATE_MOD 0xF0
-%INS_IMPORT_CARD_PRIVATE_EXP 0xF1
-%INS_IMPORT_CARD_PUBLIC_MOD 0xF2
-%INS_IMPORT_CARD_PUBLIC_EXP 0xF3
-%INS_EXPORT_CARD_PUBLIC_MOD 0xF4
-%INS_EXPORT_CARD_PUBLIC_EXP 0xF5
-%INS_IMPORT_TERMINAL_PUBLIC_MOD 0xE0
-%INS_IMPORT_TERMINAL_PUBLIC_EXP 0xE1
 
 Wie an den Anweisungsnamen erkennbar ist, ist es möglich, das Schlüsselpaar bestehend aus privaten und öffentlichen Schlüssel für die Karte zu importieren. Dies ist notwendig, da sonst die Signierung nicht als Sicher eingestuft werden kann.
 Nach der Installation der Applets befindet sich die Karte in ihrem Werkszustand. Es sind keine Schlüsselpaare und auch keine Daten auf der Karte gesetzt. 
@@ -103,6 +290,7 @@ Nach dem Freigeben der Verbindung mit /close kann die OffCard-Anwendung gestarte
 
 \subsection{Connection-Tab}
 todo
+%On-Voraussetzung: alle Applets instalieren und /close ausführen und vor (nur Simulation)
 \subsection{Configuration-Tab}
 todo
 \subsection{Student-Tab}
