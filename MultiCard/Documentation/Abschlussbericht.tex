@@ -283,17 +283,6 @@ Eine Eins entspricht dabei bereits bezahlt und eine Null noch zu bezahlen.
 Die Übergebene Liste muss die gleiche Länge haben wie die derzeit gespeicherte Liste auf der Karte.
 
 \subsection{Crypto-Applet}
-%TODO
-%private static final short ERROR_IMPORT_CARD_PRIVATE_MOD = (short) 0xE010;
-%private static final short ERROR_IMPORT_CARD_PRIVATE_EXP = (short) 0xE011;
-%private static final short ERROR_IMPORT_CARD_PUBLIC_MOD = (short) 0xE012;
-%private static final short ERROR_IMPORT_CARD_PUBLIC_EXP = (short) 0xE013;
-%private static final short ERROR_EXPORT_CARD_PUBLIC_MOD = (short) 0xE014;
-%private static final short ERROR_EXPORT_CARD_PUBLIC_EXP = (short) 0xE015;
-%private static final short ERROR_IMPORT_TERMINAL_PUBLIC_MOD = (short) 0xE016;
-%private static final short ERROR_IMPORT_TERMINAL_PUBLIC_EXP = (short) 0xE017;
-
-
 Die AID des Crypto-Applets ist Crypto in hexadezimal geschrieben:
 \begin{itemize}
 	\item 0x 43 72 79 70 74 6f
@@ -303,60 +292,123 @@ Das Klassenbyte für das Crypto-Applet ist:
 	\item 0x 10
 \end{itemize}
 
-\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_MOD (0x10)}
-\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_EXP (0x11)}
-\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_MOD (0x12)}
-\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_EXP (0x13)}
-\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_MOD (0x14)}
-\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_EXP (0x15)}
-\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_MOD (0x16)}
-\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_EXP (0x17)}
+Das Crypto-Applet wurde geschaffen um Funktionen zu Verschlüsselung und Signierung für alle Applets über die Applet-Firewall zu bieten.
+Im Crypto-Applet wird das asymmetrisches kryptographisches Verfahren RSA mit einer Schlüssellänge von 512 Bit realisiert.
+Dieses Applet besitzt im Wesentlichen Funktionen zur Verschlüsselung und Signierung sowie zur Entschlüsselung und Verifizierung.
 
+\subsubsection{Funktionsweise}
+Das Crypto-Applet besitzt folgende Anweisungen:
+\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_MOD (0x10)} Importiert privaten Modulus des Schlüssel der Karte.
 
-%TODO
-Der komplette Datenaustausch zwischen SmartCard und OffCard-Anwendung soll verschlüsselt und signiert geschehen. 
-Damit nicht jedes Applet die dafür notwendige Logik implementieren muss, wurde mit dem Crypto-Applet eine zentrale Anlaufstelle für folgende Aufgaben geschaffen:
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_CARD\_PRIVATE\_MOD (0xE010)
+	\begin{itemize}
+		\item Privater Modulus der Karte ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_IMPORT\_CARD\_PRIVATE\_EXP (0x11)} Importiert privaten Exponenten des Schlüssel der Karte.
 
-verschlüsseln und signieren
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_CARD\_PRIVATE\_EXP (0xE011)
+	\begin{itemize}
+		\item Privater Exponent der Karte ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_MOD (0x12)} Importiert öffentlichen Modulus des Schlüssel der Karte.
 
-entschlüsseln und verifizieren
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_CARD\_PUBLIC\_MOD (0xE012)
+	\begin{itemize}
+		\item Öffentlicher Modulus der Karte ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_IMPORT\_CARD\_PUBLIC\_EXP (0x13)} Importiert öffentlichen Exponenten des Schlüssel der Karte.
 
-Als Kryptosystem wird RSA mit einer Schlüssellänge von 512 Bit eingesetzt. Ursprünglich war eine Schlüssellänge von 1024 Bit angedacht, jedoch resultierte daraus ein Ciphertext von 128 Byte. Zusammen mit der Signatur entstehen somit 256 Byte an zu versendenden Daten. Da die vorliegenden Smart-
-Cards jedoch nur 255 Byte an Daten unterstützen, wurde sich für eine Reduzierung der Schlüssellänge entschieden.
-Das Cryptography-Applet stellt folgende öffentlich zugängliche Anweisungen bereit:
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_CARD\_PUBLIC\_EXP (0xE013)
+	\begin{itemize}
+		\item Öffentlicher Exponent der Karte ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_MOD (0x14)} Exportiert öffentlichen Modulus des Schlüssel der Karte.
 
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_EXPORT\_CARD\_PUBLIC\_MOD (0xE014)
+	\begin{itemize}
+		\item Exportieren des öffentlichen Modulus des Schlüssel der Karte fehlgeschlagen.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_EXPORT\_CARD\_PUBLIC\_EXP (0x15)} Exportiert öffentlichen Exponenten des Schlüssel der Karte.
 
-Wie an den Anweisungsnamen erkennbar ist, ist es möglich, das Schlüsselpaar bestehend aus privaten und öffentlichen Schlüssel für die Karte zu importieren. Dies ist notwendig, da sonst die Signierung nicht als Sicher eingestuft werden kann.
-Nach der Installation der Applets befindet sich die Karte in ihrem Werkszustand. Es sind keine Schlüsselpaare und auch keine Daten auf der Karte gesetzt. 
-Um die Karte benutzen zu können, müssen nun
-als erstes die Schlüssel für das RSA Kryptosystem gesetzt werden. 
-Dazu wird die OffCard-Anwendung genutzt. 
-Eine nachträgliche Änderung der Schlüssel wird mit Hilfe von Flags unterbunden. Die Karte ist somit gebrandmarkt.
-Im gesamten Hotel existiert ein Schlüsselpaar für die Karten und ein Schlüsselpaar für die Terminals.
-Auch wenn eine dritte Partei eine Karte im Werkszustand in die Hand bekommen und seine eigenen Schlüssel setzen sollte bleibt das System sicher. Es ist nicht möglich, an die Karte gesendete Daten zu entschlüsseln, da der private Schlüssel der Karte falsch ist sowie die Signatur nicht mit dem privaten
-Schlüssel der Terminals verifiziert werden kann. 
-Aufgrund der nicht passenden Schlüssel ist es ebenso wenig möglich, gefälschte Daten an die OffCard-Anwendung zu schicken. Das System wird erst unsicher, wenn die Schlüsselpaare für Karten und Terminals bekannt würden. Mit ihnen ist es dann möglich vertrauenswürdige Karten zu fälschen.
-Die Methoden für die Ver- und Entschlüsselung sind innerhalb der Karte über die Applet-Firewall zugänglich. Den Applets Student und Disco ist es erlaubt, eine Instanz des Crypto-Applets zu erhalten. 
-Je nach Richtung der Datenübertragung können diese Applets dann entweder Daten ver- oder entschlüsseln. 
-%Bei ein- und ausgehenden verschlüsselten Daten hat die APDU folgenden Aufbau:
-%CLA
-%INS
-%P1
-%P2
-%LC (0x80)
-%64 Byte verschlüsselte Daten
-%64 Byte Signatur
-%LE
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_EXPORT\_CARD\_PUBLIC\_EXP (0xE015)
+	\begin{itemize}
+		\item Exportieren des öffentlichen Exponenten des Schlüssel der Karte fehlgeschlagen.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_MOD (0x16)} Importiert öffentlichen Modulus des Schlüssel der OffCard-Anwendung.
 
-Beim Aufruf der Entschlüsselungs-Methode (decrypt) werden die 64 Bit Daten mit dem privaten Schlüssel der Karte entschlüsselt. 
-Der dadurch gewonnene Klartext wird mithilfe des öffentlichen Schlüssels des Terminals und der mitgesendeten Signatur verifiziert. 
-Der Klartext wird für die weitere Verwendung im Puffer abgelegt. 
-%Schlägt die Verifizierung fehl, wird die ISO-ExceptionISO7816.SW_DATA_INVALID ausgelöst. 
-In diesem Fall ist davon auszugehen, dass die Daten manipuliert wurden.
-Beim Aufruf der Verschlüsslungs-Methode (encrypt) werden die in die Methode übergebenen Daten mit dem privaten Schlüssel der Karte signiert. 
-Weiterhin werden die Daten mit dem öffentlichen Schlüssel des Terminals verschlüsselt. 
-Daten und Signatur werden im Puffer abgelegt und können vom aufrufenden Applet versendet werden.
-Im Gegensatz zu allen anderen Applets ist für das Crypto-Applet keine Reset Möglichkeit vorgesehen. Um die Schlüssel neu setzen zu können, muss das Applet neu installiert werden.
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_TERMINAL\_PUBLIC\_MOD (0xE016)
+	\begin{itemize}
+		\item Öffentlicher Modulus der OffCard-Anwendung ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+\paragraph{INS\_IMPORT\_TERMINAL\_PUBLIC\_EXP (0x17)} Importiert öffentlichen Exponenten des Schlüssel der OffCard-Anwendung.
+
+Folgender Fehler kann geworfen werden:
+\begin{itemize}
+	\item ERROR\_IMPORT\_TERMINAL\_PUBLIC\_EXP (0xE017)
+	\begin{itemize}
+		\item Öffentlicher Exponenten der OffCard-Anwendung ist bereits auf der Karte gesetzt.
+	\end{itemize}
+\end{itemize}
+
+Über die Instruktionen werden öffentliche und private Schlüssel auf die Karte importiert.
+Die OffCard-Anwendung besitzt ein öffentliches und privates Schlüsselpaar.
+Ebenfalls besitzt die SmartCard so ein Schlüsselpaar.
+Wird das Applet installiert so sind keine Schlüssel gesetzt, so dass keine Verschlüsselung und Entschlüsselung möglich ist.
+Zur Verwendung der Karte müssen zunächst die Schlüssel über die OffCard-Anwendung generiert und dann auf die Karte importiert werden.
+Es ist nicht möglich die Schlüssel im Nachhinein zu Ändern (um Manipulation der Karte zu verhindern).
+
+Für die MultiCard sowie dazugehörende OffCard-Anwendung existiert nur ein Schlüsselpaar für die OffCard-Anwendung und ein Schlüsselpaar für die OnCard.
+Sollte ein Dritter im Besitz einer SmartCard im Werkzustand bekommen und selbst die Schlüssel generieren, so ist das System dennoch komplett Sicher.
+Dem Angreifer ist es nicht möglich die Daten von der OffCard-Anwendung zu entschlüsseln, da der selbst generierte Schlüssel der Karte die empfangen Daten nicht entschlüsseln kann.
+Anders herum kann von der OnCard-Anwendung an die OffCard-Anwendung gesendete Daten nicht nicht entschlüsselt werden.
+Begründet ist dies damit, das die Schlüssel von OnCard und OffCard nicht zueinander passen.
+Im Wesentlichen ist die manipulierte SmartCard unbrauchbar.
+Sollte ein Dritter im besitzt der Schlüssel für OffCard und SmartCard sein, so ist ist das System unsicher.
+
+Die Applets Student und Disco besitzen die Möglichkeit über die Applet-Firewall eine Instanz des Crypto-Applets zu erhalten und somit die Funktionen zur Ent- und Verschlüsselung zu verwenden.
+
+\subsubsection{Verschlüsselung}
+Bei der Verschlüsselung werden die der Funktion übergebenen Daten mit Hilfe des privaten Schlüssel der Karte signiert.
+Außerdem erfolgt eine Verschlüsselung der Daten mit dem öffentlichen Schlüssel der OffCard-Anwendung.
+Die Daten werden im Anschluss in den Puffer gespeichert, sodass das Applet, welches die Verschlüsselungs-Funktion aufgerufen hat, diese Daten versenden kann.
+Bei ein- und ausgehenden verschlüsselten Daten hat der Puffer folgenden Aufbau:
+\begin{itemize}
+	\item[] Klassenbyte | Instructionbyte | Parameter 1 | Parameter 2 |
+	\item[] Länge der Daten: 128 | 64 Byte Daten + 64 Byte Signatur | 
+	\item[] Länge zu sendender Bytes
+\end{itemize}
+
+\subsubsection{Entschlüsselung}
+Die Entschlüsselungs-Funktion entschlüsselt mit Hilfe des privaten Schlüssel der Karte 64 Bit Daten.
+Der durch die Entschlüsselung generierte Klartext wird durch den öffentlichen Schlüssel der OffCard-Anwendung sowie der mit übertragenen Signatur verifiziert.
+Dies Verhindert eine Manipulation von Daten durch einen Dritten.
+Sollten die Daten manipuliert worden sein, wird der Fehler:
+\begin{itemize}
+	\item ISO7816.SW\_DATA\_INVALID
+\end{itemize}
+geworfen. 
+Im Anschluss wird der Klartext zur weiteren Verwendung in den Puffer gespeichert, falls die Daten korrekt verifiziert wurden.
 
 \section{OffCard}
 %TODO MINDESTAFORDERUNGEN Java 8,60
