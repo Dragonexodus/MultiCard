@@ -54,9 +54,6 @@ Das gesamte Projekt wurde per sogenanntem \qq{Pair-Programming} realisiert.
 \qq{Pair-Programming} bezeichnet das gemeinsame Programmieren an einem Bildschirm, während einer das Programm schreibt denkt der jeweils andere über das geschriebene nach.
 Regelmäßig werden diese beiden Rollen getauscht.
 
-Aufgrund dass unter Linux programmiert wurde, kann die realisierte Anwendung nicht real getestet werden, da benötigte Treiber nicht existieren.
-Daher wurde das gesamte Projekt in der Simulation getestet.
-
 \paragraph{Ergebnis:}
 Als Ergebnis des Projektes entstand eine kryptographisch gesicherte SmartCard-Anwendung, welche ein Studenten-, Disco- und Crypto-Applet enthält.
 Außerdem entstand eine OffCard-Anwendung welche diese Funktionalitäten der SmartCard anspricht.
@@ -67,7 +64,27 @@ In diesem Bericht wird zunächst auf die verschiedenen Applets mit Ihren Anweisu
 Im Anschluss an den OnCard-Teil wird auf den OffCard-Teil eingegangen.
 Am Ende des Berichtes wird ein Fazit über das realisierte Projekte gezogen.
 
+\subsection{Simulation}
+\label{label:simulation}
+Das komplette Projekt wurde unter Linux entwickelt.
+Unter den verwendeten Systemen Linux Mint 17.3 und Ubuntu 15.10 existieren keine Treiber für JavaCard-Lesegeräte.
+Dadurch wurde das gesamte Projekt mit Hilfe der Simulation per JCOP getestet.
+
+Damit die OffCard-Anwendung mit der simulierten SmartCard und damit mit dem OnCard-Teil kommunizieren kann, muss die opencard.properties für die Simulation konfiguriert sein.
+Im Anschluss muss die Simulation per JCOP in Eclipse gestartet werden.
+Wichtig ist das die AIDs in Eclipse richtig gesetzt sind, siehe dazu \autoref{label:oncard} und alle Applets müssen korrekt installiert sein.
+Außerdem wichtig ist, dass zur Simulation der Port 8050 verwendet wird und geöffnet ist.
+In der JCOP-Shell muss in Eclipse im Anschluss explizit ein /close ausgeführt werden, damit die Verbindung freigegeben wird.
+Erst dann kann sich die OffCard-Anwendung mit SmartCard korrekt verbinden und die Anwendung verwendet werden.
+
 \section{Oncard}
+\label{label:oncard}
+
+Die Package-AID des multiCard-Packages ist multiCard in hexadezimal geschrieben:
+\begin{itemize}
+	\item 0x 6d 75 6c 74 69 43 61 72 64
+\end{itemize}
+
 Innerhalb der Applets auf der SmartCard wurden zum Teil eigene Fehler definiert.
 Dies erleichtert die Lokalisierung von Fehlern und Problemen bei der Abarbeitung von Anweisungen auf der SmartCard.
 Falls ein Fehler auftritt, wird dieser an die OffCard-Anwendung weitergeleitet und entsprechend behandelt.
@@ -411,21 +428,57 @@ geworfen.
 Im Anschluss wird der Klartext zur weiteren Verwendung in den Puffer gespeichert, falls die Daten korrekt verifiziert wurden.
 
 \section{OffCard}
-%TODO MINDESTAFORDERUNGEN Java 8,60
+
+Damit die OffCard-Anwendung korrekt verwendet werden kann wird Oracle Java 8 in Version 66 als Minimum vorausgesetzt.
+Weiterhin ist die OffCard-Anwendung nicht mit OpenJDK kompatibel, da diese nicht die benötigten JavaFX-Bibliotheken zur Darstellung der Oberflächen mitliefert.
+Außerdem wird das OpenCard-Framework in der Version 1.3 sowie die OffCard-Bibliothek von JCOP in der Version 3.1.1 verwendet.
+Damit die OffCard-Anwendung korrekt verwendet werden kann müssen die Schritte aus \autoref{label:simulation} berücksichtigt werden.
+
+Angemerkt sei dass die die OffCard-Anwendung einzelne OffCard-Anwendungsgebiete in sogenannte Tabs untergliedert.
+Ansonsten müsse für jedes Anwendungsgebiet eine eigene Anwendung realisiert werden.
+Zur Demonstration des Projektes ist es aber ausreichend dies so zusammenzufassen.
+
+Prinzipiell besitzt die Anwendung folgenden Ablauf:
+Zunächst werden im Connection-Tab die Schlüsselpaare für die OffCard- und OnCard-Anwendung generiert und an die SmartCard übertragen.
+Dadurch kann eine erfolgreiche Verbindung zur SmartCard aufgebaut werden.
+
+Falls sich die Karte im Werkszustand befand, sollte das Configuration-Tab geöffnet werden.
+In dieser Anwendung können Informationen wie Name, Matrikelnummer und Raumfreischaltung gesetzt werden.
+Außerdem kann ein Startguthaben und Startbonuspunkte gesetzt werden.
+
+Nach dem sich nun die Karte nicht mehr im Werkszustand befindet kann nun korrekt mit der Karte gearbeitet werden.
+Dazu existieren im Wesentlichen zwei Anwendungen Student- und Disco-Tab.
+
+Die Anwendung Student und Disco können entsprechend verwendet werden. 
+Im Anschluss an die Verwendung der Karte, kann mit dem Schließen der OffCard-Anwendung die SmartCard ausgeworfen werden.
+
+%Im Package application/hotelbuddy findet sich eine Klasse für jedes Applet. Diese Klassen kap-
+%seln die benötigte Logik um die richtigen APDUs an das jeweilige Applet der SmartCard zu schicken. Im
+%Package application/card befindet sich neben einigen Hilfsklassen auch die JavaCard-Klasse,
+%welche die Verbindung zur SmartCard aufbaut und APDUs senden kann. Dafür wurde das OpenCard-
+%Framework in der Version 1.3.1843 sowie die OffCard-Bibliothek von JCOP in der Version 3.1.1 ver-
+%wendet.
+%Die Oberfläche ist mit Tabs gestaltet, um eine visuelle Abtrennung zwischen den verschiedenen App-
+%lets und Aktionen zu erzeugen. Die Tabs für die einzelnen Applets simulieren ein spezifisches Terminal
+%für das jeweilige Applet
+%
+%Dieser Fall tritt am häufigsten in Verbindung mit der simulierten Karte auf. Durch das Neustarten der
+%Simulation befindet sich die verbundene Karte immer wieder im Werkszustand. Festgestellt wird die-
+%ser Zustand, in dem nach dem Aufbau der Verbindung versucht wird, den öffentlichen Schlüssel der
+%SmartCard zu importieren. Da durch den Werkszustand aber dieser Schlüssel noch nicht gesetzt ist,
+%wird ein Fehler von der SmartCard erzeugt und von der OffCard-Anwendung erkannt. Der Status zeigt
+%in diesem Fall Cryptography failure, please initialize your card. Das Setzen der Schlüssel kann nun über
+%den Button Initialize Card erfolgen. Dabei werden folgende Aktionen ausgeführt:
+% Laden des Schlüsselpaars für die SmartCard aus der generierten Datei
+%o Setzen von privatem Exponent und Modulus
+%o Setzen von öffentlichem Exponent und Modulus
+% Setzen des öffentlichen Exponenten und Modulus des Terminals
+% Initialisierung der OffCard-Anwendung durch Holen von öffentlichem Exponent
+
 %TODO AUFBAU,Bilder, ANWENDUNG, FUNKTIONSWEISE
-\subsection{Simulation}
-%TODO
-Für die Benutzung der OffCard-Anwendung mit der simulierten SmartCard muss in der opencard.properties Datei die Konfiguration für die Simulation aktiv sein.
-Die Konfiguration für die reale SmartCard muss mit Zeilenkommentaren (\#) deaktiviert werden.
-Die Simulation der SmartCard muss im Eclipse gestartet werden.
-Anschließend muss das Terminal mit dem Port 8050 geöffnet werden. 
-Dazu kann folgender Befehl verwendet werden:
-/terminal "Remote|localhost:8050"
-Nach dem Freigeben der Verbindung mit /close kann die OffCard-Anwendung gestartet und benutzt werden.
 
 \subsection{Connection-Tab}
 todo
-%On-Voraussetzung: alle Applets instalieren und /close ausführen und vor (nur Simulation)
 \subsection{Configuration-Tab}
 todo
 \subsection{Student-Tab}
