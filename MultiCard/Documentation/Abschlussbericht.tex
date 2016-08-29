@@ -432,59 +432,82 @@ Im Anschluss wird der Klartext zur weiteren Verwendung in den Puffer gespeichert
 Damit die OffCard-Anwendung korrekt verwendet werden kann wird Oracle Java 8 in Version 66 als Minimum vorausgesetzt.
 Weiterhin ist die OffCard-Anwendung nicht mit OpenJDK kompatibel, da diese nicht die benötigten JavaFX-Bibliotheken zur Darstellung der Oberflächen mitliefert.
 Außerdem wird das OpenCard-Framework in der Version 1.3 sowie die OffCard-Bibliothek von JCOP in der Version 3.1.1 verwendet.
-Damit die OffCard-Anwendung korrekt verwendet werden kann müssen die Schritte aus \autoref{label:simulation} berücksichtigt werden.
+Damit die OffCard-Anwendung korrekt verwendet werden kann, müssen die Schritte aus \autoref{label:simulation} berücksichtigt werden.
 
 Angemerkt sei dass die die OffCard-Anwendung einzelne OffCard-Anwendungsgebiete in sogenannte Tabs untergliedert.
-Ansonsten müsse für jedes Anwendungsgebiet eine eigene Anwendung realisiert werden.
-Zur Demonstration des Projektes ist es aber ausreichend dies so zusammenzufassen.
+Ansonsten müsste für jedes Anwendungsgebiet eine eigene Anwendung realisiert werden.
+Zur Demonstration des Themas ist dieses vorgehen vollkommen ausreichend.
 
+\subsection{Prinzipieller Ablauf}
 Prinzipiell besitzt die Anwendung folgenden Ablauf:
 Zunächst werden im Connection-Tab die Schlüsselpaare für die OffCard- und OnCard-Anwendung generiert und an die SmartCard übertragen.
 Dadurch kann eine erfolgreiche Verbindung zur SmartCard aufgebaut werden.
+Dies ist immer notwendig, wenn sich die Karte im Werkszustand befindet.
 
 Falls sich die Karte im Werkszustand befand, sollte das Configuration-Tab geöffnet werden.
 In dieser Anwendung können Informationen wie Name, Matrikelnummer und Raumfreischaltung gesetzt werden.
 Außerdem kann ein Startguthaben und Startbonuspunkte gesetzt werden.
 
-Nach dem sich nun die Karte nicht mehr im Werkszustand befindet kann nun korrekt mit der Karte gearbeitet werden.
-Dazu existieren im Wesentlichen zwei Anwendungen Student- und Disco-Tab.
-
+Nach dem sich nun die Karte nicht mehr im Werkszustand befindet kann korrekt mit der Karte gearbeitet werden.
 Die Anwendung Student und Disco können entsprechend verwendet werden. 
-Im Anschluss an die Verwendung der Karte, kann mit dem Schließen der OffCard-Anwendung die SmartCard ausgeworfen werden.
+Im Anschluss an die Verwendung der Karte kann mit dem Schließen der OffCard-Anwendung die SmartCard ausgeworfen werden.
+\subsection{Tabs}
+\subsubsection{Connection}
+Dieser Tab kümmert sich um das Verbinden mit der SmartCard.
+Sollte sich die Karte im Werkzustand befinden so ist es nötig Schlüssel zu generieren und an die SmartCard zu übertragen.
+Es werden folgende Aktionen in diesem Schritt ausgeführt:
+\begin{itemize}
+\item Es werden die Schlüsselpaare für die SmartCard aus einer Datei generiert.
+\item Es werden alle privaten und öffentlichen Exponenten sowie Moduli gesetzt.
+\item OffCard-Anwendung wird durch öffentlichen Exponenten initialisiert.
+\end{itemize}
 
-%Im Package application/hotelbuddy findet sich eine Klasse für jedes Applet. Diese Klassen kap-
-%seln die benötigte Logik um die richtigen APDUs an das jeweilige Applet der SmartCard zu schicken. Im
-%Package application/card befindet sich neben einigen Hilfsklassen auch die JavaCard-Klasse,
-%welche die Verbindung zur SmartCard aufbaut und APDUs senden kann. Dafür wurde das OpenCard-
-%Framework in der Version 1.3.1843 sowie die OffCard-Bibliothek von JCOP in der Version 3.1.1 ver-
-%wendet.
-%Die Oberfläche ist mit Tabs gestaltet, um eine visuelle Abtrennung zwischen den verschiedenen App-
-%lets und Aktionen zu erzeugen. Die Tabs für die einzelnen Applets simulieren ein spezifisches Terminal
-%für das jeweilige Applet
-%
-%Dieser Fall tritt am häufigsten in Verbindung mit der simulierten Karte auf. Durch das Neustarten der
-%Simulation befindet sich die verbundene Karte immer wieder im Werkszustand. Festgestellt wird die-
-%ser Zustand, in dem nach dem Aufbau der Verbindung versucht wird, den öffentlichen Schlüssel der
-%SmartCard zu importieren. Da durch den Werkszustand aber dieser Schlüssel noch nicht gesetzt ist,
-%wird ein Fehler von der SmartCard erzeugt und von der OffCard-Anwendung erkannt. Der Status zeigt
-%in diesem Fall Cryptography failure, please initialize your card. Das Setzen der Schlüssel kann nun über
-%den Button Initialize Card erfolgen. Dabei werden folgende Aktionen ausgeführt:
-% Laden des Schlüsselpaars für die SmartCard aus der generierten Datei
-%o Setzen von privatem Exponent und Modulus
-%o Setzen von öffentlichem Exponent und Modulus
-% Setzen des öffentlichen Exponenten und Modulus des Terminals
-% Initialisierung der OffCard-Anwendung durch Holen von öffentlichem Exponent
+Bei einer erfolgreichen Verbindung, kann nun mit der SmartCard gearbeitet werden.
 
-%TODO AUFBAU,Bilder, ANWENDUNG, FUNKTIONSWEISE
+\subsubsection{Configuration}
+Dieser Tab ist im Wesentlichen dafür zuständig die Karte zu konfigurieren.
+Zu diesen Konfigurationen gehören das Setzen von Studentennamen, Matrikelnummer, Raumfreischaltungen sowie Startwerte für Bonuspunkte und Geld.
+Bei Klick auf diesen Tab werden alle aktuell gesetzten Informationen aus der Karte ausgelesen, welche für diese Anwendung relevant sind.
 
-\subsection{Connection-Tab}
-todo
-\subsection{Configuration-Tab}
-todo
-\subsection{Student-Tab}
-todo
-\subsection{Disco-Tab}
+\subsubsection{Student}
+In dem Student-Tab können zum Einen Studenteninformationen wie Name, Matrikelnummer und freigeschalteten Räumen ausgelesen werden.
+Zum Anderen ist es möglich Geld auf seine SmartCard einzuzahlen sowie Geld auszugeben.
+Üblicherweise wird Geld ausgegeben in dem man in der Mensa etwas isst.
+Das Essen wird mit einfachem Geld bezahlen realisiert.
+Bei Klick auf diesen Tab werden alle aktuell gesetzten Informationen aus der Karte ausgelesen, welche für diese Anwendung relevant sind.
 
+\subsubsection{Disco}
+Der Disco-Tab soll im Wesentlichen eine Beispielanwendung einer SmartCard in einer Disco demonstrieren.
+Folgende Anwendung ist dabei realisiert:
+Zunächst wird bei Betreten der Disco eine Eintrittsgebühr verlangt.
+Diese Gebühr in Höhe von 10\texteuro{} muss bezahlt werden.
+Die Gebühr kann mit Hilfe von Euro oder von Bonuspunkten von der Karte bezahlt werden.
+Sollten nicht genügend Geld oder Bonuspunkte auf der Karte sein, so muss vorher das Guthaben auf der Karte erhöht werden.
+Wenn man erfolgreich die Disco betreten hat, erhält man 10 Bonuspunkte.
+In der Lokalität wird immer, wenn man etwas konsumiert, die Karte vorgezeigt und ein Getränk der Getränkeliste in der Karte hinzugefügt.
+Ein Drittel des Euro-Wertes des Getränkes werden jeweils als Bonuspunkt verrechnet.
+
+Wenn der SmartCard-Nutzer nun die Disco verlässt, muss die SmartCard wieder vorgezeigt werden.
+In diesem Vorgang werden alle konsumierten Getränke mit Hilfe von Guthaben und Bonuspunkten bezahlt.
+Sollte nicht genug Guthaben vorhanden sein, so muss nach gezahlt werden, in dem das Guthaben der Karte erhöht wird.
+Bereits bezahlte Getränke werden dabei jeweils auf der Karte aktualisiert.
+Sind alle Getränke bezahlt, kann die Disco verlassen werden.
+ 
 \section{Fazit}
-todo
+Im Verlauf des Projektes wurden alle Anforderungen des Projektes \qq{MultiCard} realisiert, sodass eine beispielhafte Implementierung einer SmartCard entstand.
+Es wurden dabei OnCard- und OffCard-Teil eines solchen Projektes implementiert.
+
+Die Realisierung des Projektes war dahingehend interessant, da ein anderer Anwendungszweck von Java aufgezeigt wurde.
+Dabei ist die Programmiersprache kein reines Java sondern eine stark abgespeckte Variante.
+Diese Variante erschwert das objektorientierte Programmieren.
+
+Weiterhin kommt erschwerend hinzu, dass die Thematik \qq{JavaCard} anscheinend veraltet beziehungsweise zumindest nicht mehr für die breite Öffentlichkeit zugänglich ist.
+
+Eine Realisierung von SmartCard mit Java besitzt außerdem den Nachteil das Java im Vergleich zu C beziehungsweise C++ speicherintensiver ist.
+Es wäre denkbar SmartCard-Anwendungen mit Hilfe von C beziehungsweise C++ zu realisieren.
+
+Alles in Allem entstand eine Anwendung, welche fast alle Funktionalitäten einer JavaCard aufzeigen.
+Als Beispiel dafür seien genannt: Verschlüsselung, Applet-Firewall, Sharable Objects, \dots
+
+
 \end{document}
