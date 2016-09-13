@@ -1,10 +1,8 @@
-\input{Header}
-%TODO						
+\input{Header}					
 \title{Abschlussbericht für das Modul SmartCard-Programmeriung}
-\subtitle{Implementierung einer Mulitcard-Anwendung\vspace{1cm}}
+\subtitle{Implementierung einer MultiCard-Anwendung\vspace{1cm}}
 
-%TODO
-\author{}
+\author{B. Sc. Andrej Lisnitzki, B. Sc. Michael Horn}
 \date{\today}
 \begin{document}
 \maketitle
@@ -212,7 +210,8 @@ Räume für den Studenten werden freigeschaltet in dem geprüft wird ob der Raum
 Damit Räume freigeschaltet werden können, werden diese als Liste auf der Karte gespeichert.
 Es wird dabei immer die komplette Liste gesetzt beziehungsweise abgefragt.
 Auf der Karte können maximal 16 Räume gespeichert werden.
-Jeder Raum besteht aus drei Bytes (Buchstaben + Nummer).
+Jeder Raum besteht aus drei Bytes.
+Das erste Byte ist eine Enumeration für den Raumbuchstaben und die restlichen 2 Bytes dienen zur Darstellung der Raumnummer.
 
 \paragraph{INS\_SET\_ROOMS (0x28)}
 Speichert die als Liste übergebenen Räume auf der Karte.
@@ -232,6 +231,7 @@ Das Klassenbyte für das Disco-Applet ist:
 Das Disco-Applet besteht im Wesentlichen aus drei Komponenten.
 Zum Einen das Sparen von Bonuspunkten durch Konsum von Getränken sowie das Speichern der verbrauchten Getränke auf der Karte.
 Zum Anderen müssen die Getränke mit Hilfe von Geld (aus Student-Applet) und Bonuspunkten bezahlt werden. 
+Geld-Funktionen im Disco-Applet kommunizieren durch die Applet-Firewall mit den Student-Applet (Sharable Object).
 Üblicherweise wird die SmartCard bei Betreten der Lokalität vorgelegt und der Eintritt bezahlt.
 Beim Verlassen der Lokalität wird die Karte wieder vorgelegt und entsprechender Getränkekonsum über die Karte bezahlt.
 
@@ -272,7 +272,7 @@ Setzt die Bonuspunkte auf der Karte auf Null (Werkszustand).
 \subsubsection{Geld}
 Auf dem Disco-Applet können Geldfunktionen aus dem Student-Applet genutzt werden.
 Dies ist nötig damit Student und Disco nicht über getrennte Guthaben verfügen müssen.
-Kommunikation und der Zugriff auf das Geld des Student-Applet erfolgt über die Applet-Firewall.
+Kommunikation und der Zugriff auf das Geld des Student-Applet erfolgt über die Applet-Firewall (Sharable Object).
 Die Anweisungen sind identisch zu den Anweisungen auf dem Student-Applet.
 Für Details zu den Anweisungen wird auf \autoref{label:geld} verwiesen.
 
@@ -451,6 +451,7 @@ Außerdem kann ein Startguthaben und Startbonuspunkte gesetzt werden.
 Nach dem sich nun die Karte nicht mehr im Werkszustand befindet kann korrekt mit der Karte gearbeitet werden.
 Die Anwendung Student und Disco können entsprechend verwendet werden. 
 Im Anschluss an die Verwendung der Karte kann mit dem Schließen der OffCard-Anwendung die SmartCard ausgeworfen werden.
+
 \subsection{Tabs}
 \subsubsection{Connection}
 Dieser Tab kümmert sich um das Verbinden mit der SmartCard.
@@ -464,10 +465,20 @@ Es werden folgende Aktionen in diesem Schritt ausgeführt:
 
 Bei einer erfolgreichen Verbindung, kann nun mit der SmartCard gearbeitet werden.
 
+\begin{center}
+	\includegraphics[scale=0.4]{Images/ConnectionTab}
+\end{center}
+
+
 \subsubsection{Configuration}
 Dieser Tab ist im Wesentlichen dafür zuständig die Karte zu konfigurieren.
 Zu diesen Konfigurationen gehören das Setzen von Studentennamen, Matrikelnummer, Raumfreischaltungen sowie Startwerte für Bonuspunkte und Geld.
 Bei Klick auf diesen Tab werden alle aktuell gesetzten Informationen aus der Karte ausgelesen, welche für diese Anwendung relevant sind.
+
+\begin{center}
+	\includegraphics[scale=0.4]{Images/ConfigurationTab}
+\end{center}
+
 
 \subsubsection{Student}
 In dem Student-Tab können zum Einen Studenteninformationen wie Name, Matrikelnummer und freigeschalteten Räumen ausgelesen werden.
@@ -475,6 +486,11 @@ Zum Anderen ist es möglich Geld auf seine SmartCard einzuzahlen sowie Geld ausz
 Üblicherweise wird Geld ausgegeben in dem man in der Mensa etwas isst.
 Das Essen wird mit einfachem Geld bezahlen realisiert.
 Bei Klick auf diesen Tab werden alle aktuell gesetzten Informationen aus der Karte ausgelesen, welche für diese Anwendung relevant sind.
+
+\begin{center}
+	\includegraphics[scale=0.4]{Images/StudiCardTab}
+\end{center}
+
 
 \subsubsection{Disco}
 Der Disco-Tab soll im Wesentlichen eine Beispielanwendung einer SmartCard in einer Disco demonstrieren.
@@ -487,11 +503,35 @@ Wenn man erfolgreich die Disco betreten hat, erhält man 10 Bonuspunkte.
 In der Lokalität wird immer, wenn man etwas konsumiert, die Karte vorgezeigt und ein Getränk der Getränkeliste in der Karte hinzugefügt.
 Ein Drittel des Euro-Wertes des Getränkes werden jeweils als Bonuspunkt verrechnet.
 
+\begin{center}
+	\includegraphics[scale=0.4]{Images/DiscoCardTabEntry}
+\end{center}
+
+
 Wenn der SmartCard-Nutzer nun die Disco verlässt, muss die SmartCard wieder vorgezeigt werden.
 In diesem Vorgang werden alle konsumierten Getränke mit Hilfe von Guthaben und Bonuspunkten bezahlt.
 Sollte nicht genug Guthaben vorhanden sein, so muss nach gezahlt werden, in dem das Guthaben der Karte erhöht wird.
 Bereits bezahlte Getränke werden dabei jeweils auf der Karte aktualisiert.
 Sind alle Getränke bezahlt, kann die Disco verlassen werden.
+Sollte für das nach zahlen kein Geld vorhanden sein, so wäre es denkbar die Karte einzubehalten.
+Durch die Zahlung des noch ausstehendes Geldes inklusive einer Mahngebühr, wird die Karte wieder ausgegeben.
+
+\begin{center}
+	\includegraphics[scale=0.4]{Images/DiscoCardTabEntered}
+\end{center}
+ 
+\subsubsection{Logger und Statusinformationen}
+Dieser Tab existiert im Wesentlichen um Informationen über die Kommunikation von OffCard- und OnCard-Anwendung darzustellen.
+Das Logging in der Anwendung erleichterte die Entwicklung des Projektes, da so das finden von Fehlern etwas vereinfacht wurde.
+In einer möglichen Release-Version der Anwendung könnte der Log-Tab ausgeblendet werden.
+
+Zusätzlich zum Log-Tab existiert eine Status-Leiste, welche bei Ausführung von Befehlen stets Feedback gibt ob der Befehl korrekt ausgeführt wurde oder nicht.
+Sollte ein Fehler auftreten, so wird an dieser Stelle der Fehler angezeigt.
+Nach ein paar Sekunden wird die Statusleiste geleert.
+
+\begin{center}
+	\includegraphics[scale=0.4]{Images/LogTab}
+\end{center} 
  
 \section{Fazit}
 Im Verlauf des Projektes wurden alle Anforderungen des Projektes \qq{MultiCard} realisiert, sodass eine beispielhafte Implementierung einer SmartCard entstand.
@@ -508,6 +548,7 @@ Es wäre denkbar SmartCard-Anwendungen mit Hilfe von C beziehungsweise C++ zu re
 
 Alles in Allem entstand eine Anwendung, welche fast alle Funktionalitäten einer JavaCard aufzeigen.
 Als Beispiel dafür seien genannt: Verschlüsselung, Applet-Firewall, Sharable Objects, \dots
+
 
 
 \end{document}

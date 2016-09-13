@@ -17,7 +17,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setTitle("MultiCard");
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(e -> close());

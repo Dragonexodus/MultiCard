@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -9,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.MainController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.MainController">
     <center>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -46,31 +51,37 @@
     </padding>
     <bottom>
         <VBox>
-                <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);">
-                    <Label text="Verbindung:">
-                        <font>
-                            <Font name="System Bold" size="13.0" />
-                        </font>
-               <HBox.margin>
-                  <Insets right="5.0" />
-               </HBox.margin>
-                    </Label>
-                    <Label fx:id="lblStatusConnection" text="connection" />
-            <VBox.margin>
-               <Insets bottom="2.0" />
-            </VBox.margin>
-                </HBox>
-                <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);" VBox.vgrow="NEVER">
-                    <Label text="Status:">
-                        <font>
-                            <Font name="System Bold" size="13.0" />
-                        </font>
-               <HBox.margin>
-                  <Insets right="5.0" />
-               </HBox.margin>
-                    </Label>
-                    <Label fx:id="lblStatusStatus" text="status" />
-                </HBox>
+           <children>
+                   <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);">
+                      <children>
+                          <Label text="Verbindung:">
+                              <font>
+                                  <Font name="System Bold" size="13.0" />
+                              </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                          </Label>
+                          <Label fx:id="lblStatusConnection" text="connection" />
+                      </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" />
+               </VBox.margin>
+                   </HBox>
+                   <HBox style="-fx-background-color: rgba(255,255,255,0.75); -fx-padding: 7; -fx-background-radius: 3; -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.75),1,0,1,1);" VBox.vgrow="NEVER">
+                      <children>
+                          <Label text="Status:">
+                              <font>
+                                  <Font name="System Bold" size="13.0" />
+                              </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                          </Label>
+                          <Label fx:id="lblStatusStatus" text="status" />
+                      </children>
+                   </HBox>
+           </children>
         </VBox>
     </bottom>
 </BorderPane>
